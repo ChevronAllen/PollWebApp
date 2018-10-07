@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PollingApp</string>
+    <string name="e_mail">e-mail</string>
+    <string name="password">password</string>
+    <string name="guest">guest</string>
+    <string name="create_account">Create Account</string>
+    <string name="submit">submit</string>
+    <string name="enter_e_mail">enter e-mail</string>
+    <string name="sample_password">*********</string>
+</resources>

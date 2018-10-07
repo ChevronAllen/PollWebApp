@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <EditText
+        android:id="@+id/input_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="317dp"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/input_email"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="textEmailAddress|textPersonName"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="229dp"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/e_mail"
+        app:layout_constraintBottom_toTopOf="@+id/input_email"
+        tools:layout_editor_absoluteX="85dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        app:layout_constraintBottom_toTopOf="@+id/input_password"
+        tools:layout_editor_absoluteX="85dp" />
+
+    <Button
+        android:id="@+id/SubmitCredentials"
+        android:layout_width="215dp"
+        android:layout_height="52dp"
+        android:text="@string/submit"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <Button
+        android:id="@+id/GuestLogin"
+        android:layout_width="104dp"
+        android:layout_height="52dp"
+        android:text="@string/guest"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="431dp" />
+
+    <Button
+        android:id="@+id/CreateAccount"
+        android:layout_width="104dp"
+        android:layout_height="52dp"
+        android:text="@string/create_account"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="196dp"
+        tools:layout_editor_absoluteY="431dp" />
+
+</android.support.constraint.ConstraintLayout>
