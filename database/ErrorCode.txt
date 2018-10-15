@@ -1,0 +1,11 @@
+1xx: Informational - Request received, continuing process 
+-- 2xx: Success - The action was successfully received, understood, and accepted 
+3xx: Redirection - Further action must be taken in order to complete the request 
+4xx: Client Error - The request contains bad syntax or cannot be fulfilled 
+49x: are generally used for security error conditions. 
+5xx: Server Error - The server failed to fulfil an apparently valid request
+
+404: Object not Found
+410: Invalid User session
+430: Cannot Add Questions. Maximum number of anon questions reached.
+ 
