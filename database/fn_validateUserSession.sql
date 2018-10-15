@@ -1,3 +1,4 @@
+DELIMITER $$
 CREATE DEFINER=`ermine`@`%` FUNCTION `fn_validateUserSession`(uID VARCHAR(32), uSession VARCHAR(32)) RETURNS tinyint(1)
 BEGIN
 /*
@@ -6,14 +7,18 @@ BEGIN
 //	Returns fasle if the session ID doesnt match, user id doesnt exist, or session is too old
 */	
 
-	IF 	(
-		SELECT COUNT(userID) 
+	IF 	EXISTS(
+		SELECT userID
         FROM Users 
-        WHERE (userID = uID AND sessionID = uSession) AND (DATE_ADD(dateLastActive, INTERVAL 1 DAY) < NOW )
-        ) > 0 
+        WHERE (userID = uID AND sessionID = uSession) 
+			-- AND (DATE_ADD(dateLastActive, INTERVAL 1 DAY) < CURRENT_TIMESTAMP() )
+        )
 	THEN
-		RETURN TRUE;	
+		RETURN TRUE;
+	ELSE
+		RETURN FALSE;
     END IF;
 
-RETURN FALSE;
-END
+
+END$$
+DELIMITER ;

@@ -1,3 +1,4 @@
+DELIMITER $$
 CREATE DEFINER=`ermine`@`%` FUNCTION `fn_generatePollID`() RETURNS varchar(6) CHARSET latin1
 BEGIN
 DECLARE id VARCHAR(6);
@@ -25,4 +26,5 @@ DECLARE id VARCHAR(6);
     
     
 RETURN id;
-END
+END$$
+DELIMITER ;

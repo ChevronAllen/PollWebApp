@@ -9,8 +9,7 @@ BEGIN
 */	
 
     SET @id = -1; 
-   
-    
+       
     IF NOT ( 
 		(uName IS NULL OR uName = "") 
         OR (uAuth IS NULL OR uAuth = "") 
@@ -19,14 +18,18 @@ BEGIN
     	
         SELECT userID into @id 
         FROM PollWebApp.Users 
-		WHERE (userEmail = uName OR username = uName) && (userAuth = uAuth);
-
+		WHERE (userEmail = uName) AND (userAuth = uAuth)
+        LIMIT 1;
+	
 		SELECT pollID, pollName, dateCreated, dateExpire, countQuestions 
-		FROM PollsActive
+		FROM PollWebApp.PollsActive
 		WHERE PollsActive.ownerID = @id;
         
-        SELECT md5(NOW) into uSessionID;
-		CALL proc_updateUserSession(@id, uSessionID);
+        SELECT md5(CURRENT_TIMESTAMP()) into uSessionID;
+        
+		UPDATE Users 
+			SET dateLastActive = CURRENT_TIMESTAMP, sessionID = uSessionID
+			WHERE (userID = @id);
 	END IF;
 END$$
 DELIMITER ;

@@ -14,7 +14,7 @@ BEGIN
         FROM PollWebApp.Users 
         WHERE Users.userEmail = uEmail
 	) THEN 
-		INSERT INTO PollWebApp.Users (userID, email, firstName, lastName, userAuth)
+		INSERT INTO PollWebApp.Users (userID, userEmail, firstName, lastName, userAuth)
 			SELECT MD5(uEmail), uEmail,fName, lName, userAuth;	
 			
 		-- Returns users polls
