@@ -3,24 +3,25 @@
 
 <head>
 
-<title>Anon Poll</title>
+    <title>Anon Poll</title>
 
-<style type="text/css">
-    #flot-placeholder{width:600px;height:350px;}
-</style>
+    <style type="text/css">
+        #flot-placeholder{width:600px;height:350px;}
+    </style>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="../vendors/bootstrap-4.1.3-dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--<link rel="stylesheet" href="../css/testrun.css">-->
-<!--Flot Chart JS-->
-<script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../vendors/bootstrap-4.1.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="../css/testrun.css">-->
+    <!--Flot Chart JS-->
+    <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://www.pureexample.com/js/flot/jquery.flot.min.js"></script>
 
-<script src="../js/testrun.js"></script>
-<!--Flot Chart Data JS-->
+    <script src="../js/testrun.js"></script>
+    <!--Flot Chart Data JS-->
 
-<script type="text/javascript">
+    <script type="text/javascript">
+    
     function flotchart()
     {
     	//get results from jQuery
@@ -138,37 +139,60 @@
 </head>
 
 <body style="background-color: #efefef;">
-<div class="card" style="width: 100%; margin-left: .5%;margin-top: 5%;">
-  <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-  <div class="card-body" style="background-color: #efefef;">
-    <h5 class="card-title">Question </h5>
-    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </div>
-  <!--<ul class="btn-group-vertical btn-block center-block" style="width: 104%; margin-left: -5%">-->
-    <ul class="list-group list-group-flush" style="width: 99%;">
-    <button type="button" class="btn btn-primary btn-lg btn-block">A</button>
-    <button type="button" class="btn btn-primary btn-lg btn-block">B</button>
-    <button type="button" class="btn btn-primary btn-lg btn-block">C</button>
-  </ul>
-  <div><!--class="card-body"-->
-    <br>
-    <button type="button" class="btn btn-outline-success" onclick="disableButton()">Submit</button>
-    <button type="button" class="btn btn-outline-info" onclick="flotchart()">Results</button>
-  </div>
-  <!--garbage div to provide space between (submit/result) buttons and flotchart-->
-  <div>
-    <br>
-</div>
-    <div id="flot-placeholder">
-    	<!--Div placeholder for flot-chart results-->
-    </div>
 
-</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../index.html">Polling Zone</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="../index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createPoll.html">Create Poll</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Admin</a>
+                </li>
+            </ul>
+        </div>
+        <form class="form-inline">
+            <input class="form-control form-control-sm mr-sm-2" type="Email" placeholder="Email" aria-label="Email">
+            <input class="form-control form-control-sm mr-sm-2" type="Password" placeholder="Password" aria-label="Password">
+            <button class="btn btn-sm btn-outline-success" type="submit">Login</button>
+            <button class="btn btn-sm btn-outline-success" type="submit">Register</button>
+        </form>
+    </nav>
+
+    <div class="card" style="width: 100%; margin-left: .5%;margin-top: 5%;">
+        <div class="card-body" style="background-color: #efefef;">
+            <h5 class="card-title">Question </h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>`
+        </div>
+        <ul class="list-group list-group-flush" style="width: 99%;">
+            <button type="button" class="btn btn-primary btn-lg btn-block">A</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block">B</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block">C</button>
+        </ul>
+        <div>
+            <br>
+            <button type="button" class="btn btn-outline-success" onclick="disableButton()">Submit</button>
+            <button type="button" class="btn btn-outline-info" onclick="flotchart()">Results</button>
+        </div>
+
+        <div>
+            <br>
+        </div>
+
+        <div id="flot-placeholder"></div>
+    </div>
 
 </body>
 </html>
