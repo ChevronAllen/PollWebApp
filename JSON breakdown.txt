@@ -1,0 +1,114 @@
+a POST is a JSON going from the client to the API
+a GET is a JSON going from the API back to the client, in response to a POST
+
+
+Register POST
+=========================
+{
+  firstName: "",  // User's First Name
+  lastName: "",   // User's Last Name
+  userEmail: "",  // User's Email
+  password: "",   // User's Hashed Password
+}
+
+Register GET // wont login automatically
+=========================
+{
+  error: ""       //  error description, only populated on error
+}
+
+Login POST
+=========================
+{
+  userEmail: "",  // User's Email
+  password: "",   // User's Hashed Password
+}
+
+Login GET
+=========================
+{
+  id: 0,                        //  The user's ID, error if  = 0
+  firstName: "",                //  The firstName found
+  lastName: "",                 //  The lastName found
+  sessionID: "",                //  sessionID generated
+  polls:
+  [                             //  Array of Polls created by the user
+    {
+      pollID: 0,                // used when requesting info about poll
+      pollName: "",             // display info
+      pollCode: "",             // code for others to access the poll
+      dateCreated: "",          // creation date for sorting
+      dateExpire: "",           // expiration date for display
+      questionText:"",          // text of the question for display
+      responses :                // array with the responses and their text
+      [
+        {
+          responseText: "",     // Text of the response
+          responseData: 0,      // amount of times chosen
+          isCorrectResponse: 0  // 0 if not 1 if it is the correct response
+        },
+        {
+
+        }
+      ]
+    },
+    {
+
+    }...
+  ],
+  error: ""                     //  Error description if id = 0
+}
+
+CreateAnonPoll POST
+=========================
+{
+  pollName: "",         // poll name/title
+  questionText: "",     // question Text
+  responseCount; 0,     // number of responses
+  responses
+  [
+    {
+      responseText: "",     // Text of the response
+      isCorrectResponse: 0  // 0 if not 1 if it is the correct response
+    },
+    {
+
+    }
+  ]
+}
+
+CreateAnonPoll GET
+=========================
+{
+  pollId: 0,          // used to get response data
+  pollCode: "",       // distributable code for access to answer the poll
+  dateExpire: "",     // expiration date of poll
+}
+
+GetPoll POST
+=========================
+{
+  pollCode: ""        // distributed code for access to poll
+}
+
+
+GetPoll GET
+=========================
+{
+  pollID: 0,                // used when requesting info about poll
+  pollName: "",             // display info
+  pollCode: "",             // code for others to access the poll
+  dateCreated: "",          // creation date for sorting
+  dateExpire: "",           // expiration date for display
+  questionText:"",          // text of the question for display
+  responses :                // array with the responses and their text
+  [
+    {
+      responseText: "",     // Text of the response
+      responseId: 0         // id to send back when chosen
+    },
+    {
+
+    }
+  ]
+}

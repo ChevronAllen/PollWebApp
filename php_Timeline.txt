@@ -1,0 +1,34 @@
+Most -> Least Important
+
+Encrypt.php             // salt and hash for passwords; called by Register.php and Login.php
+  Dependencies - none
+
+Register.php            // store new created user info
+  Dependencies - Encrypt.php; Database Registration Stored Procedure
+
+Login.php               // check user info send back sessionID
+  Dependencies - Encrypt.php; Register.php; Database Login Stored Procedure
+
+CreateAnonPoll.php      // anonymous user poll creation
+  Dependencies - Database Add Poll Stored Procedure
+
+GetPoll.php             // returns all anonymous poll info from pollCode
+  Dependencies - CreateAnonPoll.php; access to poll data
+
+AnonPollResponse.php    // send poll answer with pollID to database
+  Dependencies - GetPoll.php; access to poll data
+
+TrackPoll.php           // get response info with pollID
+  Dependencies - GetPoll.php; access to poll data
+
+CreateSurvey.php        // tracked poll tied to userID
+  Dependencies - Login.php; access to poll data
+
+GetSurvey.php           // tracked survey found by pollCode
+  Dependencies - CreateSurvey.php; access to poll data
+
+SurveyResponse.php      // send survey answer with pollID and userID
+  Dependencies - GetSurvey.php; access to poll data
+
+Logout.php              // send sessionID to database to clear
+  Dependencies - Login.php; Database Logout Stored Procedure
