@@ -1,0 +1,22 @@
+Never enter null values, if a value must be empty enter an empty string.
+
+===================
+Registration
+===================
+EXECUTE PollingZone.user_create(firstName,lastName,optionalName, email, password, salt)
+firstName - user's submited first name
+lastName - user's submitted last name 
+optionalName - user's optional identifier
+email - unique email address
+password - SHA256 salted and hashed password
+salt - salt used in password hashing
+
+===================
+Login
+===================
+EXECUTE PollingZone.user_login(email, password, session, error)
+email - user email to attempt login under
+password - client-side hashed but not salted password to match
+session - OUT - returns users session on a successful login
+error - OUT - returns 0 if there isnt an error
+
