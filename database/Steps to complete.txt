@@ -1,0 +1,29 @@
+Gather Functionality Requirements; What data needs to be stored, retrieved or generated
+
+User Registration, Authentication, SessionID
+	Create User Table
+	Create Registration Stored Procedure
+	Test Registration
+	Create Login Stored Procedure	
+	Test Login
+	Create session generator functionand session updater
+	Test session reset
+	Test session Authentication for success
+	Test session Authentication for failure
+	Test session reset
+Poll Creation, Poll Deletion, Poll Submissions, Poll Data Crunching
+	Create Active Poll Table
+	Create Add Poll stored procedure;
+	Test Poll Creation
+	Create Delete Poll stored Procedure;
+	Test Poll Deletion
+	Solve Poll Question Storage
+	Solve Poll Responses Storage
+	Test Poll Question Storage
+	Test Poll Responses;
+	Test Poll Data Crunching;
+Salting & Hashing
+	Test User Registration with salt
+	Test User Authentication with Salting
+	
+	
