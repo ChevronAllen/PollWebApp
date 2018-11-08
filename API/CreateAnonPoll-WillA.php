@@ -2,7 +2,7 @@
   require("SQL_Credentials.php");
 
   //	connection using the sql credentials
-  $$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
+  $connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
 
   //	Get JSON input
   $inData = json_decode(file_get_contents('php://input'), true);
@@ -34,6 +34,8 @@
     {
       $responses[] = mysqli_real_escape_string($connection, $inData["responseText"]);
     }
+    
+    // More goes here
   }
 
   $connection->close();
