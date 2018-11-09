@@ -46,6 +46,8 @@
 
       $roomID = $row["roomID"];
       $roomCode = $row["roomCode"];
+     
+      returnWithInfo($roomID, $roomCode, "");
     }
   }
 
