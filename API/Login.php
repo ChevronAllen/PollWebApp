@@ -58,7 +58,6 @@ else
 	}
 }
 
-$result->close();
 // Close the connection
 $connection->close();
 

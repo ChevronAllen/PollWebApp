@@ -2,7 +2,7 @@
 require("SQL_Credentials.php");
 
 //	connection using the sql credentials
-$$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
+$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
 
 //	Get JSON input
 $inData = json_decode(file_get_contents('php://input'), true);;
@@ -28,23 +28,30 @@ if($connection->connect_error)
 	$salt = bin2hex(openssl_random_pseudo_bytes(32));
 
 	//	Call stored procedure that will insert a new user
-	$call =
-    'CALL PollingZone.proc_authUser(
-      "' . $firstName . '",
-			"' . $lastName . '",
-			"' . $optionalName . '",
-			"' . $userEmail . '",
-			"' . $password . '",
-			"' . $salt . '")';
+	$call = $connection->prepare(
+    'CALL PollingZone.user_create(
+				:usrFstNm, :usrLstNm, :usrOpNm, :usrEmail, :usrPass, :usrSalt, @error
+      );'
+	);
+
+	$call->bindParam(':usrFstNm', $firstName);
+	$call->bindParam(':usrLstNm', $lastName);
+	$call->bindParam(':usrOpNm', $optionalName);
+	$call->bindParam(':usrEmail', $userEmail);
+	$call->bindParam(':usrPass', $password);
+	$call->bindParam(':usrSalt', $salt);
+	$call->execute();
+
 
 	//	Capture results
-	$result = $connection->query($call);
+	$result = $call->get_result();;
 
 	if ($result->num_rows == 0)
 	{
-		returnWithError("Invalid Username/Password.");
+		returnWithError("Invalid query");
 	}else
 	{
+		$row = $result->fetch_assoc();
 		$err = $row["error"];
 		returnWithError($err);
 	}
@@ -74,12 +81,5 @@ function returnWithError( $err )
   $retValue = createJSONString($err);
   sendResultInfoAsJson( $retValue );
 }
-
-function returnWithInfo()
-{
-  $retValue = createJSONString("");
-  sendResultInfoAsJson( $retValue );
-}
-
 
 ?>
