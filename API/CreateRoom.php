@@ -23,19 +23,19 @@
     $sessionKey         = mysqli_real_escape_string($connection, $inData["sessionKey"]);
     $roomTitle          = mysqli_real_escape_string($connection, $inData["roomTitle"]);
     $roomPublic         = $inData["roomPublic"];
-    $startTime		= mysqli_real_escape_string($connection, $inData["startTime"]);
+	  $startTime			    = mysqli_real_escape_string($connection, $inData["startTime"]);
     $expirationDateTime = mysqli_real_escape_string($connection, $inData["userID"]);
     $correctResponse    = $inData["correctResponse"];
-    $question 		= $inData["questions"];
+	  $question 			    = $inData["questions"];
 
 	  $call = 'CALL PollingZone.room_create(
-			   "' . $userID . '",
+			     "' . $userID . '",
   			   "' . $sessionKey . '",
   			   "' . $roomTitle . '",
   			   "' . $roomPublic . '",
   			   "' . $startTime . '",
   			   "' . $expirationTime . '
-				@err)';
+					      @err)';
 
    $result = $connection->query($call);
 
@@ -47,7 +47,7 @@
     {
       $row = $result->fetch_assoc();
 
-      $roomID = $row["roomID"];
+	    $roomID = $row["roomID"];
       $roomCode = $row["roomCode"];
 
       returnWithInfo($roomID, $roomCode, "");
@@ -58,29 +58,29 @@
    if ($userID == "") // Anon User
    {
       $call = 'CALL PollingZone.room_addQuestion(
-    	   "' . $userID . '",
-      	   "' . $sessionKey . '",
-      	   "' . $roomID . '",
+    			 "' . $userID . '",
+      		 "' . $sessionKey . '",
+      		 "' . $roomID . '",
            "' . $correctResponse . '",
-      	   "' . $question[0][0] . '",
-  	   "' . $question[0][1] . '",
-           "' . $question[0][2] . '",
-           "' . $question[0][3] . '",
-           "' . $question[0][4] . '",
-           "' . $question[0][5] . '",
-           "' . $question[0][6] . '",
-           "' . $question[0][7] . '",
-           "' . $question[0][8] . '",
-           "' . $question[0][9] . '",
-           "' . $question[0][10] . '",
-           "' . $question[0][11] . '",
-           "' . $question[0][12] . '",
-           "' . $question[0][13] . '",
-           "' . $question[0][14] . '",
-           "' . $question[0][15] . '",
-           "' . $question[0][16] . '",
-	        @err)';
-  }
+      		 "' . $question[0]["name"] . '",
+  			   "' . $question[0]["Choice_1"] . '",
+           "' . $question[0]["Choice_2"] . '",
+           "' . $question[0]["Choice_3"] . '",
+           "' . $question[0]["Choice_4"] . '",
+           "' . $question[0]["Choice_5"] . '",
+           "' . $question[0]["Choice_6"] . '",
+           "' . $question[0]["Choice_7"] . '",
+           "' . $question[0]["Choice_8"] . '",
+           "' . $question[0]["Choice_9"] . '",
+           "' . $question[0]["Choice_10"] . '",
+           "' . $question[0]["Choice_11"] . '",
+           "' . $question[0]["Choice_12"] . '",
+           "' . $question[0]["Choice_13"] . '",
+           "' . $question[0]["Choice_14"] . '",
+           "' . $question[0]["Choice_15"] . '",
+           "' . $question[0]["Choice_16"] . '",
+		@err)';
+	  }
   else // User Logged in
   {
       for($i = 0; $i < count($question); $i++)
@@ -90,24 +90,24 @@
           "' . $sessionKey . '",
           "' . $roomID . '",
           "' . $correctResponse . '",
-          "' . $question[$i][0] . '",
-          "' . $question[$i][1] . '",
-          "' . $question[$i][2] . '",
-          "' . $question[$i][3] . '",
-          "' . $question[$i][4] . '",
-          "' . $question[$i][5] . '",
-          "' . $question[$i][6] . '",
-          "' . $question[$i][7] . '",
-          "' . $question[$i][8] . '",
-          "' . $question[$i][9] . '",
-          "' . $question[$i][10] . '",
-          "' . $question[$i][11] . '",
-          "' . $question[$i][12] . '",
-          "' . $question[$i][13] . '",
-          "' . $question[$i][14] . '",
-          "' . $question[$i][15] . '",
-          "' . $question[$i][16] . '",
-          @err)';
+          "' . $question[$i]["name"] . '",
+          "' . $question[$i]["Choice_1"] . '",
+          "' . $question[$i]["Choice_2"] . '",
+          "' . $question[$i]["Choice_3"] . '",
+          "' . $question[$i]["Choice_4"] . '",
+          "' . $question[$i]["Choice_5"] . '",
+          "' . $question[$i]["Choice_6"] . '",
+          "' . $question[$i]["Choice_7"] . '",
+          "' . $question[$i]["Choice_8"] . '",
+          "' . $question[$i]["Choice_9"] . '",
+          "' . $question[$i]["Choice_10"] . '",
+          "' . $question[$i]["Choice_11"] . '",
+          "' . $question[$i]["Choice_12"] . '",
+          "' . $question[$i]["Choice_13"] . '",
+          "' . $question[$i]["Choice_14"] . '",
+          "' . $question[$i]["Choice_15"] . '",
+          "' . $question[$i]["Choice_16"] . '",
+               @err)';
       }
   }
     $result = $connection->query($call);
