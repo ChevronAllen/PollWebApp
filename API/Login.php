@@ -1,8 +1,8 @@
 <?php
-require("SQL_Credentials.php");
+require("config.php");
 
 //	connection using the sql credentials
-$$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
+$connection = new mysqli("107.180.25.129", "phpAPI", "Cop4331", "PollingZone", 3306) or die('kill me');
 
 //	Get JSON input
 $inData = json_decode(file_get_contents('php://input'), true);;
@@ -23,16 +23,20 @@ else
 	$password 	= mysqli_real_escape_string($connection, $inData["password"]);
 
 	//	Call stored procedure that will insert a new user
-	$call = $connection->prepare(
-    	'PollingZone.user_login( :usrEmail, :usrPassword , @session, @error);'
-    );
-	$call->bindParam(':usrEmail', $userEmail);
-	$call->bindParam(':usrPassword', $password);
-  $call->execute();
 
-	$result = $call->get_result();
+	$call = 'SELECT 1';
+	/*
+    	'CALL PollingZone.user_login( "'
+				. $userEmail . '","'
+				. $password . '",
+			 	@session,
+			 	@error
+			);';
+*/
 
-	if ($result->num_rows == 0)
+	$result = $connection->query($call);
+
+	if ($result == NULL || $result->num_rows == 0)
 	{
 		returnWithError("Unsuccessful Login");
 	}else
