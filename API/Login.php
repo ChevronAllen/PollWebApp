@@ -1,16 +1,5 @@
 <?php
 require("SQL_Credentials.php");
-/*
-class Poll {
-    function __construct() {
-		$this->pollID = "";
-		$this->pollName = "";
-		$this->dateCreated = "";
-		$this->dateExpire = "";
-    $this->countQuestions = "";
-    }
-}
-*/
 
 //	connection using the sql credentials
 $$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
@@ -21,77 +10,68 @@ $inData = json_decode(file_get_contents('php://input'), true);;
 if($connection->connect_error)
 {
 	returnWithError("Error Connecting to the Server");
-}else
+}
+else
 {
   $id = 0;
-  $username 	= "";
+  $userEmail 	= "";
   $password 	= "";
   $sessionID  = "";
 
 	//	Sanitize JSON input
-	$username 	= mysqli_real_escape_string($connection, $inData["userEmail"]);
+	$userEmail 	= mysqli_real_escape_string($connection, $inData["userEmail"]);
 	$password 	= mysqli_real_escape_string($connection, $inData["password"]);
 
 	//	Call stored procedure that will insert a new user
 	$call = $connection->prepare(
-    'CALL PollingZone.proc_authUser(
-      ?,
-      ?,
-      @sessionID )'
+    	'PollingZone.user_login( :usrEmail, :usrPassword , @session, @error);'
     );
-  $call->bind_param('ss', $username, $password);
+	$call->bindParam(':usrEmail', $userEmail);
+	$call->bindParam(':usrPassword', $password);
   $call->execute();
 
-	//	Capture results
-	$result = $connection->query($call);
+	$result = $call->get_result();
+
+	//	Capture error
+	$err = $connection->query("SELECT @error");
 
 	if ($result->num_rows == 0)
 	{
-		returnWithError("Invalid Username/Password.");
+		returnWithError("Unsuccessful Login");
 	}else
 	{
 		$row = $result->fetch_assoc();
-    $select = $connection->query('SELECT @sessionID');
-    $out = $select->fetch_assoc();
 
-		$id = $row["id"];
-		$firstName = $row["firstname"];
-		$lastName = $row["lastname"];
-    $sessionID = $out['@sessionID'];
-    $jsonArray = array();
-    /*
-    if($result->num_rows != 0)
-    {
-      while($row = $result->fetch_assoc())
-      {
-        $jsonObject = new Poll();
-        $jsonObject->pollID = $row["pollID"];
-        $jsonObject->pollName = $row["pollName"];
-        $jsonObject->dateCreated = $row["dateCreated"];
-        $jsonObject->dateExpire = $row["dateExpire"];
-        $jsonObject->countQuestions = $row["countQuestions"];
-        $jsonArray[] = $jsonObject;
-      }
-    }
-    */
-		$result->close();
+		$err = $row["error"];
+		if($err == 1)
+		{
+			returnWithError("Unsuccessful Login");
+		}
+		$sessionID = $row["session"];
+		$id = $row["userID"];
+		$firstName = $row["user_firstName"];
+		$lastName = $row["user_lastName"];
+		$optionalName = $row["user_optionalName"];
+		$dateCreated = $row["date_created"];
 
-    returnWithInfo($id, $firstName, $lastName, $sessionID/*,json_encode($jsonArray)*/ );
+    returnWithInfo($id, $firstName, $lastName, $optionalName, $dateCreated, $sessionID);
 	}
 }
 
+$result->close();
 // Close the connection
 $connection->close();
 
-function createJSONString($id_, $firstName_, $lastName_, $sessionID_,/*$polls_,*/ $error_)
+function createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, $error_)
 {
   $ret = '
         {
           "id" : '. $id_ .' ,
           "firstName" : "' . $firstName_ . '",
           "lastName" : "' . $lastName_ . '",
-          "sessionID" : "' . $sessionID_ . /*'",
-          "polls" : '. $polls_ . ' ,*/'",
+					"optionalName" : "' . $optionalName_ . '",
+          "dateCreated" : "' . $dateCreated_ . '",
+          "sessionID" : "' . $sessionID_ . '",
           "error" : "' . $error_ . '"
         }';
 
@@ -106,13 +86,13 @@ function sendResultInfoAsJson( $obj )
 
 function returnWithError( $err )
 {
-  $retValue = createJSONString(0,"","","","[]",$err);
+  $retValue = createJSONString(0,"","","","","",$err);
   sendResultInfoAsJson( $retValue );
 }
 
-function returnWithInfo($id_, $firstName_, $lastName_, $sessionID_/*, $polls_*/ )
+function returnWithInfo($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_)
 {
-  $retValue = createJSONString($id_, $firstName_, $lastName_, $sessionID, /* $contacts_,*/"");
+  $retValue = createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID, "");
   sendResultInfoAsJson( $retValue );
 }
 
