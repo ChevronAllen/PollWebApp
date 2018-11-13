@@ -32,9 +32,6 @@ else
 
 	$result = $call->get_result();
 
-	//	Capture error
-	$err = $connection->query("SELECT @error");
-
 	if ($result->num_rows == 0)
 	{
 		returnWithError("Unsuccessful Login");
@@ -91,7 +88,7 @@ function returnWithError( $err )
 
 function returnWithInfo($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_)
 {
-  $retValue = createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID, "");
+  $retValue = createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, "");
   sendResultInfoAsJson( $retValue );
 }
 
