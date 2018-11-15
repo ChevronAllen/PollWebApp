@@ -1,8 +1,9 @@
 <?php
-require("SQL_Credentials.php");
+require("config.php");
 
 //	connection using the sql credentials
-$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
+$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB)
+or die('connection to server failed');
 
 //	Get JSON input
 $inData = json_decode(file_get_contents('php://input'), true);;
@@ -28,23 +29,19 @@ if($connection->connect_error)
 	$salt = bin2hex(openssl_random_pseudo_bytes(32));
 
 	//	Call stored procedure that will insert a new user
-	$call = $connection->prepare(
+	$call =
     'CALL PollingZone.user_create(
-				:usrFstNm, :usrLstNm, :usrOpNm, :usrEmail, :usrPass, :usrSalt, @error
-      );'
-	);
-
-	$call->bindParam(':usrFstNm', $firstName);
-	$call->bindParam(':usrLstNm', $lastName);
-	$call->bindParam(':usrOpNm', $optionalName);
-	$call->bindParam(':usrEmail', $userEmail);
-	$call->bindParam(':usrPass', $password);
-	$call->bindParam(':usrSalt', $salt);
-	$call->execute();
-
+				"'.$firstName.'",
+				"'.$lastName.'",
+				"'.$optionalName.'",
+				"'.$userEmail.'",
+				"'.$password.'",
+				"'.$salt.'",
+				@error
+      );';
 
 	//	Capture results
-	$result = $call->get_result();;
+	$result = $connection->query($call);
 
 	if ($result->num_rows == 0)
 	{
