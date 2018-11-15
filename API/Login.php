@@ -2,7 +2,7 @@
 require("config.php");
 
 //	connection using the sql credentials
-$connection = new mysqli("107.180.25.129", "phpAPI", "Cop4331", "PollingZone", 3306)
+$connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
 or die('connection to server failed');
 
 //	Get JSON input
