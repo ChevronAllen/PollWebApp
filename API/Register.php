@@ -2,11 +2,11 @@
 require("config.php");
 
 //	connection using the sql credentials
-$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB)
+$connection = new mysqli("107.180.25.129", "phpAPI", "Cop4331", "PollingZone", 3306)
 or die('connection to server failed');
 
 //	Get JSON input
-$inData = json_decode(file_get_contents('php://input'), true);;
+$inData = json_decode(file_get_contents('php://input'), true);
 
 if($connection->connect_error)
 {
@@ -28,6 +28,7 @@ if($connection->connect_error)
 	$password 	= mysqli_real_escape_string($connection, $inData["password"]);
 	$salt = bin2hex(openssl_random_pseudo_bytes(32));
 
+	$hashedPass = hash("sha256",$password.$salt,FALSE);
 	//	Call stored procedure that will insert a new user
 	$call =
     'CALL PollingZone.user_create(
@@ -35,7 +36,7 @@ if($connection->connect_error)
 				"'.$lastName.'",
 				"'.$optionalName.'",
 				"'.$userEmail.'",
-				"'.$password.'",
+				"'.$hashedPass.'",
 				"'.$salt.'",
 				@error
       );';
@@ -45,7 +46,7 @@ if($connection->connect_error)
 
 	if ($result->num_rows == 0)
 	{
-		returnWithError("Invalid query");
+		returnWithError('Invalid query,, '.$call . file_get_contents('php://input'));
 	}else
 	{
 		$row = $result->fetch_assoc();

@@ -37,7 +37,11 @@ else
 
 	if ($result == NULL || $result->num_rows == 0)
 	{
-		returnWithError("Unsuccessful Login");
+		if($result == NULL)
+		{
+			returnWithError("It was null");
+		}
+		returnWithError("number of rows is 0");
 	}else
 	{
 		$row = $result->fetch_assoc();
@@ -45,7 +49,7 @@ else
 		$err = $row["error"];
 		if($err == 1)
 		{
-			returnWithError("Unsuccessful Login");
+			returnWithError("Unsuccessful Login error returned 1");
 		}
 		$sessionID = $row["session"];
 		$id = $row["userID"];
