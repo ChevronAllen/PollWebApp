@@ -2,7 +2,8 @@
 require("config.php");
 
 //	connection using the sql credentials
-$connection = new mysqli("107.180.25.129", "phpAPI", "Cop4331", "PollingZone", 3306) or die('kill me');
+$connection = new mysqli("107.180.25.129", "phpAPI", "Cop4331", "PollingZone", 3306)
+or die('connection to server failed');
 
 //	Get JSON input
 $inData = json_decode(file_get_contents('php://input'), true);;
@@ -24,15 +25,13 @@ else
 
 	//	Call stored procedure that will insert a new user
 
-	$call = 'SELECT 1';
-	/*
+	$call =
     	'CALL PollingZone.user_login( "'
 				. $userEmail . '","'
 				. $password . '",
 			 	@session,
 			 	@error
 			);';
-*/
 
 	$result = $connection->query($call);
 
