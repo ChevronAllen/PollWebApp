@@ -1,7 +1,8 @@
 <?php
-  require("SQL_Credentials.php");
+  require("config.php");
   //	connection using the sql credentials
-  $connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
+  $connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
+  or die('connection to server failed');
   //	Get JSON input
   $inData = json_decode(file_get_contents('php://input'), true);
   $userID = "";
@@ -22,11 +23,17 @@
     $userID             = mysqli_real_escape_string($connection, $inData["userID"]);
     $sessionKey         = mysqli_real_escape_string($connection, $inData["sessionKey"]);
     $roomTitle          = mysqli_real_escape_string($connection, $inData["roomTitle"]);
-    $roomPublic         = $inData["roomPublic"];
+    $roomPublic         = mysqli_real_escape_string($connection, $inData["roomPublic"]);
 	  $startTime			    = mysqli_real_escape_string($connection, $inData["startTime"]);
     $expirationDateTime = mysqli_real_escape_string($connection, $inData["userID"]);
-    $correctResponse    = $inData["correctResponse"];
-	  $question 			    = $inData["questions"];
+    $correctResponse    = mysqli_real_escape_string($connection, $inData["correctResponse"]);
+	  $question 			    = mysqli_real_escape_string($connection, $inData["questions"]);
+
+    $timeinSeconds = $startTime / 1000;
+    $startTime = date("Ymdisv", $timeinSeconds);
+
+    $timeinSeconds = $expirationTime / 1000;
+    $expirationTime = date("Ymdisv", $timeinSeconds);
 
 	  $call = 'CALL PollingZone.room_create(
 			     "' . $userID . '",
@@ -43,15 +50,13 @@
     {
       returnWithError("Room creation failed");
     }
-   else
+    else
     {
       $row = $result->fetch_assoc();
 
-	    $roomID = $row["roomID"];
+      $roomID = $row["roomID"];
       $roomCode = $row["roomCode"];
-
-      returnWithInfo($roomID, $roomCode, "");
-   }
+    }
 
    mysqli_free_result($result);
 
@@ -62,7 +67,7 @@
       		 "' . $sessionKey . '",
       		 "' . $roomID . '",
            "' . $correctResponse . '",
-      		 "' . $question[0]["name"] . '",
+      		 "' . $question[0]["pollName"] . '",
   			   "' . $question[0]["Choice_1"] . '",
            "' . $question[0]["Choice_2"] . '",
            "' . $question[0]["Choice_3"] . '",
@@ -79,10 +84,16 @@
            "' . $question[0]["Choice_14"] . '",
            "' . $question[0]["Choice_15"] . '",
            "' . $question[0]["Choice_16"] . '",
-		@err)';
+					      @err)';
+      $result = $connection->query($call);
+
+      if ($result->num_rows == 0)
+    	{
+    		returnWithError("Failed to add questions");
+    	}
 	  }
-  else // User Logged in
-  {
+  	else // User Logged in
+  	{
       for($i = 0; $i < count($question); $i++)
       {
         $call = 'CALL PollingZone.room_addQuestion(
@@ -90,7 +101,7 @@
           "' . $sessionKey . '",
           "' . $roomID . '",
           "' . $correctResponse . '",
-          "' . $question[$i]["name"] . '",
+          "' . $question[$i]["pollName"] . '",
           "' . $question[$i]["Choice_1"] . '",
           "' . $question[$i]["Choice_2"] . '",
           "' . $question[$i]["Choice_3"] . '",
@@ -108,19 +119,22 @@
           "' . $question[$i]["Choice_15"] . '",
           "' . $question[$i]["Choice_16"] . '",
                @err)';
-      }
-  }
-    $result = $connection->query($call);
 
-    if ($result->num_rows == 0)
-  	{
-  		returnWithError("Failed to add questions");
+         $result = $connection->query($call);
+
+         if ($result->num_rows == 0)
+       	 {
+       		  returnWithError("Failed to add questions");
+       	 }
+      }
   	}
-    else
-  	{
-  		$err = $row["error"];
-  		returnWithError($err);
-  	}
+
+    returnWithInfo($roomID, $roomCode, "");
+
+    /*
+    $err = $row["error"];
+  	returnWithError($err);
+    */
   }
 
   $connection->close();
@@ -141,4 +155,3 @@
     echo $obj;
   }
 ?>
-
