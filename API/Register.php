@@ -40,8 +40,7 @@ if($connection->connect_error)
 
 	if ($result->num_rows == 0)
 	{
-    returnWithError('Ivalid query string');
-		//returnWithError('Invalid query, '. $call . file_get_contents('php://input'));
+    	   returnWithError('Ivalid query string');
 	}
   else
 	{
