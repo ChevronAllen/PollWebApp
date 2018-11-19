@@ -15,8 +15,8 @@ public class API {
     protected static boolean login(String username, String password) {
 
         try {
-            
-            URL url = new URL("url of locally-hosted php script");
+            String pollingZone = AppConsts.PHP_location + "login.php";
+            URL url = new URL(pollingZone);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             // prepare request
@@ -45,7 +45,8 @@ public class API {
             in.close();
 
             String result = response.toString();
-
+            Log.i(AppConsts.TAG, result);
+            
             // disconnect
             urlConnection.disconnect();
         } catch (MalformedURLException e) {
