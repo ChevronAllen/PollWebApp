@@ -51,41 +51,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AppConsts.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/AppConsts.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignInActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="57" column="91" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="91" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="API.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/API.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="69" column="43" lean-forward="true" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
+            <state relative-caret-position="237">
+              <caret line="117" column="25" selection-start-line="117" selection-start-column="25" selection-end-line="117" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4210#4211#0" expanded="true" />
+                <element signature="e#4264#4265#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="createAccountActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/createAccountActivity.java">
+      <file leaf-file-name="Poll.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/Poll.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="75">
+              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+              <folding>
+                <element signature="e#548#549#0" expanded="true" />
+                <element signature="e#848#849#0" expanded="true" />
+                <element signature="e#880#881#0" expanded="true" />
+                <element signature="e#930#931#0" expanded="true" />
+                <element signature="e#972#973#0" expanded="true" />
+                <element signature="e#1007#1008#0" expanded="true" />
+                <element signature="e#1038#1039#0" expanded="true" />
+                <element signature="e#1086#1087#0" expanded="true" />
+                <element signature="e#1126#1127#0" expanded="true" />
+                <element signature="e#1345#1346#0" expanded="true" />
+                <element signature="e#1378#1379#0" expanded="true" />
+                <element signature="e#1428#1429#0" expanded="true" />
+                <element signature="e#1472#1473#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2359,14 +2367,17 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/Poll.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/DatabaseLogin.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/DatabaseConnection.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/AppConsts.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/AsyncResponse.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/AsyncResponse.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/createAccountActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/Poll.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/User.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/API.java" />
       </list>
     </option>
@@ -2381,8 +2392,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2416,6 +2425,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2423,6 +2434,11 @@
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="device.picker.selection" value="Pixel_API_25" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.said.pollingzone" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2588,25 +2604,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="788" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="792" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32880846" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32738096" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.1881259" side_tool="true" visible="true" weight="0.32784432" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.32403433" side_tool="true" visible="true" weight="0.32738096" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32880846" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="7" sideWeight="0.8118741" visible="true" weight="0.32784432" />
+      <window_info anchor="bottom" id="Logcat" order="7" sideWeight="0.67596567" visible="true" weight="0.32738096" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49928468" weight="0.33182505" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -2619,7 +2636,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -2640,6 +2656,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="59" column="55" selection-start-line="59" selection-start-column="41" selection-end-line="59" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#707#2145#0" expanded="true" />
+            <element signature="e#2144#2145#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/createAccountActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="71" column="28" lean-forward="true" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/API.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1230">
+          <caret line="99" column="108" lean-forward="true" selection-start-line="99" selection-start-column="108" selection-end-line="99" selection-end-column="108" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4264#4265#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/AppConsts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="780">
           <caret line="58" selection-start-line="58" selection-end-line="58" />
         </state>
@@ -2651,6 +2705,8 @@
           <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4264#4265#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2694,18 +2750,18 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_graph.xml">
-      <provider selected="true" editor-type-id="android-designer2">
+      <provider editor-type-id="text-editor">
         <state />
       </provider>
-      <provider editor-type-id="text-editor">
+      <provider selected="true" editor-type-id="android-designer2">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_create_account.xml">
-      <provider selected="true" editor-type-id="android-designer2">
+      <provider editor-type-id="text-editor">
         <state />
       </provider>
-      <provider editor-type-id="text-editor">
+      <provider selected="true" editor-type-id="android-designer2">
         <state />
       </provider>
     </entry>
@@ -2714,23 +2770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
           <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/Poll.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding>
-            <element signature="e#663#664#0" expanded="true" />
-            <element signature="e#703#704#0" expanded="true" />
-            <element signature="e#844#845#0" expanded="true" />
-            <element signature="e#892#893#0" expanded="true" />
-            <element signature="e#1255#1256#0" expanded="true" />
-            <element signature="e#1295#1296#0" expanded="true" />
-            <element signature="e#1447#1448#0" expanded="true" />
-            <element signature="e#1481#1482#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2751,26 +2790,76 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/os/AsyncTask.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/AsyncResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="30" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/SignInActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="57" column="91" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="91" />
+        <state relative-caret-position="353">
+          <caret line="60" column="16" lean-forward="true" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#707#2145#0" expanded="true" />
+            <element signature="e#2144#2145#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/createAccountActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
+        <state relative-caret-position="63">
+          <caret line="68" column="105" selection-start-line="68" selection-start-column="105" selection-end-line="68" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/Poll.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+          <folding>
+            <element signature="e#548#549#0" expanded="true" />
+            <element signature="e#848#849#0" expanded="true" />
+            <element signature="e#880#881#0" expanded="true" />
+            <element signature="e#930#931#0" expanded="true" />
+            <element signature="e#972#973#0" expanded="true" />
+            <element signature="e#1007#1008#0" expanded="true" />
+            <element signature="e#1038#1039#0" expanded="true" />
+            <element signature="e#1086#1087#0" expanded="true" />
+            <element signature="e#1126#1127#0" expanded="true" />
+            <element signature="e#1345#1346#0" expanded="true" />
+            <element signature="e#1378#1379#0" expanded="true" />
+            <element signature="e#1428#1429#0" expanded="true" />
+            <element signature="e#1472#1473#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/said/pollingzone/API.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="69" column="43" lean-forward="true" selection-start-line="69" selection-start-column="43" selection-end-line="69" selection-end-column="43" />
+        <state relative-caret-position="237">
+          <caret line="117" column="25" selection-start-line="117" selection-start-column="25" selection-end-line="117" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4264#4265#0" expanded="true" />
           </folding>
         </state>
       </provider>

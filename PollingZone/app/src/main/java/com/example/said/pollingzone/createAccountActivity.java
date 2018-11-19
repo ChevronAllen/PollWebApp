@@ -1,5 +1,6 @@
 package com.example.said.pollingzone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -67,6 +68,7 @@ public class createAccountActivity extends AppCompatActivity {
                 new API().register(firstName.getText().toString(), lastName.getText().toString(),
                         "dunno_what_this_is", email.getText().toString(), password.getText().toString());
 
+                startActivity(new Intent(createAccountActivity.this, SignInActivity.class));
                 finish();
             }
         });

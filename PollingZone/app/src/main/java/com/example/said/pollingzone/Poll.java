@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Poll {
     // Other necessary fields here i.e. poll title, id number ect
+    private String roomId;
     private ArrayList<Question> questions;
     private int currentQuestion;
 

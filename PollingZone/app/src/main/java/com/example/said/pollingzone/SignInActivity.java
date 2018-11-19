@@ -78,4 +78,3 @@ public class SignInActivity extends AppCompatActivity {
         return false;
     }
 }
-

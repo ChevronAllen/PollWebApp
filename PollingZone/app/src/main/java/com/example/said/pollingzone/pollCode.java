@@ -54,6 +54,7 @@ public class pollCode extends AppCompatActivity {
 
 
                 //This is where we should go to the polling page
+                new API().getPoll(pollingCode.getText().toString());
             }
         });
     }

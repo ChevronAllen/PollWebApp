@@ -3,7 +3,9 @@ package com.example.said.pollingzone;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,35 +22,108 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-public class API {
+public class API implements AsyncResponse {
+    enum activity {
+        none, login, register, getPoll, poll, graph;
+    }
+
+    private static activity currentActivity = activity.none;
+
     public API(){ }
 
-    protected boolean login(String email, String password) {
+    protected void login(String email, String password) {
+        Log.d(AppConsts.TAG, "Login Activity");
+        API.currentActivity = activity.login;
+
         Map<String, String> postData = new HashMap<>();
         postData.put("userEmail", email);
         postData.put("password", getSHA(password));
-        Log.d(AppConsts.TAG, "Login Activity");
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
+        task.delegate = this;
         task.execute(AppConsts.PHP_location + "/Login.php");
-        return true;
+        return;
     }
 
-    protected boolean register(String firstName, String lastName, String optionalName,
+    protected void register(String firstName, String lastName, String optionalName,
                                String userEmail, String password) {
+        Log.d(AppConsts.TAG, "Register Activity");
+        API.currentActivity = activity.register;
+
         Map<String, String> postData = new HashMap<>();
         postData.put("firstName", firstName);
         postData.put("lastName", lastName);
         postData.put("optionalName", optionalName);
         postData.put("userEmail", userEmail);
         postData.put("password", getSHA(password));
-        Log.d(AppConsts.TAG, "Register Activity");
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
         task.execute(AppConsts.PHP_location + "/Register.php");
-        return true;
+        return;
     }
 
-    private static class HttpPostAsyncTask extends AsyncTask<String, Void, Void> {
+    protected void getPoll(String pollId) {
+        Log.d(AppConsts.TAG, "GetPoll");
+        API.currentActivity = activity.getPoll;
+
+        Map<String, String> postData = new HashMap<>();
+        postData.put("userID", User.Instance().getUserid());
+        postData.put("sessionID", User.Instance().getSessionID());
+        postData.put("roomCode", pollId);
+        HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
+        task.delegate = this;
+        task.execute(AppConsts.PHP_location + "/GetPoll.php");
+        return;
+    }
+
+    @Override
+    public void processFinish(String output) {
+        switch(API.currentActivity) {
+            case none :
+                break;
+            case login :
+                try {
+                    JSONObject data = (JSONObject) new JSONTokener(output).nextValue();
+                    String userid = data.getString("id");
+                    if(userid.equals("0")) {
+                        // TODO: Invalid user/password redirect to login w/ messege
+                    }
+                    else {
+                        String firstName = data.getString("firstName");
+                        String lastName = data.getString("lastName");
+                        String sessionID = data.getString("sessionID");
+                        User u = User.Instance(userid, sessionID, firstName,lastName);
+                        Log.i(AppConsts.TAG, "User Created : " + u.toString());
+                    }
+                } catch (JSONException e) {
+
+                }
+                break;
+            case register :
+                try {
+                    JSONObject data = (JSONObject) new JSONTokener(output).nextValue();
+                    String error = data.getString("error");
+                    if(error.equals("")) {
+                        // SUCCESS
+                        // TODO: redirect to login page
+                    } else {
+                        // TODO: error here, likely name user already exists. redirect back to create user page
+                    }
+                } catch (JSONException e) {
+
+                }
+                break;
+            case poll :
+                break;
+            case graph :
+                break;
+            case getPoll:
+                break;
+        }
+    }
+
+    public static class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
         // This is the JSON body of the post
+
+        private AsyncResponse delegate = null;
         JSONObject postData;
 
         // This is a constructor that allows you to pass in the JSON body
@@ -61,8 +136,8 @@ public class API {
 
         // This is a function that we are overriding from AsyncTask. It takes Strings as parameters because that is what we defined for the parameters of our async task
         @Override
-        protected Void doInBackground(String... params) {
-
+        protected String doInBackground(String... params) {
+            String response = null;
             try {
                 // This is getting the url from the string we passed in
                 URL url = new URL(params[0]);
@@ -95,10 +170,9 @@ public class API {
 
                     InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
 
-                    String response = convertInputStreamToString(inputStream);
+                    response = convertInputStreamToString(inputStream);
                     Log.d(AppConsts.TAG, "response : " + response);
-                    // From here you can convert the string to JSON with whatever JSON parser you like to use
-                    // After converting the string to JSON, I call my custom callback. You can follow this process too, or you can implement the onPostExecute(Result) method
+                    //TODO: Parse the JSON return for errors and store any required fields
                 } else {
                     // Status code is not 200
                     // Do something to handle the error
@@ -107,7 +181,12 @@ public class API {
             } catch (Exception e) {
                 Log.d(AppConsts.TAG, e.getLocalizedMessage());
             }
-            return null;
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            delegate.processFinish(result);
         }
 
         private String convertInputStreamToString(InputStream inputStream) {
