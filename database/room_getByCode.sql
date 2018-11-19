@@ -26,18 +26,30 @@ BEGIN
 			SELECT * 
 			FROM Questions 
 			WHERE roomID = @rID;
+            
 			SET err = 0;
+            
 		ELSEIF @valid THEN
 		
 			SELECT * 
 			FROM Questions 
 			WHERE roomID = @rID;
+            
             SET err = 0;
+            
 		ELSE
+        
 			SET err = 1;
+            
 		END IF;
 	ELSE
+		
+        SELECT * 
+		FROM Questions 
+		WHERE 1 = 0;
+        
 		SET err = 0;
+        
     END IF;
     
     

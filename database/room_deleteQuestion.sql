@@ -9,10 +9,15 @@ BEGIN
 	SET @valid = fn_isValidSession(uID,uSession);
     
     IF @valid THEN 
-		DELETE FROM Questions
+		
+        DELETE FROM Questions
         WHERE questionID = qID AND userID = uID;
+        
+        SELECT qID AS `questionID`;
         SET err = 0;
+        
 	ELSE 
+		
 		SET err = 2;
     END IF;
 END

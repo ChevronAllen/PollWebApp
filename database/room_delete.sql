@@ -12,6 +12,7 @@ BEGIN
 		DELETE FROM Rooms
         WHERE ownerID = uID AND roomID = rID;
         SET err = 0;
+		SELECT rID AS `roomID`;
 	ELSE
 		SET err = 2;
     END IF;

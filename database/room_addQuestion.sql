@@ -33,7 +33,7 @@ BEGIN
     FROM Rooms
     WHERE roomID = rID;
     
-    #	Test if Room can be Edited
+    #	Test if  Room can be Edited
     IF (@roomOwner IS NULL) AND (@questionsCount < @anonMax) THEN
 
         INSERT INTO `PollingZone`.`Questions`(	`questionID`,
@@ -64,6 +64,11 @@ BEGIN
     UPDATE Rooms
     SET roomSize = (@questionsCount+1) 
     WHERE roomID = rID;
+    
+    SELECT *
+    FROM Questions
+    WHERE roomID = rID;
+    
         
 	ELSEIF (@roomOwner = uID) AND @valid THEN
 		
@@ -113,6 +118,10 @@ BEGIN
 												qChoice16);
         UPDATE Rooms
 		SET roomSize = (@questionsCount+1) 
+		WHERE roomID = rID;
+        
+        SELECT *
+		FROM Questions
 		WHERE roomID = rID;
     END IF;
     

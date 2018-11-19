@@ -17,16 +17,21 @@ BEGIN
     
     IF NOT(rStart = '') THEN
 		SET @startDate = STR_TO_DATE(rStart,"%Y%m%d%H%i%s");
-    END IF;
-    IF NOT (rExpire = '') THEN
-		SET @endDate = STR_TO_DATE(rExpire,"%Y%m%d%H%i%s");
+	ELSE
+		SET @startDate = @today;
     END IF;
     
-    IF ((uID = '' || uID IS NULL ) AND (uSession = '' || uSession IS NULL )) THEN
-		#	Anonymous User	- Room Creation
-       #SET @rID = CONCAT(MD5(''), DATE_FORMAT(@today,"%Y%m%d%H%i%s") ); 
-        
-        
+    IF NOT (rExpire = '') THEN
+		SET @endDate = STR_TO_DATE(rExpire,"%Y%m%d%H%i%s");
+	ELSE
+		SET @endDate = DATE_ADD(@today, INTERVAL 1 DAY);
+    END IF;
+    
+    
+    # Anonymous User - Room Creation
+    IF ((uID = '' || uID IS NULL ) OR (uSession = '' || uSession IS NULL )) THEN
+
+    
         INSERT INTO PollingZone.Rooms (roomID, roomCode, ownerID, roomPublic, roomTitle, dateStart,dateExpire, dateLastUpdated)
         VALUES (
 			@rID,
@@ -41,13 +46,16 @@ BEGIN
         
         SELECT @rCode AS `RoomCode`, @rID AS `RoomID`;
         SET @err = 0;
+        
+	#	Registered User	- Room Creation
 	ELSE
-		#	Registered User	- Room Creation
-        #SET @rID = CONCAT(uID, DATE_FORMAT(@today,"%Y%m%d%H%i%s") );
+		
+
         SET @validUser = fn_isValidSession(uID,uSession);
         
+        
         IF (@validUser) THEN
-			
+		# Valid user	
             INSERT INTO PollingZone.Rooms (roomID, roomCode, ownerID, roomPublic, roomTitle, dateStart, dateExpire, dateLastUpdated)
 			VALUES (
 				@rID,
@@ -63,6 +71,7 @@ BEGIN
             SELECT @rCode AS `RoomCode`, @rID AS `RoomID`;
             SET @err = 0;
 		ELSE
+        # Invalid user / invalid session
 			SET @err = 1;
         END IF;
 
