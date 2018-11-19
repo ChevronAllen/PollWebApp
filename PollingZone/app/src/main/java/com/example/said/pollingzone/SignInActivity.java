@@ -31,9 +31,6 @@ public class SignInActivity extends AppCompatActivity {
                 EditText email = findViewById(R.id.holdsEmail);
 
 
-
-
-
                 if(email.getText().toString().isEmpty() || password.getText().toString().isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),
@@ -58,6 +55,8 @@ public class SignInActivity extends AppCompatActivity {
 
 
                 //This is where we would create the JSONS and send it to the API
+                new API().login(email.getText().toString(), password.getText().toString());
+
                 startActivity(new Intent(SignInActivity.this, GraphActivity.class));
                 finish();
             }
