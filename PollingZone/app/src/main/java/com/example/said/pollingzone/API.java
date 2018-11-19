@@ -24,16 +24,31 @@ public class API {
     public API(){ }
 
     protected boolean login(String email, String password) {
-        Log.d(AppConsts.TAG, "Made it into login()");
         Map<String, String> postData = new HashMap<>();
         postData.put("userEmail", email);
         postData.put("password", getSHA(password));
+        Log.d(AppConsts.TAG, "Login : " + postData.toString());
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
         task.execute(AppConsts.PHP_location + "/Login.php");
         return true;
     }
 
-    private class HttpPostAsyncTask extends AsyncTask<String, Void, Void> {
+
+    protected boolean register(String firstName, String lastName, String optionalName,
+                               String userEmail, String password) {
+        Map<String, String> postData = new HashMap<>();
+        postData.put("firstName", firstName);
+        postData.put("lastName", lastName);
+        postData.put("optionalName", optionalName);
+        postData.put("userEmail", userEmail);
+        postData.put("password", getSHA(password));
+        Log.d(AppConsts.TAG, "Register : " + postData.toString());
+        HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
+        task.execute(AppConsts.PHP_location + "/Register.php");
+        return true;
+    }
+
+    private static class HttpPostAsyncTask extends AsyncTask<String, Void, Void> {
         // This is the JSON body of the post
         JSONObject postData;
 
@@ -41,7 +56,6 @@ public class API {
         public HttpPostAsyncTask(Map<String, String> postData) {
             if (postData != null) {
                 this.postData = new JSONObject(postData);
-                Log.d(AppConsts.TAG, "JSON : " + this.postData.toString());
             }
         }
 

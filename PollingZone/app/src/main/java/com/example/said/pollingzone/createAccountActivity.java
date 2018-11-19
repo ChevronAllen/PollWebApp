@@ -62,6 +62,10 @@ public class createAccountActivity extends AppCompatActivity {
                 }
 
                 //This is where we would create the JSONS and send it to the API
+                //String firstName, String lastName, String optionalName,
+                //                               String userEmail, String password
+                new API().register(firstName.getText().toString(), lastName.getText().toString(),
+                        "", email.getText().toString(), password.getText().toString());
 
                 finish();
             }
