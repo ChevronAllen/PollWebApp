@@ -65,7 +65,7 @@ public class createAccountActivity extends AppCompatActivity {
                 //String firstName, String lastName, String optionalName,
                 //                               String userEmail, String password
                 new API().register(firstName.getText().toString(), lastName.getText().toString(),
-                        "", email.getText().toString(), password.getText().toString());
+                        "dunno_what_this_is", email.getText().toString(), password.getText().toString());
 
                 finish();
             }

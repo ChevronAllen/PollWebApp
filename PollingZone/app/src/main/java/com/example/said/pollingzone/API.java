@@ -27,12 +27,11 @@ public class API {
         Map<String, String> postData = new HashMap<>();
         postData.put("userEmail", email);
         postData.put("password", getSHA(password));
-        Log.d(AppConsts.TAG, "Login : " + postData.toString());
+        Log.d(AppConsts.TAG, "Login Activity");
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
         task.execute(AppConsts.PHP_location + "/Login.php");
         return true;
     }
-
 
     protected boolean register(String firstName, String lastName, String optionalName,
                                String userEmail, String password) {
@@ -42,7 +41,7 @@ public class API {
         postData.put("optionalName", optionalName);
         postData.put("userEmail", userEmail);
         postData.put("password", getSHA(password));
-        Log.d(AppConsts.TAG, "Register : " + postData.toString());
+        Log.d(AppConsts.TAG, "Register Activity");
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
         task.execute(AppConsts.PHP_location + "/Register.php");
         return true;
@@ -56,6 +55,7 @@ public class API {
         public HttpPostAsyncTask(Map<String, String> postData) {
             if (postData != null) {
                 this.postData = new JSONObject(postData);
+                Log.d(AppConsts.TAG, "JSON : " + this.postData.toString());
             }
         }
 
