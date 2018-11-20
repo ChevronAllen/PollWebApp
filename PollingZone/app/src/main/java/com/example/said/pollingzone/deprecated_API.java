@@ -48,7 +48,7 @@ public class API implements AsyncResponse {
                                String userEmail, String password) {
         Log.d(AppConsts.TAG, "Register Activity");
         API.currentActivity = activity.register;
-
+       //f
         Map<String, String> postData = new HashMap<>();
         postData.put("firstName", firstName);
         postData.put("lastName", lastName);
