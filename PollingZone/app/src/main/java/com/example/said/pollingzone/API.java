@@ -65,8 +65,14 @@ public class API implements AsyncResponse {
         API.currentActivity = activity.getPoll;
 
         Map<String, String> postData = new HashMap<>();
-        postData.put("userID", User.Instance().getUserid());
-        postData.put("sessionID", User.Instance().getSessionID());
+        String userid = "";
+        String sessionID = "";
+        if(User.Instance() != null) {
+            userid = User.Instance().getUserid();
+            sessionID = User.Instance().getSessionID();
+        }
+        postData.put("userID", userid);
+        postData.put("sessionID", sessionID);
         postData.put("roomCode", pollId);
         HttpPostAsyncTask task = new HttpPostAsyncTask(postData);
         task.delegate = this;
@@ -172,7 +178,6 @@ public class API implements AsyncResponse {
 
                     response = convertInputStreamToString(inputStream);
                     Log.d(AppConsts.TAG, "response : " + response);
-                    //TODO: Parse the JSON return for errors and store any required fields
                 } else {
                     // Status code is not 200
                     // Do something to handle the error

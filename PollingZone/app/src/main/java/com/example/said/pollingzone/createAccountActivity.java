@@ -32,7 +32,6 @@ public class createAccountActivity extends AppCompatActivity {
 
 
 
-
                 if(firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() || email.getText().toString().isEmpty() || confirmPassword.getText().toString().isEmpty() || password.getText().toString().isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),
