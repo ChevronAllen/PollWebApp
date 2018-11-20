@@ -41,7 +41,7 @@ Login GET
 GetPoll POST
 =========================
 {
-  pollCode: ""        // distributed code for access to poll
+  pollCode: ""              // distributed code for access to poll
 }
 
 
@@ -54,7 +54,7 @@ GetPoll GET
   dateCreated: "",          // creation date for sorting
   dateExpire: "",           // expiration date for display
   questionText:"",          // text of the question for display
-  responses :                // array with the responses and their text
+  responses :               // array with the responses and their text
   [
     {
       responseText: "",     // Text of the response
@@ -64,4 +64,66 @@ GetPoll GET
 
     }
   ]
+}
+
+Admin POST
+=========================
+{
+  id: 0,                    // The user's ID, error if = 0
+  sessionID: "",            // sessionID generated
+}
+
+Admin GET
+=========================
+{
+  Room:                     // array of rooms
+  [
+    roomCode: "",
+  ]
+}
+
+Room Created Modal POST
+=========================
+{
+  id: 0,
+  sessionID: "",
+  roomID: "",
+  roomCode: "",
+}
+
+Room Created Modal GET
+=========================
+{
+
+}
+
+Room Answered Modal POST
+=========================
+{
+  id: 0,
+  sessionID: "",
+  roomID: "",
+  roomCode: "",
+}
+
+Room Answered Modal GET
+=========================
+{
+  
+}
+
+Question Edit POST
+=========================
+{
+  id: 0,
+  sessionID: "",
+  roomID: "",
+  qID: "",
+  qLocked: 0,                 // 0 to show, 1 to hide
+}
+
+Question Edit GET
+=========================
+{
+  error: ""
 }
