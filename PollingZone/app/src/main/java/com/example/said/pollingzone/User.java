@@ -27,6 +27,10 @@ public class User {
         setActivePoll(null);
     }
 
+    public static void appStartUp() {
+        User.instance = null;
+    }
+
     public String getUserid() {
         return userid;
     }

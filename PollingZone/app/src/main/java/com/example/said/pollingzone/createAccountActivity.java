@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class createAccountActivity extends AppCompatActivity {
+public class createAccountActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,5 +86,10 @@ public class createAccountActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    @Override
+    public void processFinish(String output) {
+
     }
 }

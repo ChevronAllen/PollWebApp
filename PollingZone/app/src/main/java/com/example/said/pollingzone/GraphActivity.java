@@ -11,7 +11,7 @@ import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
 
-public class GraphActivity extends AppCompatActivity {
+public class GraphActivity extends AppCompatActivity implements AsyncResponse {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,11 @@ public class GraphActivity extends AppCompatActivity {
         //barChart.setDragEnabled(true);
         //barChart.setScaleEnabled(true);
         barChart.setPinchZoom(true);
+
+    }
+
+    @Override
+    public void processFinish(String output) {
 
     }
 }

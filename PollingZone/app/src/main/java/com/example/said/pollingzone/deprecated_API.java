@@ -209,8 +209,7 @@ public class API implements AsyncResponse {
         }
     }
 
-    public static String getSHA(String input)
-    {
+    public static String getSHA(String input) {
 
         try {
 
@@ -233,10 +232,7 @@ public class API implements AsyncResponse {
             }
 
             return hashtext;
-        }
-
-        // For specifying wrong message digest algorithms
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             System.out.println("Exception thrown"
                     + " for incorrect algorithm: " + e);
 

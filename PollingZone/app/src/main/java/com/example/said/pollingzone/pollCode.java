@@ -13,6 +13,7 @@ public class pollCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        User.appStartUp();
         setContentView(R.layout.activity_poll_code);
 
         configureToCreateActivity();
