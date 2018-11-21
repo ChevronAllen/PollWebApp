@@ -1,9 +1,15 @@
-Never enter null values, if a value must be empty enter an empty string.
+All values passed as strings
+
+Error handling
+===================
+if results are null - user validation failed
+if results are not null but #rows = 0 - either parameter error or there is no data to display (success)
+if results are not null and 1 or more rows are returned = sucessful 
 
 ===================
 Registration
 ===================
-EXECUTE PollingZone.user_create(firstName,lastName,optionalName, email, password, salt)
+CALL PollingZone.user_create( firstName,lastName,optionalName, email, password, salt)
 firstName - user's submited first name
 lastName - user's submitted last name 
 optionalName - user's optional identifier
@@ -11,12 +17,157 @@ email - unique email address
 password - SHA256 salted and hashed password
 salt - salt used in password hashing
 
+Returns single coloumn table userID. 
+On success this is populated with the new user's id
+
 ===================
 Login
-===================
-EXECUTE PollingZone.user_login(email, password, session, error)
+=================== 
+CALL PollingZone.user_login( email, password, session, error)
 email - user email to attempt login under
 password - client-side hashed but not salted password to match
 session - OUT - returns users session on a successful login
-error - OUT - returns 0 if there isnt an error
+error - OUT - returns 1 if there are parameter errors
 
+Returns a table of userID, user_firstName, user_lastName, user_optionalName, date_created, session. 
+On a failure doesnt return a table
+
+===================
+Logout
+=================== 
+CALL PollingZone.user_login( userID, sessionKey, error)
+userID - user's unique user ID string
+sessionKey - user's session key string
+error - OUT - returns 1 if there are parameter errors
+
+
+
+
+
+===================
+Room Creation
+===================
+CALL PollingZone.room_create( userID, sessionKey, roomTitle, roomPublic, expirationDateTime, error)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomTitle - user input, Title of the Room
+roomPublic - user input, Boolean, true = anonymouse users can respond. false = only registered users may respond
+startDateTime - exact Date-Time the room is active as a string in the format YYYYMMDDHHMMSS
+expirationDateTime - exact Date-Time of expiration as a string in the format YYYYMMDDHHMMSS
+error - OUT - returns 1 if there are parameter errors
+
+Returns 2 coloumn table RoomID and RoomCode, with roomCode being the 6 character string
+
+===================
+Room Deletion
+===================
+CALL PollingZone.room_delete( userID, sessionKey, roomID)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomID - room's full ID
+
+Returns roomID
+
+	===================
+	Room Add Question
+	===================
+	CALL PollingZone.room_addQuestion( userID, SessionKey, roomID, correctChoice, isLocked, questionText, questionChoice1,..., questionChoice16, error)
+	userID - user's unique user ID string
+	sessionKey - user's session key string
+	roomID - room's full ID
+	correctChoice - if 0 there are no correct answers otherwise
+	isLocked - is question accessible boolean 1 / 0
+	questionText - The user input question
+	questionChoiceN - the Nth multiple choice response to the quesiton (1 to 16)
+	error - OUT - returns 1 if there are parameter errors
+	
+	Questions are added one-by-one since Registered users dont have a limit on the number of questions in thier rooms.
+
+	===================
+	Room Delete Question
+	===================
+	CALL PollingZone.room_deleteQuestion(userID, sessionID, questionID)
+	userID - user's unique user ID string
+	sessionKey - user's session key string
+	questionID - question's full ID
+
+	Returns questionID
+
+	===================
+	Room Lock/Unlock Question
+	===================
+	CALL PollingZone.room_questionLock(userID,sessionIDmroomID,questionID, isLocked)	
+	userID - user's unique user ID string
+	sessionKey - user's session key string
+	roomID - room's full ID
+	questionID - question's full ID
+	isLocked - new lock state boolean (1 / 0)
+
+	Returns questionID
+
+===================
+Room Get Question
+===================
+CALL PollingZone.room_getQuestion( userID, sessionKey, roomID, questionID, OUT error)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomID - room's full ID
+questionID - questions id in the form roomId + question number
+error - OUT - returns 1 if there are parameter errors
+
+Returns Question, questionID, roomID, userID, correctResponse, questionText, choice1, choice2, ... ,choice16
+
+===================
+Room Get Responses
+===================
+CALL PollingZone.room_getResponses(userID, sessionKey,roomID)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomID - room's full ID
+
+returns responseID, questionID, roomID, userID, optionalName, selection, date_submitted
+
+Table ordered by userID, then by optionalName, then by questionID
+
+===================
+Room Set Response
+===================
+CALL PollingZone.room_setResponse(userID, sessionID, roomID, questionID, choice)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomID - room's full ID
+questionID - questions id in the form roomId + question number
+choice - the users answer to this question (1-16)
+
+===================
+Find Room by Code
+===================
+CALL PollingZone.room_getByCode( userID, SessionKey, roomCode, roomID, error)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomCode - 6 Character Room Code to search for
+error - OUT - returns 1 if there are parameter errors
+
+Returns the questions of the Poll if you have access to it
+questionID, roomID, userID, correctResponse, questionText, choice1, choice2, ... ,choice16
+
+===================
+Room Change Visibility
+===================
+CALL PollingZone.room_changeVisibility(userID, SessionKey, roomID, roomVisiblity)
+userID - user's unique user ID string
+sessionKey - user's session key string
+roomID - room's full ID
+roomVisibility - new boolean value (1 / 0)
+
+
+===================
+User Get Room Responses
+===================
+CALL PollingZone.user_getResponses(userID, sessionID, roomID)
+
+
+===================
+Session Update,Delete,Create
+===================
+DATABASE USE ONLY
