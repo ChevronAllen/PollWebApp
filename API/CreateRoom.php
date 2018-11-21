@@ -36,13 +36,13 @@
     $expirationTime = date("Ymdisv", $timeinSeconds);
 
 	  $call = 'CALL PollingZone.room_create(
-			     "' . $userID . '",
+			   "' . $userID . '",
   			   "' . $sessionKey . '",
   			   "' . $roomTitle . '",
   			   "' . $roomPublic . '",
   			   "' . $startTime . '",
-  			   "' . $expirationTime . '
-					      @err)';
+  			   "' . $expirationTime . '"
+                );';
 
    $result = $connection->query($call);
 
@@ -63,12 +63,12 @@
    if ($userID == "") // Anon User
    {
       $call = 'CALL PollingZone.room_addQuestion(
-    			 "' . $userID . '",
-      		 "' . $sessionKey . '",
-      		 "' . $roomID . '",
+    	   "' . $userID . '",
+      	   "' . $sessionKey . '",
+      	   "' . $roomID . '",
            "' . $correctResponse . '",
-      		 "' . $question[0]["pollName"] . '",
-  			   "' . $question[0]["Choice_1"] . '",
+      	   "' . $question[0]["pollName"] . '",
+  	   "' . $question[0]["Choice_1"] . '",
            "' . $question[0]["Choice_2"] . '",
            "' . $question[0]["Choice_3"] . '",
            "' . $question[0]["Choice_4"] . '",
@@ -83,8 +83,8 @@
            "' . $question[0]["Choice_13"] . '",
            "' . $question[0]["Choice_14"] . '",
            "' . $question[0]["Choice_15"] . '",
-           "' . $question[0]["Choice_16"] . '",
-					      @err)';
+           "' . $question[0]["Choice_16"] . '"
+                );';
       $result = $connection->query($call);
 
       if ($result->num_rows == 0)
@@ -117,8 +117,8 @@
           "' . $question[$i]["Choice_13"] . '",
           "' . $question[$i]["Choice_14"] . '",
           "' . $question[$i]["Choice_15"] . '",
-          "' . $question[$i]["Choice_16"] . '",
-               @err)';
+          "' . $question[$i]["Choice_16"] . '"
+               );';
 
          $result = $connection->query($call);
 
