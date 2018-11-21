@@ -4,7 +4,7 @@ require("config.php");
 $connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
 or die('connection to server failed');
 //	Get JSON input
-$inData = json_decode(file_get_contents('php://input'), true);;
+$inData = json_decode(file_get_contents('php://input'), true);
 if($connection->connect_error)
 {
 	returnWithError("Error Connecting to the Server");
