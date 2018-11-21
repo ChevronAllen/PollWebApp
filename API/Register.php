@@ -32,15 +32,13 @@ if($connection->connect_error)
 				"'.$optionalName.'",
 				"'.$userEmail.'",
 				"'.$hashedPass.'",
-				"'.$salt.'",
-				@error
-      );';
+				"'.$salt.'"
+					);';
 	//	Capture results
 	$result = $connection->query($call);
-
 	if ($result->num_rows == 0)
 	{
-    	   returnWithError('Ivalid query string');
+    	   returnWithError('Invalid query string');
 	}
   else
 	{
@@ -51,7 +49,6 @@ if($connection->connect_error)
 }
 // Close the connection
 $connection->close();
-
 function createJSONString($error_)
 {
   $ret = '
