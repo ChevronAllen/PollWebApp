@@ -86,7 +86,6 @@ public class SignInActivity extends AppCompatActivity  {
                     }
                 });
                 task.execute(AppConsts.PHP_location + "/Login.php");
-
                 finish();
             }
         });

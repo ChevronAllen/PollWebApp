@@ -3,6 +3,7 @@ package com.example.said.pollingzone;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +21,9 @@ public class pollCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(AppConsts.TAG, "Anon Pollcode Activity");
+
         User.appStartUp();
-        setContentView(R.layout.activity_poll_code);
 
         configureToCreateActivity();
         configureToPollActivity();
@@ -38,12 +40,12 @@ public class pollCode extends AppCompatActivity {
                 startActivity(new Intent(pollCode.this, createAccountActivity.class));
             }
         });
-
-
     }
 
     private void configureToPollActivity()
     {
+        setContentView(R.layout.activity_poll_code);
+
         Button goToPoll = findViewById(R.id.goToPoll);
         EditText pollingCode = findViewById(R.id.editPollCode);
 
@@ -85,7 +87,8 @@ public class pollCode extends AppCompatActivity {
                         } catch (JSONException e) {}
                     }
                 });
-                task.execute(AppConsts.PHP_location + "/Login.php");
+                task.execute(AppConsts.PHP_location + "/GetPoll.php");
+                finish();
             }
         });
     }
