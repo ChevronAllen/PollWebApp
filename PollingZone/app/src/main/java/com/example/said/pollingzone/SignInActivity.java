@@ -22,6 +22,7 @@ public class SignInActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Log.d(AppConsts.TAG, "Login Activity");
 
         configureBackToPollCode();
     }
@@ -61,11 +62,6 @@ public class SignInActivity extends AppCompatActivity  {
                     return;
                 }
 
-
-                //This is where we would create the JSONS and send it to the API
-
-                Log.d(AppConsts.TAG, "Login Activity");
-
                 Map<String, String> postData = new HashMap<>();
                 postData.put("userEmail", email.getText().toString());
                 postData.put("password", AppConsts.getSHA(password.getText().toString()));
@@ -90,7 +86,6 @@ public class SignInActivity extends AppCompatActivity  {
                     }
                 });
                 task.execute(AppConsts.PHP_location + "/Login.php");
-
 
                 finish();
             }

@@ -3,15 +3,25 @@ package com.example.said.pollingzone;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class createAccountActivity extends AppCompatActivity implements AsyncResponse {
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class createAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(AppConsts.TAG, "Register Activity");
+
         setContentView(R.layout.activity_create_account);
 
         configureBackToPollCode();
@@ -61,13 +71,30 @@ public class createAccountActivity extends AppCompatActivity implements AsyncRes
                     return;
                 }
 
-                //This is where we would create the JSONS and send it to the API
-                //String firstName, String lastName, String optionalName,
-                //                               String userEmail, String password
-                new API().register(firstName.getText().toString(), lastName.getText().toString(),
-                        "dunno_what_this_is", email.getText().toString(), password.getText().toString());
+                Map<String, String> postData = new HashMap<>();
+                postData.put("firstName", firstName.getText().toString());
+                postData.put("lastName", lastName.getText().toString());
+                postData.put("optionalName", "we need this");
+                postData.put("userEmail", email.getText().toString());
+                postData.put("password", AppConsts.getSHA(password.getText().toString()));
+                HttpPostAsyncTask task = new HttpPostAsyncTask(postData, new AsyncResponse() {
+                    public void processFinish(String output) {
+                        try  {
+                            JSONObject data = (JSONObject) new JSONTokener(output).nextValue();
+                            String error = data.getString("error");
+                            if(error.equals("")) {
+                                startActivity(new Intent(createAccountActivity.this, SignInActivity.class));
+                            } else {
+                                // TODO: this means there is an error logging in, likely same email
+                            }
+                        } catch (JSONException e) {}
+                    }
+                });
+                task.execute(AppConsts.PHP_location + "/Login.php");
 
-                startActivity(new Intent(createAccountActivity.this, SignInActivity.class));
+
+
+
                 finish();
             }
         });
@@ -88,8 +115,4 @@ public class createAccountActivity extends AppCompatActivity implements AsyncRes
         return false;
     }
 
-    @Override
-    public void processFinish(String output) {
-
-    }
 }
