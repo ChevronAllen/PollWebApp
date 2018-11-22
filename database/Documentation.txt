@@ -23,38 +23,33 @@ On success this is populated with the new user's id
 ===================
 Login
 =================== 
-CALL PollingZone.user_login( email, password, session, error)
+CALL PollingZone.user_login( email, password)
 email - user email to attempt login under
 password - client-side hashed but not salted password to match
-session - OUT - returns users session on a successful login
-error - OUT - returns 1 if there are parameter errors
 
 Returns a table of userID, user_firstName, user_lastName, user_optionalName, date_created, session. 
-On a failure doesnt return a table
+
 
 ===================
 Logout
 =================== 
-CALL PollingZone.user_login( userID, sessionKey, error)
+CALL PollingZone.user_login( userID, sessionKey)
 userID - user's unique user ID string
 sessionKey - user's session key string
-error - OUT - returns 1 if there are parameter errors
 
-
-
-
+Returns userID
 
 ===================
 Room Creation
 ===================
-CALL PollingZone.room_create( userID, sessionKey, roomTitle, roomPublic, expirationDateTime, error)
+CALL PollingZone.room_create( userID, sessionKey, roomTitle, roomPublic, expirationDateTime)
 userID - user's unique user ID string
 sessionKey - user's session key string
 roomTitle - user input, Title of the Room
 roomPublic - user input, Boolean, true = anonymouse users can respond. false = only registered users may respond
 startDateTime - exact Date-Time the room is active as a string in the format YYYYMMDDHHMMSS
 expirationDateTime - exact Date-Time of expiration as a string in the format YYYYMMDDHHMMSS
-error - OUT - returns 1 if there are parameter errors
+
 
 Returns 2 coloumn table RoomID and RoomCode, with roomCode being the 6 character string
 
@@ -71,7 +66,7 @@ Returns roomID
 	===================
 	Room Add Question
 	===================
-	CALL PollingZone.room_addQuestion( userID, SessionKey, roomID, correctChoice, isLocked, questionText, questionChoice1,..., questionChoice16, error)
+	CALL PollingZone.room_addQuestion( userID, SessionKey, roomID, correctChoice, isLocked, questionText, questionChoice1,..., questionChoice16)
 	userID - user's unique user ID string
 	sessionKey - user's session key string
 	roomID - room's full ID
@@ -79,7 +74,6 @@ Returns roomID
 	isLocked - is question accessible boolean 1 / 0
 	questionText - The user input question
 	questionChoiceN - the Nth multiple choice response to the quesiton (1 to 16)
-	error - OUT - returns 1 if there are parameter errors
 	
 	Questions are added one-by-one since Registered users dont have a limit on the number of questions in thier rooms.
 
@@ -108,12 +102,11 @@ Returns roomID
 ===================
 Room Get Question
 ===================
-CALL PollingZone.room_getQuestion( userID, sessionKey, roomID, questionID, OUT error)
+CALL PollingZone.room_getQuestion( userID, sessionKey, roomID, questionID)
 userID - user's unique user ID string
 sessionKey - user's session key string
 roomID - room's full ID
 questionID - questions id in the form roomId + question number
-error - OUT - returns 1 if there are parameter errors
 
 Returns Question, questionID, roomID, userID, correctResponse, questionText, choice1, choice2, ... ,choice16
 
@@ -142,11 +135,10 @@ choice - the users answer to this question (1-16)
 ===================
 Find Room by Code
 ===================
-CALL PollingZone.room_getByCode( userID, SessionKey, roomCode, roomID, error)
+CALL PollingZone.room_getByCode( userID, SessionKey, roomCode, roomID)
 userID - user's unique user ID string
 sessionKey - user's session key string
 roomCode - 6 Character Room Code to search for
-error - OUT - returns 1 if there are parameter errors
 
 Returns the questions of the Poll if you have access to it
 questionID, roomID, userID, correctResponse, questionText, choice1, choice2, ... ,choice16
