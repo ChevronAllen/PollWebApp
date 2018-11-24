@@ -109,7 +109,7 @@ Room Answered Modal POST
 Room Answered Modal GET
 =========================
 {
-  
+
 }
 
 Question Edit POST
@@ -123,6 +123,22 @@ Question Edit POST
 }
 
 Question Edit GET
+=========================
+{
+  error: ""
+}
+
+Answer Question POST
+=========================
+{
+  id: 0,
+  sessionID: "",
+  roomID: "",
+  questionID: "",
+  answerSelected: "",
+}
+
+Answer Question GET
 =========================
 {
   error: ""
