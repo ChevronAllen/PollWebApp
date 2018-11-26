@@ -11,7 +11,6 @@
   $roomPublic = "";
   $startTime = "";
   $expirationTime = "";
-  $correctResponse = -1;
   $questions = array();
 
   if($connection->connect_error)
@@ -25,8 +24,7 @@
     $roomTitle          = mysqli_real_escape_string($connection, $inData["roomTitle"]);
     $roomPublic         = mysqli_real_escape_string($connection, $inData["roomPublic"]);
 	  $startTime			    = mysqli_real_escape_string($connection, $inData["startTime"]);
-    $expirationDateTime = mysqli_real_escape_string($connection, $inData["userID"]);
-    $correctResponse    = mysqli_real_escape_string($connection, $inData["correctResponse"]);
+    $expirationDateTime = mysqli_real_escape_string($connection, $inData["expirationTime"]);
 	  $question 			    = mysqli_real_escape_string($connection, $inData["questions"]);
 
     $timeinSeconds = $startTime / 1000;
@@ -36,7 +34,7 @@
     $expirationTime = date("Ymdisv", $timeinSeconds);
 
 	  $call = 'CALL PollingZone.room_create(
-			   "' . $userID . '",
+			     "' . $userID . '",
   			   "' . $sessionKey . '",
   			   "' . $roomTitle . '",
   			   "' . $roomPublic . '",
@@ -63,12 +61,12 @@
    if ($userID == "") // Anon User
    {
       $call = 'CALL PollingZone.room_addQuestion(
-    	   "' . $userID . '",
-      	   "' . $sessionKey . '",
-      	   "' . $roomID . '",
-           "' . $correctResponse . '",
-      	   "' . $question[0]["pollName"] . '",
-  	   "' . $question[0]["Choice_1"] . '",
+    			 "' . $userID . '",
+      		 "' . $sessionKey . '",
+      		 "' . $roomID . '",
+           "' . $question[0]["correctResponse"] . '",
+      		 "' . $question[0]["questionText"] . '",
+  			   "' . $question[0]["Choice_1"] . '",
            "' . $question[0]["Choice_2"] . '",
            "' . $question[0]["Choice_3"] . '",
            "' . $question[0]["Choice_4"] . '",
@@ -100,8 +98,8 @@
           "' . $userID . '",
           "' . $sessionKey . '",
           "' . $roomID . '",
-          "' . $correctResponse . '",
-          "' . $question[$i]["pollName"] . '",
+          "' . $question[$i]["correctResponse"] . '",
+          "' . $question[$i]["questionText"] . '",
           "' . $question[$i]["Choice_1"] . '",
           "' . $question[$i]["Choice_2"] . '",
           "' . $question[$i]["Choice_3"] . '",
@@ -130,11 +128,6 @@
   	}
 
     returnWithInfo($roomID, $roomCode, "");
-
-    /*
-    $err = $row["error"];
-  	returnWithError($err);
-    */
   }
 
   $connection->close();
