@@ -85,7 +85,7 @@ Admin GET
 Room Created Modal POST
 =========================
 {
-  id: 0,
+  id: "",
   sessionID: "",
   roomID: "",
   roomCode: "",
