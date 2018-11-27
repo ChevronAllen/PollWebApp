@@ -1,5 +1,5 @@
 <?php
-require("SQL_Credentials.php");
+require("config.php");
 
 class Question {
     function __construct() {
@@ -26,8 +26,8 @@ class Question {
 }
 
 //	connection using the sql credentials
-$$connection = new mysqli($serverURL, $serverLogin, $serverAuth, $serverDB);
-
+$connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
+or die('connection to server failed');
 //	Get JSON input
 $inData = json_decode(file_get_contents('php://input'), true);;
 
@@ -37,7 +37,7 @@ if($connection->connect_error)
 }
 else
 {
-  $id = 0;
+  $id = "";
   $roomCode 	= "";
   $sessionID  = "";
 
@@ -47,15 +47,13 @@ else
   $roomCode 	= mysqli_real_escape_string($connection, $inData["roomCode"]);
 
 	//	Call stored procedure that will insert a new user
-	$call = $connection->prepare(
-    	'PollingZone.room_getByCode( :usrID, :usrSession , :usrRoom, @error);'
-    );
-	$call->bindParam(':usrID', $id);
-	$call->bindParam(':usrSession', $sessionID);
-  $call->bindParam(':usrRoom', $roomCode);
-  $call->execute();
-
-	$result = $call->get_result();
+	$call =
+    	'CALL PollingZone.room_getByCode( "'
+      . $id . '","'
+      . $sessionID . '","'
+      . $roomCode . '"
+    );';
+	$result = $connection->query($call);
 
 	if ($result->num_rows == 0)
 	{
@@ -66,7 +64,7 @@ else
 
     while($row = $result->fetch_assoc())
     {
-      $jsonObject = new Contact();
+      $jsonObject = new Question();
       $jsonObject->questionID = $row["questionID"];
       $jsonObject->roomID = $row["roomID"];
       $jsonObject->questionText = $row["questionText"];
