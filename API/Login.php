@@ -56,7 +56,7 @@ function createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCr
 {
   $ret = '
         {
-          "id" : '. $id_ .' ,
+          "id" : "'. $id_ .'" ,
           "firstName" : "' . $firstName_ . '",
           "lastName" : "' . $lastName_ . '",
 	  "optionalName" : "' . $optionalName_ . '",
