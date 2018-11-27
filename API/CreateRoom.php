@@ -86,7 +86,7 @@
     // TESTING DONT LEVE HERE
     echo $startTime;
     // TESTING DONT LEVE HERE
-    
+
 	  $call = 'CALL PollingZone.room_create(
 			     "' . $userID . '",
   			   "' . $sessionKey . '",
@@ -96,7 +96,11 @@
   			   "' . $expirationTime . '"
                 );';
    $result = $connection->query($call);
-   if ($result == NULL || $result->num_rows == 0)
+   if ($result == NULL)
+    {
+      returnWithError("Invalid User Credentials");
+    }
+    else if( $result->num_rows == 0)
     {
       returnWithError("Room creation failed");
     }
