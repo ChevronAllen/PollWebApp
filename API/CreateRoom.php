@@ -52,12 +52,12 @@
    if ($userID == "") // Anon User
    {
       $call = 'CALL PollingZone.room_addQuestion(
-    				 "' . $userID . '",
+    			 "' . $userID . '",
 				 "' . $sessionKey . '",
 				 "' . $roomID . '",
 				 "' . $question[1]["correctResponse"] . '",
 				 "' . $question[1]["questionText"] . '",
-  			     	 "' . $question[1]["choice1"] . '",
+  			     "' . $question[1]["choice1"] . '",
 				 "' . $question[1]["choice2"] . '",
 				 "' . $question[1]["choice3"] . '",
 				 "' . $question[1]["choice4"] . '",
@@ -113,13 +113,22 @@
        		  returnWithError("Failed to add questions");
        	 }
       }
-  	}
-    returnWithInfo($roomID, $roomCode, "");
   }
+    returnWithInfo($roomID, $roomCode, "");
+ }
   $connection->close();
+    function createJSONString($roomID_, $roomCode_, $error_)
+	{
+		$ret = '
+        {
+          "roomID" : "'. $roomID_ .'" ,
+          "roomCode" : "' . $roomCode_ . '",
+          "error" : "' . $error_ . '"
+        }';
+	}
   function returnWithError( $err )
   {
-    $retValue = createJSONString(0,"","",$err);
+    $retValue = createJSONString("","",$err);
     sendResultInfoAsJson( $retValue );
   }
   function returnWithInfo($roomID, $roomCode, $err)
