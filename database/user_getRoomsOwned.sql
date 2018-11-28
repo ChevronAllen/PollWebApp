@@ -10,7 +10,8 @@ BEGIN
 		
         SELECT * 
         FROM Rooms
-        WHERE ownerID = uID;
+        WHERE ownerID = uID
+        ORDER BY dateCreated DESC;
         
     END IF;
 END

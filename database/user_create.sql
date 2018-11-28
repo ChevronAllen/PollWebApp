@@ -4,8 +4,8 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `user_create`(
     IN uOptional VARCHAR(255),
     IN uEmail VARCHAR(255), 
     IN uPassword VARCHAR(255), 
-    IN uSalt VARCHAR(255), 
-    OUT err INT)
+    IN uSalt VARCHAR(255)
+)
 BEGIN
     IF NOT (
 		(firstName = '' OR firstName IS NULL) OR
@@ -26,10 +26,9 @@ BEGIN
 		);
         
         SELECT userID FROM Users WHERE userID = MD5(uEmail);
-        SET err = 0;
+        
 	ELSE
 		SELECT userID FROM Users WHERE 1=0;
-        SET err = 1;
         
     END IF;
     
