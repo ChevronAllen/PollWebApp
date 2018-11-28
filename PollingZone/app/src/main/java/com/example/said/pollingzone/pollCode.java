@@ -62,7 +62,6 @@ public class pollCode extends AppCompatActivity {
                     return;
                 }
 
-
                 Map<String, String> postData = new HashMap<>();
                 User u = User.Instance();
                 if(u != null) {
