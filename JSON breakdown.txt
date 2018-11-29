@@ -28,7 +28,7 @@ Login POST
 Login GET
 =========================
 {
-  id: 0,                        //  The user's ID, error if  = 0
+  id: "",                        //  The user's ID, error if  = 0
   firstName: "",                //  The firstName found
   lastName: "",                 //  The lastName found
   optionalName: "",
