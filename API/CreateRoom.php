@@ -5,6 +5,7 @@
       function __construct() {
   		$this->correctResponse = "";
   		$this->questionText = "";
+      $this->isLocked = 0;
   		$this->choice1 = "";
       $this->choice2 = "";
       $this->choice3 = "";
@@ -59,6 +60,7 @@
 
       $roomQuestion->correctResponse = mysqli_real_escape_string($connection, $question["correctResponse"]);
       $roomQuestion->questionText = mysqli_real_escape_string($connection, $question["questionText"]);
+      $roomQuestion->isLocked = mysqli_real_escape_string($connection, $question["isLocked"]);
   		$roomQuestion->choice1 = mysqli_real_escape_string($connection, $question["choice1"]);
       $roomQuestion->choice2 = mysqli_real_escape_string($connection, $question["choice2"]);
       $roomQuestion->choice3 = mysqli_real_escape_string($connection, $question["choice3"]);
@@ -108,7 +110,8 @@
       $row = $result->fetch_assoc();
       $roomID = $row["roomID"];
       $roomCode = $row["roomCode"];
-      mysqli_free_result($result);
+      $result->free();
+      $connection->next_result();
     }
 
    if ($userID == "") // Anon User
@@ -117,8 +120,9 @@
     			 "' . $userID . '",
 				 "' . $sessionKey . '",
 				 "' . $roomID . '",
+         "' . $roomQuestions[0]->questionText . '",
 				 "' . $roomQuestions[0]->correctResponse . '",
-				 "' . $roomQuestions[0]->questionText . '",
+         "' . $roomQuestions[0]->isLocked . '",
          "' . $roomQuestions[0]->choice1 . '",
 				 "' . $roomQuestions[0]->choice2 . '",
 				 "' . $roomQuestions[0]->choice3 . '",
@@ -139,7 +143,7 @@
       $result = $connection->query($call);
       if ($result == NULL)
     	{
-    		returnWithError("Failed to add question for anonymouse result was null. ". array_values($row));
+    		returnWithError("Failed to add question for anonymouse result was null. "  . $connection->error);
         exit();
       }
       elseif($result->num_rows == 0)
@@ -157,6 +161,7 @@
           "' . $sessionKey . '",
           "' . $roomID . '",
           "' . $roomQuestions[$i]->correctResponse . '",
+          "' . $roomQuestions[$i]->isLocked . '",
           "' . $roomQuestions[$i]->questionText . '",
           "' . $roomQuestions[$i]->choice1 . '",
  				 "' . $roomQuestions[$i]->choice2 . '",
@@ -176,6 +181,8 @@
  				 "' . $roomQuestions[$i]->choice16 . '"
                );';
          $result = $connection->query($call);
+         $result->free();
+         $connection->next_result();
          if ($result == NULL)
        	{
        		returnWithError("Failed to add question for user result was null");
