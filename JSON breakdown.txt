@@ -38,33 +38,128 @@ Login GET
 }
 
 
-GetPoll POST
+GetRoomByCode POST
 =========================
 {
+  userID: "",               // optional user identification
+  sessionID: "",            // verification of user
   pollCode: ""              // distributed code for access to poll
 }
 
 
-GetPoll GET
+GetRoomByCode GET
 =========================
 {
-  pollID: 0,                // used when requesting info about poll
-  pollName: "",             // display info
-  pollCode: "",             // code for others to access the poll
-  dateCreated: "",          // creation date for sorting
-  dateExpire: "",           // expiration date for display
-  questionText:"",          // text of the question for display
-  responses :               // array with the responses and their text
+  questions :
   [
     {
-      responseText: "",     // Text of the response
-      responseId: 0         // id to send back when chosen
+      questionID: "",
+      roomID: "",
+      questionText: "",
+      choice1: "",
+      ... ,
+      choice16: ""
+    },
+    {
+
+    }
+  ],
+  error: ""
+}
+
+CreateRoom POST
+=========================
+{
+  userID: "",               // optional user identification
+  sessionID: "",            // verification of user
+  roomTitle: ""             // user input, Title of the Room
+  roomPublic: ,             // 0 or 1 input indicating if room is answerable without identification
+  startTime: "",            // start time in milliseconds
+  expirationTime: ""        // end time in milliseconds
+  questions :
+  [
+    {
+      isLocked: ,           // is question accessible Boolean 1 / 0
+      correctResponse: ,    // 0-16 single integer input of correct response, 0 indicates none
+      questionText: "",     // text body
+      choice1: "",          // choices text, empty if no choice
+      ... ,
+      choice16: ""
     },
     {
 
     }
   ]
 }
+
+CreateRoom GET
+=========================
+{
+  roomID : "",      // created room ID
+  roomCode : "",    // access code to distribute
+  error : ""        // will be empty unless there was an error
+}
+
+DeleteRoom POST
+=========================
+{
+  userID: "",               // user identification
+  sessionID: "",            // verification of user
+  roomID : "",              // room ID
+}
+
+DeleteRoom GET
+=========================
+{
+  error : ""        // will be empty unless there was an error
+}
+
+AnswerQuestion POST
+=========================
+{
+  userID: "",               // user identification
+  sessionID: "",            // verification of user
+  roomID: "",              // room ID
+  questionID: "",           // questions id in the form roomId + question number
+  choice: ,                // 1-16 single integer indicating choice
+}
+
+AnswerQuestion GET
+=========================
+{
+  correctResponse: "",      // 0-16 indicating correct response, 0 if none
+  error : ""                // will be empty unless there was an error
+}
+
+EditQuestion POST
+=========================
+{
+  editOption: ,             // 0-3;
+                            // 0 indicating you are only deleting a question
+                            // 1 indicating you are only adding a question
+                            // 2 indicating you are editing(delete then add new) a question
+                            // 3 indicating you are only locking or unlocking question
+  userID: "",               // user identification
+  sessionID: "",            // verification of user
+  roomID: "",               // room ID
+  questionID: "",           // questions id in the form roomId + question number
+  isLocked: ,               // is question accessible Boolean 1 / 0
+  correctResponse: ,        // 0-16 single integer input of correct response, 0 indicates none
+  questionText: "",         // text body
+  choice1: "",              // choices text, empty if no choice
+  ... ,
+  choice16: ""
+}
+
+EditQuestion GET
+=========================
+{
+  error : ""                // will be empty unless there was an error
+}
+
+// past this point needs major revision
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// past this point needs major revision
 
 Admin POST
 =========================
