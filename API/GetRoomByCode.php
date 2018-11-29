@@ -6,22 +6,8 @@ class Question {
 		$this->questionID = "";
 		$this->roomID = "";
 		$this->questionText = "";
-		$this->choice1 = "";
-    $this->choice2 = "";
-    $this->choice3 = "";
-    $this->choice4 = "";
-    $this->choice5 = "";
-    $this->choice6 = "";
-    $this->choice7 = "";
-    $this->choice8 = "";
-    $this->choice9 = "";
-    $this->choice10 = "";
-    $this->choice11 = "";
-    $this->choice12 = "";
-    $this->choice13 = "";
-    $this->choice14 = "";
-    $this->choice15 = "";
-    $this->choice16 = "";
+    $this->choiceCount = 0;
+		$this->choices;
     }
 }
 
@@ -55,7 +41,9 @@ else
     );';
 	$result = $connection->query($call);
 
-	if ($result->num_rows == 0)
+  if($result == null){
+    returnWithError("Invalid User Authentication");
+  }else if ($result->num_rows == 0)
 	{
 		returnWithError("No results from stored procedure");
 	}else
@@ -68,22 +56,25 @@ else
       $jsonObject->questionID = $row["questionID"];
       $jsonObject->roomID = $row["roomID"];
       $jsonObject->questionText = $row["questionText"];
-      $jsonObject->choice1 = $row["choice1"];
-      $jsonObject->choice2 = $row["choice2"];
-      $jsonObject->choice3 = $row["choice3"];
-      $jsonObject->choice4 = $row["choice4"];
-      $jsonObject->choice5 = $row["choice5"];
-      $jsonObject->choice6 = $row["choice6"];
-      $jsonObject->choice7 = $row["choice7"];
-      $jsonObject->choice8 = $row["choice8"];
-      $jsonObject->choice9 = $row["choice9"];
-      $jsonObject->choice10 = $row["choice10"];
-      $jsonObject->choice11 = $row["choice11"];
-      $jsonObject->choice12 = $row["choice12"];
-      $jsonObject->choice13 = $row["choice13"];
-      $jsonObject->choice14 = $row["choice14"];
-      $jsonObject->choice15 = $row["choice15"];
-      $jsonObject->choice16 = $row["choice16"];
+
+      $jsonObject->choices = array();
+      $jsonObject->choices[] = $row["choice1"];
+      $jsonObject->choices[] = $row["choice2"];
+      $jsonObject->choices[] = $row["choice3"];
+      $jsonObject->choices[] = $row["choice4"];
+      $jsonObject->choices[] = $row["choice5"];
+      $jsonObject->choices[] = $row["choice6"];
+      $jsonObject->choices[] = $row["choice7"];
+      $jsonObject->choices[] = $row["choice8"];
+      $jsonObject->choices[] = $row["choice9"];
+      $jsonObject->choices[] = $row["choice10"];
+      $jsonObject->choices[] = $row["choice11"];
+      $jsonObject->choices[] = $row["choice12"];
+      $jsonObject->choices[] = $row["choice13"];
+      $jsonObject->choices[] = $row["choice14"];
+      $jsonObject->choices[] = $row["choice15"];
+      $jsonObject->choices[] = $row["choice16"];
+      $jsonObject->choiceCount = count($jsonObject->choices);
       $questionArray[] = $jsonObject;
     }
 
