@@ -8,6 +8,13 @@ window.onclick = function (event) {
     }
 }
 
+
+function logout()
+{
+    localStorage.clear();
+    location.reload(true);
+}
+
 function hideOrShow(elementId, showState) {
     var visible = "visible";
     var display = "block";
@@ -72,7 +79,7 @@ function doLogin() {
 
     var jsonPayload = JSON.stringify(userLog);
     //get register PHP page name
-    var url = "API/Login.php";
+    var url = "/API/Login.php";
     var xhr = new XMLHttpRequest();
 
     xhr.open("POST", url, true);    //true associates with asyncrous
@@ -84,18 +91,26 @@ function doLogin() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
-                var jsonObject = JSON.parse(xhr.responseText);
 
-                    
-                userID = jsonObject.id;
-                firstName = jsonObject.firstName;
-                lastName = jsonObject.lastName;
-                orgID = jsonObject.optionalName;
-                dateCreated = jsonObject.dateCreated;
-                sessionID = jsonObject.sessionID;
+
+                var jsonObject = JSON.parse(xhr.responseText);
                 error = jsonObject.error;
 
-                //if error return;
+                if(error == ""){
+                    localStorage.userID = jsonObject.id;
+                    localStorage.firstName = jsonObject.firstName;
+                    localStorage.lastName = jsonObject.lastName;
+                    localStorage.orgID = jsonObject.optionalName;
+                    localStorage.dateCreated = jsonObject.dateCreated;
+                    localStorage.sessionID = jsonObject.sessionID;
+                    error = jsonObject.error;
+                    location.reload(true);
+                }
+
+                else{
+                    window.alert("Invalid username/password")
+                    return
+                }
 
             }
             else {
@@ -149,7 +164,7 @@ function doRegister() {
 
     var jsonPayload = JSON.stringify(userEntry);
     //get register PHP page name
-    var url = "API/Register.php";
+    var url = "/API/Register.php";
     var xhr = new XMLHttpRequest();
 
     xhr.open("POST", url, true);    //true associates with asyncrous

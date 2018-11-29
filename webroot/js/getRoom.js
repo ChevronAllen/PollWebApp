@@ -3,7 +3,7 @@ var questionCount = 1;
 var previous = 1;
 var active = 1;
 
-function addAnswer(number)
+function createAnswer(number, answerText)
 {
     if (count[number] <= 7)
     {
@@ -23,12 +23,10 @@ function addAnswer(number)
 
         var blankOption = document.getElementById("blankOption" + number);
         document.getElementById("correctAnswerDropdown" + number).insertBefore(answerChar, blankOption);
-
-
     }
 }
 
-function addQuestion()
+function createQuestion(questionText)
 {
     if (questionCount <= 100)
     {
