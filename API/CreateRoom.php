@@ -41,6 +41,7 @@
   if($connection->connect_error)
   {
   	returnWithError("Error Connecting to the Server");
+    exit();
   }
   else
   {
@@ -83,10 +84,6 @@
     $timeinSeconds = $expirationTime / 1000;
     $expirationTime = date("Ymdhis", $timeinSeconds);
 
-    // TESTING DONT LEVE HERE
-    echo $startTime;
-    // TESTING DONT LEVE HERE
-
 	  $call = 'CALL PollingZone.room_create(
 			     "' . $userID . '",
   			   "' . $sessionKey . '",
@@ -99,10 +96,12 @@
    if ($result == NULL)
     {
       returnWithError("Invalid User Credentials");
+      exit();
     }
     else if( $result->num_rows == 0)
     {
       returnWithError("Room creation failed");
+      exit();
     }
     else
     {
@@ -138,14 +137,20 @@
 				 "' . $roomQuestions[0]->choice16 . '"
                  );';
       $result = $connection->query($call);
-      if ($result == NULL || $result->num_rows == 0)
+      if ($result == NULL)
     	{
-    		returnWithError("Failed to add questions");
-    	}
+    		returnWithError("Failed to add question for anonymouse result was null. ". array_values($row));
+        exit();
+      }
+      elseif($result->num_rows == 0)
+      {
+        returnWithError("Failed to add question for anonymouse result had no rows");
+        exit();
+      }
 	  }
   	else // User Logged in
   	{
-      for($i = 0; $i <= count($question); $i++)
+      for($i = 0; $i <= count($roomQuestions); $i++)
       {
         $call = 'CALL PollingZone.room_addQuestion(
           "' . $userID . '",
@@ -171,10 +176,16 @@
  				 "' . $roomQuestions[$i]->choice16 . '"
                );';
          $result = $connection->query($call);
-         if ($result == NULL || $result->num_rows == 0)
-       	 {
-       		  returnWithError("Failed to add questions");
-       	 }
+         if ($result == NULL)
+       	{
+       		returnWithError("Failed to add question for user result was null");
+           exit();
+         }
+         elseif($result->num_rows == 0)
+         {
+           returnWithError("Failed to add question for user result had no rows");
+           exit();
+         }
       }
   }
     returnWithInfo($roomID, $roomCode, "");

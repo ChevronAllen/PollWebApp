@@ -127,7 +127,6 @@ AnswerQuestion POST
 AnswerQuestion GET
 =========================
 {
-  correctResponse: "",      // 0-16 indicating correct response, 0 if none
   error : ""                // will be empty unless there was an error
 }
 
