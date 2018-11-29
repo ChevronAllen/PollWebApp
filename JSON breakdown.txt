@@ -56,12 +56,13 @@ GetRoomByCode GET
       questionID: "",
       roomID: "",
       questionText: "",
+      choiceCount: "",
       choices: [        // array of strings representing possible answers
                 "",
                 "",
                 "",
                 ...
-                ""      
+                ""
       ]
     },
     {

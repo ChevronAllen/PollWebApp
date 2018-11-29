@@ -7,7 +7,7 @@ class Question {
 		$this->roomID = "";
 		$this->questionText = "";
     $this->choiceCount = 0;
-		$this->choices;
+		$this->choices = array();
     }
 }
 
@@ -56,8 +56,6 @@ else
       $jsonObject->questionID = $row["questionID"];
       $jsonObject->roomID = $row["roomID"];
       $jsonObject->questionText = $row["questionText"];
-
-      $jsonObject->choices = array();
       $jsonObject->choices[] = $row["choice1"];
       $jsonObject->choices[] = $row["choice2"];
       $jsonObject->choices[] = $row["choice3"];
@@ -74,7 +72,7 @@ else
       $jsonObject->choices[] = $row["choice14"];
       $jsonObject->choices[] = $row["choice15"];
       $jsonObject->choices[] = $row["choice16"];
-      $jsonObject->choiceCount = count($jsonObject->choices);
+      $jsonObject->choiceCount = countChoices($jsonObject->choices);
       $questionArray[] = $jsonObject;
     }
 
@@ -114,5 +112,17 @@ function returnWithInfo($questions_)
   sendResultInfoAsJson( $retValue );
 }
 
+function countChoices($list)
+{
+  $counter = 0;
+  foreach ($list as $x) {
+    if($x == NULL || $x == "" )
+    {
+      break;
+    }
+    $counter++;
+  }
+  return $counter;
+}
 
 ?>
