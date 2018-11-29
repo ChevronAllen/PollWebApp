@@ -145,7 +145,7 @@
 	  }
   	else // User Logged in
   	{
-      for($i = 1; $i <= count($question); $i++)
+      for($i = 0; $i <= count($question); $i++)
       {
         $call = 'CALL PollingZone.room_addQuestion(
           "' . $userID . '",
