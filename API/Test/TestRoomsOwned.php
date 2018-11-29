@@ -1,72 +1,54 @@
 <?php
-  require("config.php");
-  //	connection using the sql credentials
-  $connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
-  or die('connection to server failed');
-  //	Get JSON input
-  $inData = json_decode(file_get_contents('php://input'), true);
-  $userID = "";
-  $sessionKey = "";
 
-  if($connection->connect_error)
-  {
-  	returnWithError("Error Connecting to the Server");
-  }
-  else
-  {
-    $userID             = mysqli_real_escape_string($connection, $inData["userID"]);
-    $sessionKey         = mysqli_real_escape_string($connection, $inData["sessionKey"]);
-
-    $call = 'CALL PollingZone.user_getRoomsOwned(
-			     "' . $userID . '",
-  			   "' . $sessionKey . '"
-                );';
-
-    $result = $connection->query($call);
-
-    if ($result == NULL || $result->num_rows == 0)
-  	{
-  		if($result == NULL)
-  		{
-  			returnWithError("User authentication error. Please login");
-  		}
-  		returnWithError("Parameter error/No results from query");
-  	}
-    else
-    {
-      $rooms = array();
-      while($row = $result->fetch_assoc())
-      {
-        $rooms[] = $row["room"];
+    class Room 
+	{
+      function __construct() 
+	  {
+		$this->roomID = "001e01e483e829340585fb2bff9fa651";
+		$this->roomCode = "ABCDEF";
       }
-      returnWithInfo($rooms, "");
-    }
+	}
+  
+  $rooms = array();
+  
+  for($i = 0; $i < 5; $i++)
+  {
+	$rooms[] = new Room();
+  }
+  
+  returnWithInfo($rooms);
+
+  function returnWithInfo($question_)
+  {
+	  $retValue = createJSONString($question_, "");
+	  sendResultInfoAsJson( $retValue );
   }
 
-  $connection->close();
+  function returnWithInfo($rooms_)
+  {
+	  $retValue = createJSONString($rooms_, "");
+	  sendResultInfoAsJson( $retValue );
+  }
 
-  function createJSONString( $rooms_, $error_)
+  function createJSONString($rooms_, $error_)
   {
-    $ret = '
-          {
-            "rooms" : '. $rooms_ .' ,
-            "error" : "' . $error_ . '"
-          }';
-    return $ret;
+	$ret = '
+        {
+          "rooms" : '. $rooms_ .' ,
+          "error" : "' . $error_ . '"
+        }';
+	return $ret;
   }
-  function returnWithError( $err )
-  {
-    $retValue = createJSONString("",$err);
-    sendResultInfoAsJson( $retValue );
-  }
-  function returnWithInfo($rooms_, $err_)
-  {
-    $retValue = createJSONString($rooms_, $err_);
-    sendResultInfoAsJson( $retValue );
-  }
+  
   function sendResultInfoAsJson( $obj )
+  {  
+	header('Content-type: application/json');
+	echo $obj;
+  }
+  
+  function returnWithError( $err , $sqlerr)
   {
-    header('Content-type: application/json');
-    echo $obj;
+	$retValue = createJSONString("",$err);
+	sendResultInfoAsJson( $retValue );
   }
 ?>
