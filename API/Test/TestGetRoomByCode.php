@@ -1,127 +1,64 @@
 <?php
-require("config.php");
 
-class Question {
-    function __construct() {
-		$this->questionID = "";
-		$this->roomID = "";
-		$this->questionText = "";
-		$this->choice1 = "";
-    $this->choice2 = "";
-    $this->choice3 = "";
-    $this->choice4 = "";
-    $this->choice5 = "";
-    $this->choice6 = "";
-    $this->choice7 = "";
-    $this->choice8 = "";
-    $this->choice9 = "";
-    $this->choice10 = "";
-    $this->choice11 = "";
-    $this->choice12 = "";
-    $this->choice13 = "";
-    $this->choice14 = "";
-    $this->choice15 = "";
-    $this->choice16 = "";
-    }
-}
+  class Question 
+  {
+      function __construct() 
+	  {
+  		$this->correctResponse = "2";
+  		$this->questionText = "Hello World";
+  		$this->choice1 = "H";
+      $this->choice2 = "e";
+      $this->choice3 = "l";
+      $this->choice4 = "l";
+      $this->choice5 = "o";
+      $this->choice6 = "w";
+      $this->choice7 = "o";
+      $this->choice8 = "r";
+      $this->choice9 = "l";
+      $this->choice10 = "d";
+      $this->choice11 = "1";
+      $this->choice12 = "2";
+      $this->choice13 = "3";
+      $this->choice14 = "4";
+      $this->choice15 = "5";
+      $this->choice16 = "6";
+      }
+  }
+  
+  $question = array();
+  
+  for($i = 0; $i < 5; $i++)
+  {
+	$question[] = new Question();
+  }
+  
+  returnWithInfo($question);
 
-//	connection using the sql credentials
-$connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
-or die('connection to server failed');
-//	Get JSON input
-$inData = json_decode(file_get_contents('php://input'), true);;
+  function returnWithInfo($question_)
+  {
+	  $retValue = createJSONString($question_, "");
+	  sendResultInfoAsJson( $retValue );
+  }
 
-if($connection->connect_error)
-{
-	returnWithError("Error Connecting to the Server");
-}
-else
-{
-  $id = "";
-  $roomCode 	= "";
-  $sessionID  = "";
-
-	//	Sanitize JSON input
-	$id 	= mysqli_real_escape_string($connection, $inData["userID"]);
-	$sessionID 	= mysqli_real_escape_string($connection, $inData["sessionID"]);
-  $roomCode 	= mysqli_real_escape_string($connection, $inData["roomCode"]);
-
-	//	Call stored procedure that will insert a new user
-	$call =
-    	'CALL PollingZone.room_getByCode( "'
-      . $id . '","'
-      . $sessionID . '","'
-      . $roomCode . '"
-    );';
-	$result = $connection->query($call);
-
-	if ($result->num_rows == 0)
-	{
-		returnWithError("No results from stored procedure");
-	}else
-	{
-		$questionArray = array();
-
-    while($row = $result->fetch_assoc())
-    {
-      $jsonObject = new Question();
-      $jsonObject->questionID = $row["questionID"];
-      $jsonObject->roomID = $row["roomID"];
-      $jsonObject->questionText = $row["questionText"];
-      $jsonObject->choice1 = $row["choice1"];
-      $jsonObject->choice2 = $row["choice2"];
-      $jsonObject->choice3 = $row["choice3"];
-      $jsonObject->choice4 = $row["choice4"];
-      $jsonObject->choice5 = $row["choice5"];
-      $jsonObject->choice6 = $row["choice6"];
-      $jsonObject->choice7 = $row["choice7"];
-      $jsonObject->choice8 = $row["choice8"];
-      $jsonObject->choice9 = $row["choice9"];
-      $jsonObject->choice10 = $row["choice10"];
-      $jsonObject->choice11 = $row["choice11"];
-      $jsonObject->choice12 = $row["choice12"];
-      $jsonObject->choice13 = $row["choice13"];
-      $jsonObject->choice14 = $row["choice14"];
-      $jsonObject->choice15 = $row["choice15"];
-      $jsonObject->choice16 = $row["choice16"];
-      $questionArray[] = $jsonObject;
-    }
-
-    returnWithInfo(json_encode($questionArray));
-	}
-}
-
-// Close the connection
-$connection->close();
-
-function createJSONString($questions_, $error_)
-{
-  $ret = '
+  function createJSONString($question_, $error_)
+  {
+	$ret = '
         {
-          "questions" : '. $questions_ .' ,
+          "question" : '. $question_ .' ,
           "error" : "' . $error_ . '"
         }';
-
-  return $ret;
-}
-
-function sendResultInfoAsJson( $obj )
-{
-  header('Content-type: application/json');
-  echo $obj;
-}
-
-function returnWithError( $err )
-{
-  $retValue = createJSONString("[]",$err);
-  sendResultInfoAsJson( $retValue );
-}
-
-function returnWithInfo($questions_)
-{
-  $retValue = createJSONString($questions_, "");
-  sendResultInfoAsJson( $retValue );
-}
-
-
+	return $ret;
+  }
+  
+  function sendResultInfoAsJson( $obj )
+  {  
+	header('Content-type: application/json');
+	echo $obj;
+  }
+  
+  function returnWithError( $err , $sqlerr)
+  {
+	$retValue = createJSONString("",$err);
+	sendResultInfoAsJson( $retValue );
+  }
 ?>
