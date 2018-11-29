@@ -34,16 +34,29 @@
   	}
     else
     {
-      $rooms = $result->fetch_assoc();
+      $rooms = array();
+      while($row = $result->fetch_assoc())
+      {
+        $rooms[] = $row["room"];
+      }
       returnWithInfo($rooms, "");
     }
   }
 
   $connection->close();
 
+  function createJSONString( $rooms_, $error_)
+  {
+    $ret = '
+          {
+            "rooms" : '. $rooms_ .' ,
+            "error" : "' . $error_ . '"
+          }';
+    return $ret;
+  }
   function returnWithError( $err )
   {
-    $retValue = createJSONString(0,"","",$err);
+    $retValue = createJSONString("",$err);
     sendResultInfoAsJson( $retValue );
   }
   function returnWithInfo($rooms_, $err_)
