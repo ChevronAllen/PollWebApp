@@ -4,35 +4,35 @@ Error handling
 ===================
 if results are null - user validation failed
 if results are not null but #rows = 0 - either parameter error or there is no data to display (success)
-if results are not null and 1 or more rows are returned = sucessful 
+if results are not null and 1 or more rows are returned = sucessful
 
 ===================
 Registration
 ===================
 CALL PollingZone.user_create( firstName,lastName,optionalName, email, password, salt)
 firstName - user's submited first name
-lastName - user's submitted last name 
+lastName - user's submitted last name
 optionalName - user's optional identifier
 email - unique email address
 password - SHA256 salted and hashed password
 salt - salt used in password hashing
 
-Returns single coloumn table userID. 
+Returns single coloumn table userID.
 On success this is populated with the new user's id
 
 ===================
 Login
-=================== 
+===================
 CALL PollingZone.user_login( email, password)
 email - user email to attempt login under
 password - client-side hashed but not salted password to match
 
-Returns a table of userID, user_firstName, user_lastName, user_optionalName, date_created, session. 
+Returns a table of userID, user_firstName, user_lastName, user_optionalName, date_created, session.
 
 
 ===================
 Logout
-=================== 
+===================
 CALL PollingZone.user_login( userID, sessionKey)
 userID - user's unique user ID string
 sessionKey - user's session key string
@@ -74,7 +74,7 @@ Returns roomID
 	isLocked - is question accessible boolean 1 / 0
 	questionText - The user input question
 	questionChoiceN - the Nth multiple choice response to the quesiton (1 to 16)
-	
+
 	Questions are added one-by-one since Registered users dont have a limit on the number of questions in thier rooms.
 
 	===================
@@ -90,7 +90,7 @@ Returns roomID
 	===================
 	Room Lock/Unlock Question
 	===================
-	CALL PollingZone.room_questionLock(userID,sessionIDmroomID,questionID, isLocked)	
+	CALL PollingZone.room_questionLock(userID,sessionIDmroomID,questionID, isLocked)
 	userID - user's unique user ID string
 	sessionKey - user's session key string
 	roomID - room's full ID
@@ -159,11 +159,20 @@ User Get Room Responses
 CALL PollingZone.user_getResponses(userID, sessionID, roomID)
 
 ===================
-User Get Room Analytics
+User Get Room Analytics users
 ===================
-CALL PollingZone.room_getAnalytics(userID, sessionID, roomID)
+CALL PollingZone.room_getAnalytics_users(userID, sessionID, roomID)
 
+Returns userID, orgID, numCorrect, numWrong
+A description of each users response to a poll.
+Only includes logged in users, and only calculates on questions that have answers
 
+===================
+User Get Room Analytics questions
+===================
+CALL PollingZone.room_getAnalytics_questions(userID, sessionID, roomID)
+
+Returns questionID , percentCorrect
 
 ===================
 Session Update,Delete,Create
