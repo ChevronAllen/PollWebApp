@@ -1,4 +1,10 @@
 <?php
+/*
+admin gets
+4 - created 
+4 - answered
+all ongoing and upcoming polls
+*/
     class Room 
 	{
       function __construct() 
@@ -162,13 +168,19 @@
 		  }
 		}
 		
-		returnWithInfo(json_encode($CreatedRooms), json_encode($AnsweredRooms), json_encode($RemainingRooms), "",0);
+		returnWithInfo(json_encode($CreatedRooms), json_encode($AnsweredRooms), json_encode($RemainingRooms));
 	}
 	
   function returnWithError($errCode, $err )
   {
     $retValue = createJSONString("","","",$err, $errCode);
     sendResultInfoAsJson( $retValue );
+  }
+  
+  function returnWithInfo($CreatedRooms, $AnsweredRooms, $RemainingRooms)
+  {
+	  $retValue = createJSONString($CreatedRooms, $AnsweredRooms, $RemainingRooms, "", 0);
+	  sendResultInfoAsJson( $retValue );
   }
   
   function createJSONString($CreatedRooms_, $AnsweredRooms_, $RemainingRooms_, $error_, $errCode_)
