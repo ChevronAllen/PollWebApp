@@ -137,14 +137,15 @@ AnswerQuestion POST
 {
   userID: "",               // user identification
   sessionID: "",            // verification of user
-  roomID: "",              // room ID
+  roomID: "",               // room ID
   questionID: "",           // questions id in the form roomId + question number
-  choice: ,                // 1-16 single integer indicating choice
+  choice: ,                 // 1-16 single integer indicating choice
 }
 
 AnswerQuestion GET
 =========================
 {
+  errorcode:0,              //
   error : ""                // will be empty unless there was an error
 }
 
