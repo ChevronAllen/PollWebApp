@@ -94,7 +94,7 @@ function createJSONString($question, $errorCode, $error_)
   $ret = '
       {
         "question" : "'. $question .'" ,
-        "roomCode" : "' . $errorCode . '",
+        "errorCode" : "' . $errorCode . '",
         "error" : "' . $error_ . '"
       }';
   return $ret;
