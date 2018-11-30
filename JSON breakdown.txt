@@ -237,6 +237,8 @@ Room Answered Modal GET
     correctResponse: "",
     correct: ""
   ]
+  error: "",
+  errorCode: ""
 }
 
 // past this point needs major revision
