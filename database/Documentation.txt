@@ -158,6 +158,12 @@ User Get Room Responses
 ===================
 CALL PollingZone.user_getResponses(userID, sessionID, roomID)
 
+===================
+User Get Room Analytics
+===================
+CALL PollingZone.room_getAnalytics(userID, sessionID, roomID)
+
+
 
 ===================
 Session Update,Delete,Create
