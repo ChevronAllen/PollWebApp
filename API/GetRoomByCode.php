@@ -12,18 +12,18 @@ class Question {
 class Room {
 	function __construct()
 	{
-		
+
 		$this->id ='';
 		$this->title = '';
 		$this->start = '';
 		$this->expire = '';
 		$this->owner = '';
 		$this->questions = array();
-		
+
 		$this->errorCode = 0;
 		$this->error = '';
 	}
-	
+
 	// For Debugging
 	public function __toString()
 	{
@@ -46,11 +46,11 @@ if($connection->connect_error)
 else
 {
 	// Successful Connection
-	
+
 	$id = "";			// incoming userID
 	$roomCode 	= "";	// incoming room code
 	$sessionID  = "";	// incoming sessionID
-  
+
 	$roomObject = new Room();	// data structure to organise Room
 
 	//	Sanitize JSON input
@@ -63,17 +63,17 @@ else
 	//	First Query
 	///////////////////////////////
 	*/
-	
+
 	//	Build stored procedure, find a room with this roomCode
 	$call =
     	'CALL PollingZone.room_getByCode( "'
       . $id . '","'
       . $sessionID . '","'
       . $roomCode . '");';
-	
+
 	//	Call stored procedure
 	$result = $connection->query($call);
-	
+
 	// Error catching
 	if($result == null || $result == false){
 		// Query didnt complete or User Credentials Incorrect
@@ -83,25 +83,25 @@ else
 		// Table structure recieved but no rows populated
 		// Still successful
 		returnWithError(0,"No Room Found");
-		
+
 	}else
 	{
 		// Data recieved
-		
+
 		$row = $result->fetch_assoc();				// Get First Row
 		$roomObject->id 	= $row["roomID"];		// Read roomId
 		$roomObject->title 	= $row["roomTitle"];	// Read roomTitle
 		$roomObject->start 	= $row["dateStart"];	// Read start date of room
-		$roomObject->expire = $row["dateExpire"];	// Read expiration date of 
+		$roomObject->expire = $row["dateExpire"];	// Read expiration date of
 		$roomObject->owner 	= $row["ownerName"];	// Read room owners first and last name
-		
+
 		$result->free();
 	}
-	
 
-	$connection->next_result();	// clear results 
-	
-	
+
+	$connection->next_result();	// clear results
+
+
 	//	Build stored procedure, find questions for a given roomID
 	$call =
     	'CALL PollingZone.room_getAllQuestions( "'
@@ -118,18 +118,18 @@ else
     returnWithError("Invalid User Authentication");
   }else if ($result->num_rows == 0)
 	{
-		// Empty room means someting went wrong during room initialisation 
+		// Empty room means someting went wrong during room initialisation
 		returnWithError(0,"Corrupted Room");
 	}else
 	{
 		$questionArray = array();	// Initialise array to hold questions
-		
+
 		while($row = $result->fetch_assoc())		// While there are rows to read
 		{
-		  
+
 		  $question = new Question();	//	initialise a question class
 		  // Store the following into the question class
-		  $question->questionID = $row["questionID"];	
+		  $question->questionID = $row["questionID"];
 		  $question->questionText = $row["questionText"];
 		  $question->choices[] = $row["choice1"];
 		  $question->choices[] = $row["choice2"];
@@ -148,11 +148,11 @@ else
 		  $question->choices[] = $row["choice15"];
 		  $question->choices[] = $row["choice16"];
 		  // Custom count function, only counts sequential non empty strings in an array
-		  $question->choiceCount = countChoices($jsonObject->choices);
+		  $question->choiceCount = countChoices($question->choices);
 		  // add populated question class to the Room objects array of questions
 		  $roomObject->questions[] = $question;
 		}
-		
+
 		// json_encode turns class into a json string
 		returnWithInfo(json_encode($roomObject));
 	}
@@ -179,10 +179,10 @@ function returnWithError( $code,$err )
 	// If there is an error, Create a new room objects
 	// only populate error fields. then passit through as json string
   $temp = new Room();
-  
+
   $temp->error = $err;
   $retValue = json_encode($temp);
-  
+
   sendResultInfoAsJson( $retValue );
   exit;
 }
