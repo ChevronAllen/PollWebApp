@@ -36,11 +36,6 @@ else
 	else
 	{
 		$row = $result->fetch_assoc();
-		$err = $row["error"];
-		if($err == 1)
-		{
-			returnWithError("Unsuccessful Login error returned 1");
-		}
 		$sessionID = $row["session"];
 		$id = $row["userID"];
 		$firstName = $row["user_firstName"];

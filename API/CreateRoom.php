@@ -143,7 +143,7 @@
       $result = $connection->query($call);
       if ($result == NULL)
     	{
-    		returnWithError("Failed to add question for anonymouse result was null. "  . $connection->error);
+    		returnWithError("Failed to add question for anonymouse result was null. ");
         exit();
       }
       elseif($result->num_rows == 0)

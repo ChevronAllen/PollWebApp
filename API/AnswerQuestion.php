@@ -38,7 +38,7 @@
 		{
 			$sqlReport = $mysqli_error;
 			if($result->num_rows == NULL)
-				returnWithError(1, "Invalid User Credentials.";
+				returnWithError(1, "Invalid User Credentials.");
 
 			returnWithError(2, "Failed to answer question.");
 		}
