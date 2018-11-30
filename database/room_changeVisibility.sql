@@ -6,12 +6,22 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `room_changeVisibility`(
 )
 BEGIN
 	SET @valid = fn_isValidSession(uID,uSession);
-    
+    SET @visible = rVis +0;
     IF (@valid) THEN
     
 		UPDATE Rooms 
-        SET Rooms.roomPublic = rVis 
+        SET Rooms.roomPublic = @visible 
         WHERE roomID = rID AND ownerID = rID;
+        
+        IF @visible THEN
+			UPDATE Rooms 
+			SET Rooms.roomCode = fn_generateRoomCode() 
+			WHERE roomID = rID AND ownerID = rID;
+        ELSEIF NOT @visible THEN
+			UPDATE Rooms 
+			SET Rooms.roomCode = ''
+			WHERE roomID = rID AND ownerID = rID;
+        END IF;
         
         SELECT *
         FROM Rooms
