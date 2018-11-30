@@ -219,6 +219,26 @@ Admin GET
   ]
 }
 
+Room Answered Modal POST
+=========================
+{
+  id: 0,
+  sessionID: "",
+  roomID: "",
+}
+
+Room Answered Modal GET
+=========================
+{
+  roomResult        //array of user results of each question in a room
+  [
+    questionID: "",
+    userResponse: "",
+    correctResponse: "",
+    correct: ""
+  ]
+}
+
 // past this point needs major revision
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // past this point needs major revision
@@ -233,21 +253,6 @@ Room Created Modal POST
 }
 
 Room Created Modal GET
-=========================
-{
-
-}
-
-Room Answered Modal POST
-=========================
-{
-  id: 0,
-  sessionID: "",
-  roomID: "",
-  roomCode: "",
-}
-
-Room Answered Modal GET
 =========================
 {
 
