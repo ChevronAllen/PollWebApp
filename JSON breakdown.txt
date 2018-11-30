@@ -50,26 +50,38 @@ GetRoomByCode POST
 GetRoomByCode GET
 =========================
 {
-  questions :
-  [
-    {
-      questionID: "",
-      roomID: "",
-      questionText: "",
-      choiceCount: "",
-      choices: [        // array of strings representing possible answers
+    "id":"001e01e483e829340585fb2bff9fa651",	// Room ID
+    "title":"Larry's Big Room",
+    "start":"1970-01-01 00:00:00",
+    "expire":"2020-01-01 00:00:00",
+    "owner":"Larry Larry",
+    "questions":[					// Array of Question objects
+        {
+            "questionID":"",
+            "questionText":"",		
+            "choiceCount": 0,		// number of responses available
+            "choices":[				// Array of strings, always 16, extra will be empty
                 "",
                 "",
                 "",
-                ...
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
                 ""
-      ]
-    },
-    {
-
-    }
-  ],
-  error: ""
+            ]
+        }
+    ],
+    "errorCode":0,
+    "error":""
 }
 
 CreateRoom POST
