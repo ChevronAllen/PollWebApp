@@ -4,8 +4,7 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `room_create`(
     IN rTitle TINYTEXT,
     IN rPublic BOOLEAN,
     IN rStart VARCHAR(255),
-    IN rExpire VARCHAR(255),
-    OUT err INT
+    IN rExpire VARCHAR(255)
 )
 BEGIN
 	SET @rCode = fn_generateRoomCode();
@@ -45,7 +44,7 @@ BEGIN
         );
         
         SELECT @rCode AS `RoomCode`, @rID AS `RoomID`;
-        SET @err = 0;
+        #SET @err = 0;
         
 	#	Registered User	- Room Creation
 	ELSE
@@ -69,10 +68,8 @@ BEGIN
 			);
             
             SELECT @rCode AS `RoomCode`, @rID AS `RoomID`;
-            SET @err = 0;
-		ELSE
-        # Invalid user / invalid session
-			SET @err = 1;
+            #SET @err = 0;
+		
         END IF;
 
     END IF;

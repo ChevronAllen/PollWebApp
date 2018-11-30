@@ -4,6 +4,7 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `room_addQuestion`(
     IN rID VARCHAR(255),
     IN qText TEXT,
     IN qCorrect INT,
+    IN qLocked VARCHAR(255),
     IN qChoice1 TINYTEXT,
     IN qChoice2 TINYTEXT,
     IN qChoice3 TINYTEXT,
@@ -19,14 +20,14 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `room_addQuestion`(
     IN qChoice13 TINYTEXT,
     IN qChoice14 TINYTEXT,
     IN qChoice15 TINYTEXT,
-    IN qChoice16 TINYTEXT,
-    OUT err TINYINT
+    IN qChoice16 TINYTEXT
 )
 BEGIN
 	SET @anonMax = 1;
     SET @roomOwner = '';
     SET @questionsCount = 0;
     SET @valid = fn_isValidSession(uID,uSession);
+    SET @locked = (qLocked + 0);
     
     SELECT ownerID, roomSize
     INTO @roomOwner, @questionCount
@@ -38,7 +39,7 @@ BEGIN
 
         INSERT INTO `PollingZone`.`Questions`(	`questionID`,
 												`roomID`,
-                                                `correctResponse`,
+                                                `correctResponse`,                                                
 												`questionText`,
 												`choice1`,
 												`choice2`,
@@ -48,9 +49,10 @@ BEGIN
 												`choice6`,
 												`choice7`,
 												`choice8`)
-										VALUES(	CONCAT(@rID, (@questionsCount+1)),
+										VALUES(	CONCAT(@rID, (@questionCount+1)),
 												@rID,
                                                 qCorrect,
+                                                @locked,
 												qText,
 												qChoice1,
 												qChoice2,
@@ -78,6 +80,7 @@ BEGIN
 												`roomID`,
 												`userID`,
                                                 `correctResponse`,
+                                                `isLocked`,
 												`questionText`,
 												`choice1`,
 												`choice2`,
@@ -95,10 +98,11 @@ BEGIN
 												`choice14`,
 												`choice15`,
 												`choice16`)
-										VALUES(	CONCAT(@rID, @questionsCount),
+										VALUES(	CONCAT(@rID, @questionCount+1),
 												@rID,
 												uID,
                                                 qCorrect,
+                                                @locked,
 												qText,
 												qChoice1,
 												qChoice2,
@@ -123,6 +127,7 @@ BEGIN
         SELECT *
 		FROM Questions
 		WHERE roomID = rID;
+        
     END IF;
     
     

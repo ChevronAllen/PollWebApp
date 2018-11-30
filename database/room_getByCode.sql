@@ -1,8 +1,7 @@
 CREATE DEFINER=`ermine`@`%` PROCEDURE `room_getByCode`(
 	IN uID VARCHAR(255),
     IN uSession VARCHAR(255),
-    IN rCode VARCHAR(255),
-    OUT err INT
+    IN rCode VARCHAR(255)
 )
 BEGIN
 	
@@ -27,7 +26,7 @@ BEGIN
 			FROM Questions 
 			WHERE roomID = @rID;
             
-			SET err = 0;
+			#SET err = 0;
             
 		ELSEIF @valid THEN
 		
@@ -35,11 +34,7 @@ BEGIN
 			FROM Questions 
 			WHERE roomID = @rID;
             
-            SET err = 0;
-            
-		ELSE
-        
-			SET err = 1;
+            #SET err = 0;
             
 		END IF;
 	ELSE
@@ -48,7 +43,7 @@ BEGIN
 		FROM Questions 
 		WHERE 1 = 0;
         
-		SET err = 0;
+		#SET err = 0;
         
     END IF;
     

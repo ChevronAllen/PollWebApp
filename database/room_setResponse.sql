@@ -10,6 +10,11 @@ BEGIN
     
     SET @valid = fn_isValidSession(uID, uSession);
     SET @optName = '';
+    SET @locked = TRUE;
+    
+    SELECT isLocked INTO @locked
+    FROM Questions
+    WHERE questionID = qID;
     
     
     IF (@valid) THEN
@@ -22,7 +27,7 @@ BEGIN
         FROM Questions
         WHERE questionID = qID AND roomID = rID;
         
-        IF (@valid) THEN
+        IF (@valid IS NOT NULL) AND NOT (@locked) THEN
         
 			INSERT INTO Responses (questionID,roomID,userID,responder,selection)
 			VALUES (qID, rID,uID,@optName, qchoice);

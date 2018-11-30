@@ -17,7 +17,7 @@ BEGIN
         SET isLocked = @locked
         WHERE questionID = qID AND roomID = rID AND userID = uID;
 		
-        SELECT 0 AS `error`;
+        SELECT qID AS `questionID`;
         
     END IF;
 
