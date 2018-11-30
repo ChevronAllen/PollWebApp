@@ -58,7 +58,7 @@ GetRoomByCode GET
     "questions":[					// Array of Question objects
         {
             "questionID":"",
-            "questionText":"",		
+            "questionText":"",
             "choiceCount": 0,		// number of responses available
             "choices":[				// Array of strings, always 16, extra will be empty
                 "",
@@ -128,6 +128,7 @@ DeleteRoom POST
 DeleteRoom GET
 =========================
 {
+  errorCode: 0,
   error : ""        // will be empty unless there was an error
 }
 
