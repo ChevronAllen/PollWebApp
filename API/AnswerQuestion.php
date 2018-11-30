@@ -25,7 +25,7 @@
 		$questionID = mysqli_real_escape_string($connection, $inData["questionID"]);
 		$choice = mysqli_real_escape_string($connection, $inData["choice"]);
 
-		$call = 'CALL PollingZone.????(
+		$call = 'CALL PollingZone.room_setResponse(
 			   "' . $userID . '",
   			   "' . $sessionID . '",
   			   "' . $roomID . '",
@@ -44,29 +44,26 @@
 		}
 		else
 		{
-			$row = $result->fetch_assoc();
-			$correctChoice = $row["correctChoice"];
-
-			returnWithInfo($correctChoice);
+			returnWithInfo();
 		}
 
 	}
 	// Close the connection
 	$connection->close();
 
-  function returnWithInfo($correctChoice_)
+  function returnWithInfo()
   {
-	  $retValue = createJSONString($correctChoice_, "", 0);
+	  $retValue = createJSONString(0, "");
 	  sendResultInfoAsJson( $retValue );
+		exit;
   }
 
-  function createJSONString($correctChoice_, $error_, $errCode)
+  function createJSONString($errCode, $error_)
   {
 	$ret = '
         {
-          "correctChoice" : '. $correctChoice_ .' ,
-          "error" : "' . $error_ . '",
-	  "errorCode" : "' . $errCode . '"
+					"errorCode" : "' . $errCode . '",
+          "error" : "' . $error_ . '"
         }';
 	return $ret;
   }
@@ -79,7 +76,8 @@
 
   function returnWithError($errCode, $err)
   {
-	$retValue = createJSONString("",$err, $errCode);
+	$retValue = createJSONString($errCode, $err);
 	sendResultInfoAsJson( $retValue );
+	exit;
   }
 ?>
