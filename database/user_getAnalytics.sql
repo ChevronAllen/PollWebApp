@@ -5,7 +5,7 @@ CREATE DEFINER=`ermine`@`%` PROCEDURE `user_getAnalytics`(
 )
 BEGIN
 	
-    SELECT 	R.userID, 
+    SELECT 	Q.questionID, 
 			(R.selection = Q.correctResponse) AS `correct`, 
             R.selection AS `userResponse` , 
             Q.correctResponse AS `correctResponse`
