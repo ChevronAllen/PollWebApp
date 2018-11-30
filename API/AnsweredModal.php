@@ -10,10 +10,21 @@
 	$userID = "";
 	$sessionID = "";
 	$roomID = "";
+	
+    class QuestionResult 
+	{
+      function __construct() 
+	  {
+		$this->questionID = "";
+		$this->userResponse = "";
+		$this->correctResponse = "";
+		$this->correct = "";
+      }
+	}
 
 	if($connection->connect_error)
 	{
-		returnWithError(5, "Error Connecting to the Server");
+		returnWithError(1, "Error Connecting to the Server");
 	}
 	else
 	{
@@ -31,18 +42,57 @@
 
 		if($result->num_rows == NULL || $result->num_rows == 0)
 		{
-			$sqlReport = $mysqli_error;
 			if($result->num_rows == NULL)
-				returnWithError(2, "Invalid User Credentials.", $sqlReport);
+				returnWithError(2, "Invalid User Credentials.");
 
-			returnWithError(1, "Failed to access stats or no stats for this poll.", $sqlReport);
+			returnWithError(3, "Failed to access stats or no stats for this poll.");
 		}
 		else
 		{
-			//What am I getting?
+			$roomResult = array();
+			while($row = $result->fetch_assoc();)
+			{
+				$question = new QuestionResult();
+				$question->questionID = $row["questionID"];
+				$question->userResponse = $row["userResponse"];
+				$question->correctResponse = $row["correctResponse"];
+				$question->correct = $row["correct"];
+				
+				$roomResult[] = $question;
+			}
+			
+			sendWithInfo(json_encode($roomResult));
 		}
 	}
 	// Close the connection
 	$connection->close();
+	
+  function returnWithError($errCode, $err )
+  {
+    $retValue = createJSONString("",$err, $errCode);
+    sendResultInfoAsJson( $retValue );
+  }
+  
+  function returnWithInfo($roomResult_)
+  {
+	  $retValue = createJSONString($roomResult_, "", 0);
+	  sendResultInfoAsJson( $retValue );
+  }
+  
+  function createJSONString($roomResult_, $error_, $errCode_)
+  {
+		$ret = '
+        {
+		  "roomResult" : "' . $roomResult_ . '",
+          "error" : "' . $error_ . '",
+		  "errorCode" : "' . $errCode_ . '"
+        }';
+    return $ret;
+  }
+  
+  function sendResultInfoAsJson( $obj )
+  {
+    header('Content-type: application/json');
+    echo $obj;
+  }
 ?>
-
