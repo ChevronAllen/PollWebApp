@@ -192,10 +192,6 @@ GetQuestion GET
   error : ""                // will be empty unless there was an error
 }
 
-// past this point needs major revision
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// past this point needs major revision
-
 Admin POST
 =========================
 {
@@ -206,11 +202,26 @@ Admin POST
 Admin GET
 =========================
 {
-  Room:                     // array of rooms
+  Room created array:     //4 most recently expired rooms
   [
     roomCode: "",
+    roomID: ""
+  ]
+  Room answered array:  //4 most recently answered rooms
+  [
+    roomCode: "",
+    roomID: ""
+  ]
+  All upcoming and ongoing rooms //all rooms not past expiration date
+  [
+    roomeCode: "",
+    roomID: ""
   ]
 }
+
+// past this point needs major revision
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// past this point needs major revision
 
 Room Created Modal POST
 =========================
