@@ -35,9 +35,9 @@
 		$sqlReport = mysqli_error;
   		if($result == NULL)
   		{
-  			returnWithError("User authentication error. Please login", $sqlReport);
+  			returnWithError("User authentication error. Please login");
   		}
-  		returnWithError("Parameter error/No results from query", $sqlReport);
+  		returnWithError("Parameter error/No results from query");
   	}
     else
     {
@@ -77,7 +77,7 @@
 	echo $obj;
   }
   
-  function returnWithError( $err , $sqlErr)
+  function returnWithError( $err)
   {
 	$retValue = createJSONString("",$err,$sqlErr);
 	sendResultInfoAsJson( $retValue );
