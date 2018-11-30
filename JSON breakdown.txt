@@ -241,24 +241,34 @@ Room Answered Modal GET
   errorCode: ""
 }
 
-// past this point needs major revision
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// past this point needs major revision
-
 Room Created Modal POST
 =========================
 {
   id: "",
   sessionID: "",
   roomID: "",
-  roomCode: "",
 }
 
 Room Created Modal GET
 =========================
 {
-
+  roomQuestions   //array of question analytics
+  [
+    questionID: "",
+    precentCorrect: ""
+  ]
+  roomUsers       //array of user analytics
+  [
+    userID: "",
+    orgID: "",
+    numCorrect: "",
+    numWrong: ""
+  ]
 }
+
+// past this point needs major revision
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// past this point needs major revision
 
 Question Edit POST
 =========================
