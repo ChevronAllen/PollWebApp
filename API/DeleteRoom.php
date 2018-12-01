@@ -33,7 +33,7 @@ else
 
 	//	Build stored procedure, find a room with this roomCode
 	$call =
-    	'CALL PollingZone.room_getByCode( "'
+    	'CALL PollingZone.room_delete( "'
       . $id . '","'
       . $sessionID . '","'
       . $roomID . '");';
