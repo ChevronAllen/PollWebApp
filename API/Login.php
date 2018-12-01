@@ -7,7 +7,7 @@ or die('connection to server failed');
 $inData = json_decode(file_get_contents('php://input'), true);
 if($connection->connect_error)
 {
-	returnWithError("Error Connecting to the Server");
+	returnWithError(1, "Error Connecting to the Server");
 }
 else
 {
@@ -27,11 +27,13 @@ else
 	$result = $connection->query($call);
 	if ($result == NULL || $result->num_rows == 0)
 	{
-		if($result == NULL)
-		{
-			returnWithError("User authentication error. Please login");
-		}
-		returnWithError("Parameter error/No results from query");
+			returnWithError(2, "User authentication error. Please login");
+			exit();
+	}
+	else if($result->num_rows == 0)
+	{
+		returnWithError(3, "Parameter error/No results from query");
+		exit();
 	}
 	else
 	{
@@ -42,22 +44,24 @@ else
 		$lastName = $row["user_lastName"];
 		$optionalName = $row["user_optionalName"];
 		$dateCreated = $row["date_created"];
-    returnWithInfo($id, $firstName, $lastName, $optionalName, $dateCreated, $sessionID);
+
+	returnWithInfo($id, $firstName, $lastName, $optionalName, $dateCreated, $sessionID);
 	}
 }
 // Close the connection
 $connection->close();
-function createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, $error_)
+function createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, $error_, $errorCode_)
 {
   $ret = '
         {
           "id" : "'. $id_ .'" ,
           "firstName" : "' . $firstName_ . '",
           "lastName" : "' . $lastName_ . '",
-	  "optionalName" : "' . $optionalName_ . '",
+		  "optionalName" : "' . $optionalName_ . '",
           "dateCreated" : "' . $dateCreated_ . '",
           "sessionID" : "' . $sessionID_ . '",
-          "error" : "' . $error_ . '"
+          "error" : "' . $error_ . '",
+		  "errorCode" : "' . $errorCode_ . '"
         }';
   return $ret;
 }
@@ -66,14 +70,14 @@ function sendResultInfoAsJson( $obj )
   header('Content-type: application/json');
   echo $obj;
 }
-function returnWithError( $err )
+function returnWithError($errCode ,$err)
 {
-  $retValue = createJSONString(0,"","","","","",$err);
+  $retValue = createJSONString(0,"","","","","",$err, $errCode);
   sendResultInfoAsJson( $retValue );
 }
 function returnWithInfo($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_)
 {
-  $retValue = createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, "");
+  $retValue = createJSONString($id_, $firstName_, $lastName_, $optionalName_, $dateCreated_, $sessionID_, "", 0);
   sendResultInfoAsJson( $retValue );
 }
 ?>
