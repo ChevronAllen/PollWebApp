@@ -1,6 +1,5 @@
-<?php
+<<?php
   require("config.php");
-
   class Question {
       function __construct() {
   		$this->correctResponse = "";
@@ -24,7 +23,6 @@
       $this->choice16 = "";
       }
   }
-
   //	connection using the sql credentials
   $connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
   or die('connection to server failed');
@@ -41,7 +39,7 @@
   $questions = array();
   if($connection->connect_error)
   {
-  	returnWithError("Error Connecting to the Server");
+  	returnWithError(1, "Error Connecting to the Server");
     exit();
   }
   else
@@ -57,7 +55,6 @@
     foreach($questions as $question)
     {
       $roomQuestion = new Question();
-
       $roomQuestion->correctResponse = mysqli_real_escape_string($connection, $question["correctResponse"]);
       $roomQuestion->questionText = mysqli_real_escape_string($connection, $question["questionText"]);
       $roomQuestion->isLocked = mysqli_real_escape_string($connection, $question["isLocked"]);
@@ -77,7 +74,6 @@
       $roomQuestion->choice14 = mysqli_real_escape_string($connection, $question["choice14"]);
       $roomQuestion->choice15 = mysqli_real_escape_string($connection, $question["choice15"]);
       $roomQuestion->choice16 = mysqli_real_escape_string($connection, $question["choice16"]);
-
       $roomQuestions[] = $roomQuestion;
     }
     //$question 			    = mysqli_real_escape_string($connection, $inData["questions"]);
@@ -85,7 +81,6 @@
     $startTime = date("Ymdhis", $timeinSeconds);
     $timeinSeconds = $expirationTime / 1000;
     $expirationTime = date("Ymdhis", $timeinSeconds);
-
 	  $call = 'CALL PollingZone.room_create(
 			     "' . $userID . '",
   			   "' . $sessionKey . '",
@@ -97,12 +92,12 @@
    $result = $connection->query($call);
    if ($result == NULL)
     {
-      returnWithError("Invalid User Credentials");
+      returnWithError(2, "Invalid User Credentials");
       exit();
     }
     else if( $result->num_rows == 0)
     {
-      returnWithError("Room creation failed");
+      returnWithError(3, "Room creation failed");
       exit();
     }
     else
@@ -113,7 +108,6 @@
       $result->free();
       $connection->next_result();
     }
-
    if ($userID == "") // Anon User
    {
       $call = 'CALL PollingZone.room_addQuestion(
@@ -143,12 +137,12 @@
       $result = $connection->query($call);
       if ($result == NULL)
     	{
-    		returnWithError("Failed to add question for anonymouse result was null. ");
+    		returnWithError(4, "Failed to add question for anonymouse result was null. ");
         exit();
       }
       elseif($result->num_rows == 0)
       {
-        returnWithError("Failed to add question for anonymouse result had no rows");
+        returnWithError(5, "Failed to add question for anonymouse result had no rows");
         exit();
       }
 	  }
@@ -185,12 +179,12 @@
          $connection->next_result();
          if ($result == NULL)
        	{
-       		returnWithError("Failed to add question for user result was null");
+       		returnWithError(6, "Failed to add question for user result was null");
            exit();
          }
          elseif($result->num_rows == 0)
          {
-           returnWithError("Failed to add question for user result had no rows");
+           returnWithError(7, "Failed to add question for user result had no rows");
            exit();
          }
       }
@@ -198,24 +192,25 @@
     returnWithInfo($roomID, $roomCode, "");
  }
   $connection->close();
-  function createJSONString($roomID_, $roomCode_, $error_)
+  function createJSONString($roomID_, $roomCode_, $error_, $errorCode_)
 	{
 		$ret = '
         {
           "roomID" : "'. $roomID_ .'" ,
           "roomCode" : "' . $roomCode_ . '",
-          "error" : "' . $error_ . '"
+          "error" : "' . $error_ . '",
+          "error Code" : "' . $errorCode_ . '"
         }';
     return $ret;
 	}
-  function returnWithError( $err )
+  function returnWithError($errCode, $err )
   {
-    $retValue = createJSONString("","",$err);
+    $retValue = createJSONString("","",$err, $errCode);
     sendResultInfoAsJson( $retValue );
   }
   function returnWithInfo($roomID, $roomCode, $err)
   {
-    $retValue = createJSONString($roomID, $roomCode, $err);
+    $retValue = createJSONString($roomID, $roomCode, $err, 0);
     sendResultInfoAsJson( $retValue );
   }
   function sendResultInfoAsJson( $obj )
