@@ -7,7 +7,7 @@ or die('connection to server failed');
 $inData = json_decode(file_get_contents('php://input'), true);
 if($connection->connect_error)
 {
-	returnWithError("Error Connecting to the Server");
+	returnWithError(1, "Error Connecting to the Server");
 }else
 {
   $userEmail 	= "";
@@ -38,22 +38,21 @@ if($connection->connect_error)
 	$result = $connection->query($call);
 	if ($result->num_rows == 0)
 	{
-    	   returnWithError('Invalid query string');
+    	   returnWithError(2, "Invalid query string");
 	}
   else
 	{
-		$row = $result->fetch_assoc();
-		$err = $row["error"];
-		returnWithError($err);
+		returnWithError(0, "");
 	}
 }
 // Close the connection
 $connection->close();
-function createJSONString($error_)
+function createJSONString($errCode_, $error_)
 {
   $ret = '
         {
-          "error" : "' . $error_ . '"
+          "error" : "' . $error_ . '",
+		  "errorCode" : "' . $errCode_ . '"
         }';
   return $ret;
 }
@@ -62,9 +61,9 @@ function sendResultInfoAsJson( $obj )
   header('Content-type: application/json');
   echo $obj;
 }
-function returnWithError( $err )
+function returnWithError($errCode, $err )
 {
-  $retValue = createJSONString($err);
+  $retValue = createJSONString($errCode, $err);
   sendResultInfoAsJson( $retValue );
 }
 ?>
