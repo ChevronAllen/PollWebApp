@@ -1,12 +1,12 @@
 <?php
 	require("config.php");
-	
+
 	//	connection using the sql credentials
 	$connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
 	or die('connection to server failed');
 	//	Get JSON input
 	$inData = json_decode(file_get_contents('php://input'), true);
-	
+
 	$editOption = -1;
 	$userID = "";
 	$sessionID = "";
@@ -31,7 +31,7 @@
 	$choice14 = "";
 	$choice15 = "";
 	$choice16 = "";
-	
+
 	if($connection->connect_error)
 	{
 		returnWithError(1, "Error Connecting to the Server");
@@ -62,7 +62,7 @@
 		$choice14 = mysqli_real_escape_string($connection, $inData["choice14"]);
 		$choice15 = mysqli_real_escape_string($connection, $inData["choice15"]);
 		$choice16 = mysqli_real_escape_string($connection, $inData["choice16"]);
-		
+
 		if($editOption == 0)
 		{
 			$call = 'CALL PollingZone.room_deleteQuestion(
@@ -70,16 +70,19 @@
 					"' . $sessionID . '",
 					"' . $questionID. '"
 					);';
-					
+
 			$result = $connection->query($call);
-			
+
 			if($result->num_rows == NULL || $result->num_rows == 0)
 			{
-				if($result->num_rows == NULL)
 					returnWithError(2, "Invalid User Credentials.");
-			
-				returnWithError(3, "Question doesn't exist.");
+          exit();
 			}
+      else if
+      {
+        returnWithError(3, "Question doesn't exist.");
+        exit();
+      }
 			else
 				returnWithError(0, "");
 		}
@@ -109,9 +112,9 @@
 				    "' . $choice15 . '",
 				    "' . $choice16 . '"
 					);';
-				
+
 			$result = $connection->query($call);
-			
+
 			 if ($result == NULL)
 			{
 				returnWithError(4, "Failed to add question result was null");
@@ -132,23 +135,26 @@
 					"' . $sessionID . '",
 					"' . $questionID. '"
 					);';
-					
+
 			$result = $connection->query($call);
-			
-			if($result->num_rows == NULL || $result->num_rows == 0)
+
+			if($result->num_rows == NULL)
 			{
-				if($result->num_rows == NULL)
 					returnWithError(2, "Invalid User Credentials.");
-			
-				returnWithError(3, "Question doesn't exist.");
+          exit();
 			}
+      else if($result->num_rows == 0)
+      {
+        returnWithError(3, "Question doesn't exist.");
+        exit();
+      }
 			else
 				returnWithError(0, "");
-			
+
 			$result->free();
-			
+
 			$connection->next_result();
-			
+
 			$call = 'CALL PollingZone.room_addQuestion(
 					"' . $userID . '",
 					"' . $sessionID . '",
@@ -173,9 +179,9 @@
 				    "' . $choice15 . '",
 				    "' . $choice16 . '"
 					);';
-				
+
 			$result = $connection->query($call);
-			
+
 			 if ($result == NULL)
 			{
 				returnWithError(6, "Failed to edit result was null");
@@ -188,7 +194,7 @@
 			}
 			else
 				returnWithError(0, "");
-			
+
 		}
 		else if($editOption == 3)
 		{
@@ -199,16 +205,19 @@
 			   "' . $questionID . '",
 			   "' . $isLocked . '"
                 );';
-				
+
 			$result = $connection->query($call);
-			
-			if($result->num_rows == NULL || $result->num_rows == 0)
+
+			if($result->num_rows == NULL)
 			{
-				if($result->num_rows == NULL)
 					returnWithError(2, "Invalid User Credentials.");
-			
-				returnWithError(8, "Failed to lock question.");
+			    exit();
 			}
+      else if($result->num_rows == 0)
+      {
+        returnWithError(8, "Failed to lock question.");
+        exit();
+      }
 			else
 				returnWithError(0, "");
 		}
@@ -216,23 +225,23 @@
 			returnWithError(9, "Option not supported");
 	}
 	$connection->close();
-	
+
   function returnWithError($errCode, $err )
   {
     $retValue = createJSONString($err, $errCode);
     sendResultInfoAsJson( $retValue );
   }
-  
+
   function createJSONString($error_, $errCode_)
   {
 		$ret = '
         {
           "error" : "' . $error_ . '",
-		  "errorCode" : "' . $errCode_ . '"
+		      "errorCode" : "' . $errCode_ . '"
         }';
     return $ret;
   }
-  
+
   function sendResultInfoAsJson( $obj )
   {
     header('Content-type: application/json');
