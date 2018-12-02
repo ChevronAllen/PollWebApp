@@ -1,15 +1,15 @@
 <?php
   require("config.php");
-  
-    class Room 
+
+    class Room
 	{
-      function __construct() 
+      function __construct()
 	  {
 		$this->roomID = "";
 		$this->roomCode = "";
       }
 	}
-	  
+
   //	connection using the sql credentials
   $connection = new mysqli($serverIP, $serverUSER, $serverPASS, $serverDB, $serverPORT)
   or die('connection to server failed');
@@ -32,12 +32,14 @@
     $result = $connection->query($call);
     if ($result == NULL || $result->num_rows == 0)
   	{
-  		if($result == NULL)
-  		{
   			returnWithError(2, "User authentication error. Please login");
-  		}
-  		returnWithError(3, "Parameter error/No results from query");
+				exit();
   	}
+		else if($result->num_rows == 0)
+		{
+			returnWithError(3, "Parameter error/No results from query");
+			exit();
+		}
     else
     {
       $rooms = array();
@@ -46,20 +48,18 @@
 		$room = new Room();
 		$room->roomID = $row["roomID"];
 		$room->roomCode = $row["roomCode"];
-		
+
         $rooms[] = $room;
       }
       returnWithInfo(json_encode($rooms));
     }
   }
   $connection->close();
-
   function returnWithInfo($rooms_)
   {
 	  $retValue = createJSONString($rooms_, "", 0);
 	  sendResultInfoAsJson( $retValue );
   }
-
   function createJSONString($rooms_, $error_, $errCode_)
   {
 	$ret = '
@@ -70,13 +70,13 @@
         }';
 	return $ret;
   }
-  
+
   function sendResultInfoAsJson( $obj )
-  {  
+  {
 	header('Content-type: application/json');
 	echo $obj;
   }
-  
+
   function returnWithError($errCode, $err)
   {
 	$retValue = createJSONString("",$err,$errCode);
