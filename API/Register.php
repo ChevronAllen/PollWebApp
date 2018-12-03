@@ -38,7 +38,7 @@ if($connection->connect_error)
 	$result = $connection->query($call);
 	if ($result == NULL)
 	{
-				 returnWithError(1, "Null results returned from stored procedure");
+				 returnWithError(1, "User already exists");
 	}
 	elseif ($result->num_rows == 0)
 	{
