@@ -36,7 +36,11 @@ if($connection->connect_error)
 					);';
 	//	Capture results
 	$result = $connection->query($call);
-	if ($result->num_rows == 0)
+	if ($result == NULL)
+	{
+				 returnWithError(1, "Null results returned from stored procedure");
+	}
+	elseif ($result->num_rows == 0)
 	{
     	   returnWithError(2, "Invalid query string");
 	}
