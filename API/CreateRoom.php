@@ -1,4 +1,4 @@
-<<?php
+<?php
   require("config.php");
   class Question {
       function __construct() {
