@@ -15,7 +15,7 @@
 
 	if($connection->connect_error)
 	{
-		returnWithError(5, "Error Connecting to the Server");
+		returnWithError(1, "Error Connecting to the Server");
 	}
 	else
 	{
@@ -25,7 +25,7 @@
 		$questionID = mysqli_real_escape_string($connection, $inData["questionID"]);
 		$choice = mysqli_real_escape_string($connection, $inData["choice"]);
 
-		$call = 'CALL PollingZone.room_setResponse(
+		$call = 'CALL PollingZone.????(
 			   "' . $userID . '",
   			   "' . $sessionID . '",
   			   "' . $roomID . '",
@@ -34,36 +34,41 @@
                 );';
 
 		$result = $connection->query($call);
-		if($result->num_rows == NULL || $result->num_rows == 0)
+		if($result->num_rows == NULL)
 		{
-			$sqlReport = $mysqli_error;
-			if($result->num_rows == NULL)
-				returnWithError(1, "Invalid User Credentials.");
-
-			returnWithError(2, "Failed to answer question.");
+				returnWithError(2, "Invalid User Credentials.";
+				exit();
+		}
+		else if($result->num_rows== 0)
+		{
+			returnWithError(3, "Failed to answer question.");
+			exit();
 		}
 		else
 		{
-			returnWithInfo();
+			$row = $result->fetch_assoc();
+			$correctChoice = $row["correctChoice"];
+
+			returnWithInfo($correctChoice);
 		}
 
 	}
 	// Close the connection
 	$connection->close();
 
-  function returnWithInfo()
+  function returnWithInfo($correctChoice_)
   {
-	  $retValue = createJSONString(0, "");
+	  $retValue = createJSONString($correctChoice_, "", 0);
 	  sendResultInfoAsJson( $retValue );
-		exit;
   }
 
-  function createJSONString($errCode, $error_)
+  function createJSONString($correctChoice_, $error_, $errCode)
   {
 	$ret = '
         {
-					"errorCode" : "' . $errCode . '",
-          "error" : "' . $error_ . '"
+          "correctChoice" : '. $correctChoice_ .' ,
+          "error" : "' . $error_ . '",
+	  "errorCode" : "' . $errCode . '"
         }';
 	return $ret;
   }
@@ -76,8 +81,7 @@
 
   function returnWithError($errCode, $err)
   {
-	$retValue = createJSONString($errCode, $err);
+	$retValue = createJSONString("",$err, $errCode);
 	sendResultInfoAsJson( $retValue );
-	exit;
   }
 ?>
