@@ -199,7 +199,7 @@
           "roomID" : "'. $roomID_ .'" ,
           "roomCode" : "' . $roomCode_ . '",
           "error" : "' . $error_ . '",
-          "error Code" : "' . $errorCode_ . '"
+          "errorCode" : "' . $errorCode_ . '"
         }';
     return $ret;
 	}
