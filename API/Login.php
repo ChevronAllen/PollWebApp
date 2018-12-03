@@ -25,7 +25,7 @@ else
 				. $password . '"
 				);';
 	$result = $connection->query($call);
-	if ($result == NULL || $result->num_rows == 0)
+	if ($result == NULL)
 	{
 			returnWithError(2, "User authentication error. Please login");
 			exit();
