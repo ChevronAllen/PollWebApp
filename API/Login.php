@@ -27,7 +27,7 @@ else
 	$result = $connection->query($call);
 	if ($result == NULL)
 	{
-			returnWithError(2, "User authentication error. Please login");
+			returnWithError(2, "User authentication error");
 			exit();
 	}
 	else if($result->num_rows == 0)
