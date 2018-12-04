@@ -3,6 +3,48 @@ var questionCount = -1;
 var previous = 0;
 var active = 0;
 
+
+
+
+
+
+
+function populateModal(){
+
+    document.getElementById("accordionEx").innerHTML = '<div id="emptyDiv"></div>'
+
+
+    var students = '01234567,12345678,12345678,13245767,12453678'.split(',');
+    var grade = ' 0,     1   , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,'.split(',');
+
+
+    
+    var newAccordion = document.createElement("div");
+    newAccordion.setAttribute("class", "card");
+
+    newAccordion.innerHTML = '<div class="card"><div class="card-header" role="tab" id="headingOne2"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne2" aria-expanded="true"aria-controls="collapseOne2"><h5 class="mb-0">The new Accordion<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapseOne2" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList2"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div>'
+
+    var emptyDiv = document.getElementById("emptyDiv");
+    document.getElementById("accordionEx").insertBefore(newAccordion, emptyDiv);
+
+}
+/*
+
+
+    for (var s in students) {
+        var newElement = document.createElement('LI');
+        newElement.id = students[s]; newElement.className = "car";
+        newElement.innerHTML = students[s] + "|" +  grade[s];
+        newElement.setAttribute("class", "col-sm list-group-item ")
+        newElement.setAttribute("style", "list-style-type: none;")
+        var studentList = document.getElementById("studentList");
+        studentList.appendChild(newElement);
+    }
+    
+    
+}
+
+
 function createAnswer(number, answerText)
 {
     if (count[number] <= 16)
@@ -112,3 +154,4 @@ function submitAnswer(x, pollID, questionID)
 
 
 }
+*/
