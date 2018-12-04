@@ -73,7 +73,7 @@
 
 			$result = $connection->query($call);
 
-			if($result->num_rows == NULL || $result->num_rows == 0)
+			if($result->num_rows == NULL)
 			{
 					returnWithError(2, "Invalid User Credentials.");
           exit();
@@ -138,7 +138,7 @@
 
 			$result = $connection->query($call);
 
-			if($result->num_rows == NULL)
+			if($result == NULL)
 			{
 					returnWithError(2, "Invalid User Credentials.");
           exit();
@@ -208,7 +208,7 @@
 
 			$result = $connection->query($call);
 
-			if($result->num_rows == NULL)
+			if($result == NULL)
 			{
 					returnWithError(2, "Invalid User Credentials.");
 			    exit();
@@ -218,13 +218,18 @@
         returnWithError(8, "Failed to lock question.");
         exit();
       }
-			else
-				returnWithError(0, "");
-		}
-		else
-			returnWithError(9, "Option not supported");
-	}
-	$connection->close();
+      else
+      {
+	      returnWithError(0, "");
+      }
+     }
+     else
+     {
+	     returnWithError(9, "Option not supported");
+     }
+	
+}
+$connection->close();
 
   function returnWithError($errCode, $err )
   {
