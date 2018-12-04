@@ -37,7 +37,7 @@
 
 		if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error.");
+				returnWithError(2, "User authentication error. Check 1");
         exit();
 		}
     else if($result->num_rows == 0)
@@ -86,7 +86,7 @@
 		$result = $connection->query($call);
 		if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error.");
+				returnWithError(2, "User authentication error. Check 2");
 			  exit();
 		}
     else if($result->num_rows == 0)
@@ -136,7 +136,7 @@
 
 		if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error. Please login");
+				returnWithError(2, "User authentication error. Check 3");
         exit();
 		}
     else if($result->num_rows == 0)
