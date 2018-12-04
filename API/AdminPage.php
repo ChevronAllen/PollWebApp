@@ -1,10 +1,4 @@
 <?php
-/*
-admin gets
-4 - created
-4 - answered
-all ongoing and upcoming polls
-*/
     class Room
 	{
       function __construct()
@@ -13,7 +7,6 @@ all ongoing and upcoming polls
 		$this->roomCode = "";
       }
 	}
-
 	require("config.php");
 
 	//	connection using the sql credentials
@@ -44,67 +37,63 @@ all ongoing and upcoming polls
 
 		if ($result == NULL)
 		{
-			returnWithError(2, "User authentication error. Please login");
-
-			//returnWithError(0, "Parameter error/No rooms owned by this user");
-
+				returnWithError(2, "User authentication error.");
+        exit();
 		}
-		else if($result->num_rows == 0){
-            returnWithError(1,"No rooms owned by this user");
-            // code...
-        }
-        else
-        {
+    else if($result->num_rows == 0)
+    {
+      $CreatedRooms = "No rooms owned by this user";
+    }
+		else
+		{
 		  $CreatedRooms = array();
-		  $num_rows = $result->num_rows;
+		  $num_rows = mysql_num_rows($result);
 
 		  while($row = $result->fetch_assoc())
 		  {
-			if($num_rows < 4)
-			{
-				for($i = 0; $i < 4; $i++)
-				{
-					$roomC = new Room();
-					$roomC->roomID = $row["roomID"];
-					$roomC->roomCode = $row["roomCode"];
+  			if($num_rows < 4)
+  			{
+  				for($i = 0; $i < 4; $i++)
+  				{
+  					$roomC = new Room();
+  					$roomC->roomID = $row["roomID"];
+  					$roomC->roomCode = $row["roomCode"];
 
-					$CreatedRooms[] = $roomC;
-				}
-			}
-			else
-			{
-				for($i = 0; $i < 4; $i++)
-				{
-					$roomC = new Room();
-					$roomC->roomID = $row["roomID"];
-					$roomC->roomCode = $row["roomCode"];
+  					$CreatedRooms[] = $roomC;
+  				}
+  			}
+  			else
+  			{
+  				for($i = 0; $i < 4; $i++)
+  				{
+  					$roomC = new Room();
+  					$roomC->roomID = $row["roomID"];
+  					$roomC->roomCode = $row["roomCode"];
 
-					$CreatedRooms[] = $roomC;
-				}
-			}
-			$result->free();
+  					$CreatedRooms[] = $roomC;
+  				}
+  			}
+  			$result->free();
 		  }
 		}
 		$connection->next_result();
 
 		$call = 'CALL PollingZone.user_getSubmissions(
 			   "' . $userID . '",
-  			   "' . $sessionID . '"
+  			 "' . $sessionID . '"
                 );';
 
-
 		$result = $connection->query($call);
-        if ($result == NULL)
+		if ($result == NULL)
 		{
-			returnWithError(2, "User authentication error. Please login");
-
-			//returnWithError(0, "Parameter error/No rooms owned by this user");
-
+				returnWithError(2, "User authentication error.");
+			  exit();
 		}
-		else if($result->num_rows == 0){
-            returnWithError(1,"No rooms owned by this user");
-            // code...
-        }
+    else if($result->num_rows == 0)
+    {
+      $AnsweredRooms = "No rooms answered by this user";
+
+    }
 		else
 		{
 		  $AnsweredRooms = array();
@@ -140,22 +129,20 @@ all ongoing and upcoming polls
 
 		$call = 'CALL PollingZone.user_getRoomsOwned(
 			   "' . $userID . '",
-  			   "' . $sessionID . '"
+  			 "' . $sessionID . '"
                 );';
 
 		$result = $connection->query($call);
 
-        if ($result == NULL)
+		if ($result == NULL)
 		{
-			returnWithError(2, "User authentication error. Please login");
-
-			//returnWithError(0, "Parameter error/No rooms owned by this user");
-
+				returnWithError(2, "User authentication error. Please login");
+        exit();
 		}
-		else if($result->num_rows == 0){
-            returnWithError(1,"No rooms owned by this user");
-            // code...
-        }
+    else if($result->num_rows == 0)
+    {
+      returnWithError(3, "Parameter error/No rooms owned by this user");
+    }
 		else
 		{
 		  while($row = $result->fetch_assoc())
@@ -197,11 +184,11 @@ all ongoing and upcoming polls
   {
 		$ret = '
         {
-		  "createdRooms" : "' . $CreatedRooms_ . '",
-		  "answeredRooms" : "' . $AnsweredRooms_ . '",
-		  "remainingRooms" : "' . $RemainingRooms_ . '",
+    		  "createdRooms" : "' . $CreatedRooms_ . '",
+    		  "answeredRooms" : "' . $AnsweredRooms_ . '",
+    		  "remainingRooms" : "' . $RemainingRooms_ . '",
           "error" : "' . $error_ . '",
-		  "errorCode" : "' . $errCode_ . '"
+    		  "errorCode" : "' . $errCode_ . '"
         }';
     return $ret;
   }
