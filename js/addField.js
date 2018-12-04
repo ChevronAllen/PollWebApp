@@ -1,52 +1,123 @@
-/*
-options needed:
-start time
-end time
-add to survey
-require login to answer
-format as code
-save as draft
-*/
+var count = [0, 0];
+var questionCount = 1;
+var previous = 1;
+var active = 1;
+var maxQuestions = 0;
 
-
-var count = 0;
-
-function addQuestion()
+function addAnswer(number)
 {
-    if (count <= 7)
+    if (count[number] <= 15)
     {
-        count++;
-
-        var char = String.fromCharCode(count + 64);
+        count[number]++;
+        var char = String.fromCharCode(count[number] + 64);
 
         var answerField = document.createElement("div");
         answerField.setAttribute("class", "form-group");
-        answerField.innerHTML = '<input type="text" id="answer' + count + '" placeholder="' + char + '" padding-bottom="7px" class="form-control">'
+        answerField.innerHTML = '<input type="text" id="question' + number + 'answer' + count[number] + '" placeholder="' + char + '" padding-bottom="7px" class="form-control">'
 
-        document.getElementById("answersList").insertBefore(answerField, questionButton);
+        var answerButton = document.getElementById("addAnswerButton" + number);
+        document.getElementById("answersList" + number).insertBefore(answerField, answerButton);
+
+        var answerChar = document.createElement("option");
+        answerChar.setAttribute("value", count[number]);
+        answerChar.innerHTML = char;
+
+        var blankOption = document.getElementById("blankOption" + number);
+        document.getElementById("correctAnswerDropdown" + number).insertBefore(answerChar, blankOption);
+
+
     }
+}
+
+function addQuestion()
+{
+    if (questionCount < maxQuestions)
+    {
+        questionCount++;
+        count.push(0);
+
+        var questionButton = document.createElement("li");
+        questionButton.innerHTML = '<a id = "newButton' + questionCount + '" class="btn btn-primary btn-block" onclick="toggleElement(' + questionCount + ')">Question ' + questionCount + '</a>';
+
+        document.getElementById("questionsList").insertBefore(questionButton, blankListItem);
+
+        var newQuestion = document.createElement("div");
+        newQuestion.setAttribute("id", "question" + questionCount);
+
+        newQuestion.innerHTML = '<div class="form-group"><br><textarea class="form-control" rows="5" id="questionField' + questionCount + '" placeholder="Enter Question Here"></textarea><form id = "answersList' + questionCount + '"><br><select class="input-large" id="correctAnswerDropdown' + questionCount + '"><option selected value="0">Select Correct Answer</option><span id="blankOption' + questionCount + '"></span></select><br><br><a id = "addAnswerButton' + questionCount + '" class="btn btn-primary" onclick="addAnswer(' + questionCount + ')">Add Answer</a></form></div>';
+
+        document.getElementById("content").insertBefore(newQuestion, blankDiv);
+
+        toggleElement(questionCount);
+    }
+
+}
+
+function maxQuestions(x){
+    maxQuestions = x;
+}
+
+function toggleElement(number){
+
+
+    previous = active;
+    active = number;
+
+
+    var previousQuestion = document.getElementById("question" + previous);
+
+    previousQuestion.style.display = "none";
+
+    var activeQuestion = document.getElementById("question" + active);
+
+    activeQuestion.style.display = "";
 
 }
 
 function submitQuestion()
 {
-    var answers = {};
+    var poll = {};
+    var startTime = new Date(document.getElementById("startTime").value);
+    var endTime = new Date(document.getElementById("endTime").value);
 
-    answers['pollName'] = document.getElementById('title').value;
-    answers['questionText'] = document.getElementById('questionField').value;
-    answers['responseCount'] = count;
-    answers['correctResponse'] = 2;
-    answers['responses'] = [];
+    poll['userID'] = (localStorage.userID ? localStorage.userID : "");
+    poll['sessionKey'] = (localStorage.sessionID ? localStorage.sessionID : "");
+    poll['roomTitle'] = document.getElementById('title').value;
+    poll['roomPublic'] = document.getElementById('publicOption').checked;
+    poll['startTime'] = startTime.getTime();
+    poll['expirationTime'] = endTime.getTime();
+    poll['questions'] = []
 
-    for(var i = 1; i <= count; i++)
+    for(var i = 1; i <= questionCount; i++)
     {
-        answers['responses'].push(document.getElementById('answer' + i).value);
-        //answers.push(document.getElementById('answer' + i).value);
+        var tempPoll = {};
+
+        tempPoll['correctResponse'] = document.getElementById('correctAnswerDropdown' + i).value;
+
+        tempPoll['questionText'] = document.getElementById('questionField' + i).value;
+
+        for(var j = 1; j <= 16; j++)
+        {
+            if((document.getElementById('question' + i + 'answer' + j)) != null)
+            {
+                tempPoll['choice' + j] = document.getElementById('question' + i + 'answer' + j).value;
+            }else{
+                tempPoll['choice' + j] = "";
+            }
+
+        }
+
+        //window.alert(tempPoll);
+
+        poll['questions'].push(tempPoll);
+
     }
 
-    var jsonPayload = JSON.stringify(answers);
+    var jsonPayload = JSON.stringify(poll);
 
-    var url = "../API/CreateAnonPoll.php";
+    //window.alert(jsonPayload);
+
+    var url = "/API/CreateRoom.php";
 
     var xhr = new XMLHttpRequest();
 
@@ -64,9 +135,11 @@ function submitQuestion()
             {
                 var jsonObject = JSON.parse(xhr.responseText);
 
-                pollID = jsonObject.pollId;
-                pollCode = jsonObject.pollCode;
-                dateExpire = jsonObject.dateExpire;
+                if(jsonObject.error == ""){
+                    window.alert('Poll Created! Room ID:' + jsonObject.roomCode)
+                }else{
+                    window.alert("Error Creating Poll")
+                }
 
             }
             else
