@@ -1,4 +1,10 @@
 <?php
+/*
+admin gets
+4 - created
+4 - answered
+all ongoing and upcoming polls
+*/
     class Room
 	{
       function __construct()
@@ -7,6 +13,7 @@
 		$this->roomCode = "";
       }
 	}
+
 	require("config.php");
 
 	//	connection using the sql credentials
@@ -35,20 +42,21 @@
 
 		$result = $connection->query($call);
 
-		if ($result == NULL || $result->num_rows == 0)
+		if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error. Please login");
-        exit();
-		}
-    else if($result->num_rows == 0)
-    {
-      $CreatedRooms = "No rooms owned by this user";
+			returnWithError(2, "User authentication error. Please login");
 
-    }
-		else
-		{
+			//returnWithError(0, "Parameter error/No rooms owned by this user");
+
+		}
+		else if($result->num_rows == 0){
+            returnWithError(1,"No rooms owned by this user");
+            // code...
+        }
+        else
+        {
 		  $CreatedRooms = array();
-		  $num_rows = mysql_num_rows($result);
+		  $num_rows = $result->num_rows;
 
 		  while($row = $result->fetch_assoc())
 		  {
@@ -81,21 +89,22 @@
 
 		$call = 'CALL PollingZone.user_getSubmissions(
 			   "' . $userID . '",
-  			 "' . $sessionID . '"
+  			   "' . $sessionID . '"
                 );';
 
 
 		$result = $connection->query($call);
-		if ($result == NULL)
+        if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error. Please login");
-			  exit();
-		}
-    else if($result->num_rows == 0)
-    {
-      $AnsweredRooms = "No rooms answered by this user";
+			returnWithError(2, "User authentication error. Please login");
 
-    }
+			//returnWithError(0, "Parameter error/No rooms owned by this user");
+
+		}
+		else if($result->num_rows == 0){
+            returnWithError(1,"No rooms owned by this user");
+            // code...
+        }
 		else
 		{
 		  $AnsweredRooms = array();
@@ -131,20 +140,22 @@
 
 		$call = 'CALL PollingZone.user_getRoomsOwned(
 			   "' . $userID . '",
-  			 "' . $sessionID . '"
+  			   "' . $sessionID . '"
                 );';
 
 		$result = $connection->query($call);
 
-		if ($result == NULL)
+        if ($result == NULL)
 		{
-				returnWithError(2, "User authentication error. Please login");
-        exit();
+			returnWithError(2, "User authentication error. Please login");
+
+			//returnWithError(0, "Parameter error/No rooms owned by this user");
+
 		}
-    else if($result->num_rows == 0)
-    {
-      returnWithError(1, "Parameter error/No rooms owned by this user");
-    }
+		else if($result->num_rows == 0){
+            returnWithError(1,"No rooms owned by this user");
+            // code...
+        }
 		else
 		{
 		  while($row = $result->fetch_assoc())
@@ -189,7 +200,7 @@
 		  "createdRooms" : "' . $CreatedRooms_ . '",
 		  "answeredRooms" : "' . $AnsweredRooms_ . '",
 		  "remainingRooms" : "' . $RemainingRooms_ . '",
-      "error" : "' . $error_ . '",
+          "error" : "' . $error_ . '",
 		  "errorCode" : "' . $errCode_ . '"
         }';
     return $ret;
