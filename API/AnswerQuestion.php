@@ -25,8 +25,8 @@
 		$questionID = mysqli_real_escape_string($connection, $inData["questionID"]);
 		$choice = mysqli_real_escape_string($connection, $inData["choice"]);
 
-		$call = 'CALL PollingZone.????(
-			   "' . $userID . '",
+		$call = 'CALL PollingZone.setResponse(
+			   	 "' . $userID . '",
   			   "' . $sessionID . '",
   			   "' . $roomID . '",
   			   "' . $questionID . '",
@@ -68,7 +68,7 @@
         {
           "correctChoice" : '. $correctChoice_ .' ,
           "error" : "' . $error_ . '",
-	  "errorCode" : "' . $errCode . '"
+					"errorCode" : "' . $errCode . '"
         }';
 	return $ret;
   }
