@@ -30,10 +30,23 @@ function getRoom()
             {
                 var jsonObject = JSON.parse(xhr.responseText);
 
-                if(jsonObject.error == ""){
-                    window.alert('Poll Created! Room ID:' + jsonObject.roomCode)
-                }else{
-                    window.alert("Error Creating Poll")
+                if(jsonObject.error == "")
+                {
+                    localStorage.title = jsonObject.title;
+                    localStorage.expirationTime = jsonObject.expire;
+                    localStorage.pollID = jsonObject.id;
+                    localStorage.questions = JSON.stringify (jsonObject.questions)
+                    window.location.href = "/getPoll.html";
+
+                }else if (jsonObject.errorCode == 0)
+                {
+                    window.alert("Cannot find poll.");
+                }else if (jsonObject.errorCode == 1)
+                {
+                    window.alert("Please log in to view this poll.");
+                }else if (jsonObject.errorCode == 2)
+                {
+                    window.alert("Poll is not live yet.");
                 }
 
             }

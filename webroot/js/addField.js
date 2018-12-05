@@ -2,10 +2,11 @@ var count = [0, 0];
 var questionCount = 1;
 var previous = 1;
 var active = 1;
+var maxQuestions = 0;
 
 function addAnswer(number)
 {
-    if (count[number] <= 7)
+    if (count[number] <= 15)
     {
         count[number]++;
         var char = String.fromCharCode(count[number] + 64);
@@ -30,7 +31,7 @@ function addAnswer(number)
 
 function addQuestion()
 {
-    if (questionCount <= 100)
+    if (questionCount < maxQuestions)
     {
         questionCount++;
         count.push(0);
@@ -50,6 +51,10 @@ function addQuestion()
         toggleElement(questionCount);
     }
 
+}
+
+function maxQuestions(x){
+    maxQuestions = x;
 }
 
 function toggleElement(number){
@@ -72,14 +77,15 @@ function toggleElement(number){
 function submitQuestion()
 {
     var poll = {};
-    var time = new Date();
+    var startTime = new Date(document.getElementById("startTime").value);
+    var endTime = new Date(document.getElementById("endTime").value);
 
     poll['userID'] = (localStorage.userID ? localStorage.userID : "");
     poll['sessionKey'] = (localStorage.sessionID ? localStorage.sessionID : "");
     poll['roomTitle'] = document.getElementById('title').value;
-    poll['roomPublic'] = document.getElementById('publicOption').checked;
-    poll['startTime'] = time.getTime();
-    poll['expirationTime'] = time.getTime() + 1000000000;
+    poll['roomPublic'] = number(document.getElementById('publicOption').checked);
+    poll['startTime'] = (startTime.getTime() !== null ? startTime.getTime() : "")
+    poll['expirationTime'] = (endTime.getTime() !== null ? endTime.getTime() : "")
     poll['questions'] = []
 
     for(var i = 1; i <= questionCount; i++)
@@ -87,7 +93,7 @@ function submitQuestion()
         var tempPoll = {};
 
         tempPoll['correctResponse'] = document.getElementById('correctAnswerDropdown' + i).value;
-
+        tempPoll['isLocked'] = false;
         tempPoll['questionText'] = document.getElementById('questionField' + i).value;
 
         for(var j = 1; j <= 16; j++)

@@ -1,14 +1,3 @@
-// Get the modal
-var modal = document.getElementById('id01');
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-
 function logout()
 {
     localStorage.clear();
@@ -50,6 +39,8 @@ function regexCheck(str, reg) {
 }
 
 function doLogin() {
+
+    event.preventDefault();
 
     logUsername = document.getElementById("userName").value     //obtain username from login entry bar
     logPassword = document.getElementById("password").value     //obtain password from login entry bar
@@ -122,7 +113,11 @@ function doLogin() {
     xhr.send(jsonPayload);
 }
 
-function doRegister() {
+function doRegister(e) {
+
+    var e = window.event || e;
+    e.preventDefault();
+
     userId = 0;
     sessionId = 0;
 
@@ -144,17 +139,20 @@ function doRegister() {
     if (regexCheck(regPassword, /"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"/)) {
         //div for not valid password
     }
+    */
+
     if (regPassword != regRePassword) {
-        console.log("password mismatch");
+        document.getElementById("validation").innerHTML = "Passwords must match";
         return;
     }
-    */
+    
 
     //sha256 password
     hashedPassword = sha256(regPassword);
 
     //Session ID
     sessionID = Math.random().toString(36).substr(2, 10);
+    
     //Payload
     userEntry["firstName"] = firstName;
     userEntry["lastName"] = lastName;
@@ -176,11 +174,14 @@ function doRegister() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
+
                 var jsonObject = JSON.parse(xhr.responseText);
 
-                error = jsonObject.error;
+                if (jsonObject.error == "") {
+                    location.reload(true);
+                }
 
-                //if error
+
             }
             else {
                 return;

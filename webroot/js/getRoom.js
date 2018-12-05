@@ -1,52 +1,42 @@
-var count = [0, 0];
-var questionCount = 1;
-var previous = 1;
-var active = 1;
+var count = [];
+var questionCount = -1;
+var previous = 0;
+var active = 0;
 
 function createAnswer(number, answerText)
 {
-    if (count[number] <= 7)
+    if (count[number] <= 16)
     {
         count[number]++;
-        var char = String.fromCharCode(count[number] + 64);
 
         var answerField = document.createElement("div");
-        answerField.setAttribute("class", "form-group");
-        answerField.innerHTML = '<input type="text" id="question' + number + 'answer' + count[number] + '" placeholder="' + char + '" padding-bottom="7px" class="form-control">'
-
-        var answerButton = document.getElementById("addAnswerButton" + number);
-        document.getElementById("answersList" + number).insertBefore(answerField, answerButton);
-
-        var answerChar = document.createElement("option");
-        answerChar.setAttribute("value", count[number]);
-        answerChar.innerHTML = char;
-
-        var blankOption = document.getElementById("blankOption" + number);
-        document.getElementById("correctAnswerDropdown" + number).insertBefore(answerChar, blankOption);
+        answerField.setAttribute("class", "form-check answers");
+        answerField.innerHTML = '<input class="form-check-input" type="radio" name="question' + number + 'Radios" id="question' + number + 'Answer' + count[number] +  '" value="' + count[number] + '"><label class="form-check-label" for="question' + number + 'Answer' + count[number] +  '">' + answerText + '</label>'
+        var answerButton = document.getElementById("submitAnswer" + number);
+        document.getElementById("question" + number).insertBefore(answerField, answerButton);
     }
 }
 
-function createQuestion(questionText)
+function createQuestion(questionText, pollID, questionID)
 {
-    if (questionCount <= 100)
-    {
-        questionCount++;
-        count.push(0);
 
-        var questionButton = document.createElement("li");
-        questionButton.innerHTML = '<a id = "newButton' + questionCount + '" class="btn btn-primary btn-block" onclick="toggleElement(' + questionCount + ')">Question ' + questionCount + '</a>';
+    questionCount++;
+    count.push(0);
 
-        document.getElementById("questionsList").insertBefore(questionButton, blankListItem);
+    var questionButton = document.createElement("li");
+    questionButton.innerHTML = '<a id = "newButton' + questionCount + '" class="btn btn-primary btn-block" onclick="toggleElement(' + questionCount + ')">Question ' + (questionCount+1) + '</a>';
 
-        var newQuestion = document.createElement("div");
-        newQuestion.setAttribute("id", "question" + questionCount);
+    document.getElementById("questionsList").insertBefore(questionButton, blankListItem);
 
-        newQuestion.innerHTML = '<div class="form-group"><br><textarea class="form-control" rows="5" id="questionField' + questionCount + '" placeholder="Enter Question Here"></textarea><form id = "answersList' + questionCount + '"><br><select class="input-large" id="correctAnswerDropdown' + questionCount + '"><option selected value="0">Select Correct Answer</option><span id="blankOption' + questionCount + '"></span></select><br><br><a id = "addAnswerButton' + questionCount + '" class="btn btn-primary" onclick="addAnswer(' + questionCount + ')">Add Answer</a></form></div>';
+    var newQuestion = document.createElement("div");
+    newQuestion.setAttribute("id", "question" + questionCount);
 
-        document.getElementById("content").insertBefore(newQuestion, blankDiv);
+    newQuestion.innerHTML = '<div class = card><div class="card-body">' + questionText + '</div></div></br><a id = "submitAnswer' + questionCount + '" class="btn btn-primary" onclick="submitAnswer( ' + questionCount + ',&QUOT;' + pollID +  '&QUOT;,&QUOT;' + questionID + '&QUOT;)">Submit</a>'; 
 
-        toggleElement(questionCount);
-    }
+    document.getElementById("content").insertBefore(newQuestion, blankDiv);
+
+    toggleElement(questionCount);
+
 
 }
 
@@ -67,49 +57,26 @@ function toggleElement(number){
 
 }
 
-function submitQuestion()
+function submitAnswer(x, pollID, questionID)
 {
     var poll = {};
-    var time = new Date();
+    window.alert("got here")
+    //window.alert(document.getElementById('question' + x + 'Radios').checked)
+
 
     poll['userID'] = (localStorage.userID ? localStorage.userID : "");
-    poll['sessionKey'] = (localStorage.sessionID ? localStorage.sessionID : "");
-    poll['roomTitle'] = document.getElementById('title').value;
-    poll['roomPublic'] = document.getElementById('publicOption').checked;
-    poll['startTime'] = time.getTime();
-    poll['expirationTime'] = time.getTime() + 1000000000;
-    poll['questions'] = []
-
-    for(var i = 1; i <= questionCount; i++)
-    {
-        var tempPoll = {};
-
-        tempPoll['correctResponse'] = document.getElementById('correctAnswerDropdown' + i).value;
-
-        tempPoll['questionText'] = document.getElementById('questionField' + i).value;
-
-        for(var j = 1; j <= 16; j++)
-        {
-            if((document.getElementById('question' + i + 'answer' + j)) != null)
-            {
-                tempPoll['choice' + j] = document.getElementById('question' + i + 'answer' + j).value;
-            }else{
-                tempPoll['choice' + j] = "";
-            }
-
-        }
-
-        //window.alert(tempPoll);
-
-        poll['questions'].push(tempPoll);
-
-    }
+    poll['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
+    poll['roomID'] = pollID;
+    poll['questionID'] = questionID;
+    poll['choice'] = $('input[name=question' + x + 'Radios]:checked', '#question' + x).val();
 
     var jsonPayload = JSON.stringify(poll);
 
     //window.alert(jsonPayload);
 
-    var url = "/API/CreateRoom.php";
+    window.alert("got here again")
+
+    var url = "/API/AnswerQuestion.php";
 
     var xhr = new XMLHttpRequest();
 
@@ -128,9 +95,9 @@ function submitQuestion()
                 var jsonObject = JSON.parse(xhr.responseText);
 
                 if(jsonObject.error == ""){
-                    window.alert('Poll Created! Room ID:' + jsonObject.roomCode)
+                    window.alert('Successfully Answered:' + x)
                 }else{
-                    window.alert("Error Creating Poll")
+                    window.alert("Error Answering Poll")
                 }
 
             }
@@ -142,5 +109,6 @@ function submitQuestion()
     }
 
     xhr.send(jsonPayload);
+
 
 }
