@@ -49,32 +49,17 @@
 		  $CreatedRooms = array();
 		  $num_rows = $result->num_rows;
 
-		  while($row = $result->fetch_assoc())
+      $i = 0;
+		  while(($row = $result->fetch_assoc()) && ($i++ < 4) )
 		  {
-  			if($num_rows < 4)
-  			{
-  				for($i = 0; $i < $num_rows; $i++)
-  				{
-  					$roomC = new Room();
-  					$roomC->roomID = $row["roomID"];
-  					$roomC->roomCode = $row["roomCode"];
+  			$roomC = new Room();
+  			$roomC->roomID = $row["roomID"];
+  			$roomC->roomCode = $row["roomCode"];
 
-  					$CreatedRooms[] = $roomC;
-  				}
-  			}
-  			else
-  			{
-  				for($i = 0; $i < 4; $i++)
-  				{
-  					$roomC = new Room();
-  					$roomC->roomID = $row["roomID"];
-  					$roomC->roomCode = $row["roomCode"];
+  			$CreatedRooms[] = $roomC;
 
-  					$CreatedRooms[] = $roomC;
-  				}
-  			}
-  			$result->free();
 		  }
+      $result->free();
 		}
     $connection->next_result();
 
@@ -97,6 +82,18 @@
 		{
 		  $AnsweredRooms = array();
 		  $num_rows = $result->num_rows;
+
+      $i = 0;
+		  while(($row = $result->fetch_assoc()) && ($i++ < 4) )
+		  {
+  			$roomC = new Room();
+  			$roomC->roomID = $row["roomID"];
+  			$roomC->roomCode = $row["roomCode"];
+
+  			$AnsweredRooms[] = $roomC;
+
+		  }
+      $result->free();
 		  while($row = $result->fetch_assoc())
 		  {
 			if($num_rows < 4)
