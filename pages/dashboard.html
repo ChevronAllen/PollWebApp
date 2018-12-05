@@ -42,11 +42,51 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src = "js/dashboard.js"></script>
+    <script src = "/js/dashboard.js"></script>
     
 
 </head>
 <body>
+    <script> var roomCreatedArray;
+    var roomAnsweredArray;
+    var upcomingArray;
+    //Payload
+    var admin = {};
+
+    admin['id'] = (localStorage.userID ? localStorage.userID : "");
+    admin['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
+
+    var jsonPayload = JSON.stringify(admin);
+    //get register PHP page name
+    var url = "../API/AdminPage.php";
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url, true);    //true associates with asyncrous
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    // xhr.onreadystatechange is called when xhr.send recieves a response
+    // readyState == 4 means done with XMLHttpRequest
+    // status == 200 is a successful request once finished
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                var jsonObject = JSON.parse(xhr.responseText);                
+
+                //if error return;
+
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    xhr.send(jsonPayload);
+</script>
 
  <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Open modal
@@ -104,20 +144,7 @@
                             <div class="col-sm">
                         Student</div>
                         <div class="col-sm">| Grade</div>
-                    <script>
-                    
-var students = '01234567,12345678,12345678,13245767,12453678'.split(',');
-var grade = ' 0,     1   , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,'.split(',');
-for (var s in students) {
-    var newElement = document.createElement('LI');
-    newElement.id = students[s]; newElement.className = "car";
-    newElement.innerHTML = students[s] + "|" +  grade[s];
-    newElement.setAttribute("class", "col-sm list-group-item ")
-    newElement.setAttribute("style", "list-style-type: none;")
-    var studentList = document.getElementById("studentList");
-    studentList.appendChild(newElement);
-}
-</script>
+                   
 </li>
 </ul>
 </div>
@@ -152,103 +179,6 @@ for (var s in students) {
 </form>
 
 <!-- Modal HTML -->
-<form>
- <!-- Button to Open the Modal -->
- 
-  <!-- The Modal -->
-  <div class="modal" id="myModal1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Poll Name Given By User</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        </div>
-        <!-- Modal body
-        <div class="modal-body">
-          Overall Results
-        </div> -->
-
-                    <!--Accordion wrapper-->
-            <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-              <!-- Accordion card -->
-              <div class="card">
-
-                <!-- Card header -->
-                <div class="card-header" role="tab" id="headingOne1">
-                  <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
-                    aria-controls="collapseOne1">
-                    <h5 class="mb-0">
-                      Overall Results <i class="fa fa-angle-down rotate-icon"></i>
-                    </h5>
-                  </a>
-                </div>
-
-                <!-- Card body -->
-                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
-                  data-parent="#accordionEx">
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-sm">
-                    Graphs
-                  </div>
-                  <div class="col-sm d-flex justify-content-end">
-                    <div class="pre-scrollable">
-                 <ul style="height:200px; width: 165px;list-style-type: none" id="studentList">
-                    <li>
-                        <div class="row">
-                            <div class="col-sm">
-                        Student</div>
-                        <div class="col-sm">| Grade</div>
-                    <script>
-                    
-var students = '01289967,12389978,12389978,13245767,12453678'.split(',');
-var grade = ' 0,     1   , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,'.split(',');
-for (var s in students) {
-    var newElement = document.createElement('LI');
-    newElement.id = students[s]; newElement.className = "car";
-    newElement.innerHTML = students[s] + "|" +  grade[s];
-    newElement.setAttribute("class", "col-sm list-group-item ")
-    newElement.setAttribute("style", "list-style-type: none;")
-    var studentList = document.getElementById("studentList");
-    studentList.appendChild(newElement);
-}
-</script>
-</li>
-</ul>
-</div>
-                  </div>
-
-            
-                </div>
-
-              </div>
-          </div>
-      </div>
-
-              <!-- Accordion card -->
-
-              
-              <!-- Accordion card -->
-
-            </div>
-            <!-- Accordion wrapper -->
-        
-            
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  
-</div>
-</form>
 <!-- dashboard from bootstrap -->
  <div id="wrapper">
    <div id="page-wrapper">
