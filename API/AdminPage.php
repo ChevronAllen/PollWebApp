@@ -126,7 +126,7 @@
 		}
     $connection->next_result();
 
-		$call = 'CALL PollingZone.user_getRoomsOwned(
+		$call = 'CALL PollingZone.user_getRoomsActive(
 			   "' . $userID . '",
   			 "' . $sessionID . '"
                 );';
@@ -144,23 +144,14 @@
     }
 		else
 		{
+      $RemainingRooms = array();
 		  while($row = $result->fetch_assoc())
 		  {
-			$roomExpirationDate = date_parse($row["dateExpire"]);
-			$RemainingRooms = array();
-			if($roomExpirationDate["year"] >= $today["year"] &&
-			   $roomExpirationDate["month"] >= $today["mon"] &&
-			   $roomExpirationDate["day"] >= $today["mday"] &&
-			   $roomExpirationDate["hour"] >= $today["hours"] &&
-			   $roomExpirationDate["minute"] >= $today["minutes"] &&
-			   $roomExpirationDate["second"] > $today["seconds"])
-			   {
 				$roomO = new Room();
 				$roomO->roomID = $row["roomID"];
 				$roomO->roomCode = $row["roomCode"];
 
 				$RemainingRooms[] = $roomO;
-			   }
 		  }
 		}
 
@@ -183,9 +174,9 @@
   {
 		$ret = '
         {
-    		  "createdRooms" : "' . $CreatedRooms_ . '",
-    		  "answeredRooms" : "' . $AnsweredRooms_ . '",
-    		  "remainingRooms" : "' . $RemainingRooms_ . '",
+    		  "createdRooms" : ' . $CreatedRooms_ . ',
+    		  "answeredRooms" : ' . $AnsweredRooms_ . ',
+    		  "remainingRooms" : ' . $RemainingRooms_ . ',
           "error" : "' . $error_ . '",
     		  "errorCode" : "' . $errCode_ . '"
         }';
