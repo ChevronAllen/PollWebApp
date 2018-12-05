@@ -66,7 +66,7 @@
         {
           "rooms" : '. $rooms_ .' ,
           "error" : "' . $error_ . '",
-          "error Code: "' . $errCode_ . '"
+          "errorCode" : "' . $errCode_ . '"
         }';
 	return $ret;
   }
