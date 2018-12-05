@@ -42,7 +42,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src = "/js/dashboard.js"></script>
+    <script src = "dashboard.js"></script>
     
 
 </head>
@@ -52,6 +52,30 @@
 
         populateDashboard();
     </script>
+
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/index.html">Polling Zone</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index.html">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/createPoll.html">Create Poll</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard.html">Admin</a>
+                </li>
+            </ul>
+        </div>
+    
+        <form class="form-inline" id="accountButtons">
+            <a class="btn btn-sm btn-outline-success" onclick="logout();">Logout</a>
+        </form>
+</nav>
 
  <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Open modal
