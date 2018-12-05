@@ -25,7 +25,7 @@
   {
     $userID             = mysqli_real_escape_string($connection, $inData["userID"]);
     $sessionID        = mysqli_real_escape_string($connection, $inData["sessionID"]);
-    $call = 'CALL PollingZone.user_getRoomsOwned(
+    $call = 'CALL PollingZone.user_getRecentExpired(
 			     "' . $userID . '",
   			   "' . $sessionID . '"
                 );';
