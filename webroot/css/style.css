@@ -30,3 +30,9 @@
 #headingOne {
     text-align: center;
 }
+
+.answers {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 35px;
+  }
