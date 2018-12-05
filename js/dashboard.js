@@ -4,39 +4,212 @@ var previous = 0;
 var active = 0;
 
 
+function populateDashboard()
+{   
+    
+}
 
+function getAnsweredModal(roomID)
+{
+    var payload = {};
 
+    payload['userID'] = (localStorage.userID ? localStorage.userID : "");
+    payload['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
+    payload['roomID'] = roomID;
+    var jsonPayload = JSON.stringify(payload);
+
+    var url = "/API/AnsweredModal.php";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url, true);    //true associates with asyncrous
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    // xhr.onreadystatechange is called when xhr.send recieves a response
+    // readyState == 4 means done with XMLHttpRequest
+    // status == 200 is a successful request once finished
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                var jsonObject = JSON.parse(xhr.responseText);
+                
+
+                if(jsonObject.error == ""){
+                    window.alert('Successfully got Answered Modal')
+                    var roomResult = jsonObject.roomResult;
+                }else{
+                    window.alert("Error getting Answered Modal")
+                }
+
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    xhr.send(jsonPayload);
+}
+
+function getCreatedModal(roomID)
+{
+    var payload = {};
+
+    payload['userID'] = (localStorage.userID ? localStorage.userID : "");
+    payload['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
+    payload['roomID'] = roomID;
+    var jsonPayload = JSON.stringify(payload);
+
+    var url = "/API/RoomCreatedModal.php";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url, true);    //true associates with asyncrous
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    // xhr.onreadystatechange is called when xhr.send recieves a response
+    // readyState == 4 means done with XMLHttpRequest
+    // status == 200 is a successful request once finished
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                var jsonObject = JSON.parse(xhr.responseText);
+                
+
+                if(jsonObject.error == ""){
+                    window.alert('Successfully got Created Modal')
+                    var roomQuestions = jsonObject.roomQuestions;
+                    var roomUsers = jsonObject.roomUsers;
+                }else{
+                    window.alert("Error getting Created Modal")
+                }
+
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    xhr.send(jsonPayload);
+}
+
+function getDashboard()
+{
+    var payload = {};
+
+    payload['userID'] = (localStorage.userID ? localStorage.userID : "");
+    payload['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
+
+    var jsonPayload = JSON.stringify(payload);
+
+    var url = "/API/AdminPage.php";
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", url, true);    //true associates with asyncrous
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    // xhr.onreadystatechange is called when xhr.send recieves a response
+    // readyState == 4 means done with XMLHttpRequest
+    // status == 200 is a successful request once finished
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                var jsonObject = JSON.parse(xhr.responseText);
+                
+
+                if(jsonObject.error == ""){
+                    window.alert('Successfully got dashboard')
+                    var createdRooms = jsonObject.createdRooms;
+                    var answeredRooms = jsonObject.answeredRooms;
+                    var remainingRooms = jsonObject.remainingRooms;
+                }else{
+                    window.alert("Error getting dashboard")
+                }
+
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    xhr.send(jsonPayload);
+   // populateDashboard(createdRooms, answeredRooms, remainingRooms);
+}
 
 
 
 function populateModal(){
+
+    var numberOfQuestions = '01234567,12345678,12345678,13245767,12453678'.split(',');
+    var grade = ' 10, 12, 10, 11, 13'.split(',');
+    var overallGrade = '100, 100, 95, 0, 35'.split(',');
+    var counter = 1;
+    var i;
+    var numberOfStudents = 5;
     //Reminder:
     //Need to make it so all accordion tabs are closed at the opening of the Modal "class = collapse hide"
     document.getElementById("accordionEx").innerHTML = '<div id="emptyDiv"><div class="card"><div class="card-header" role="tab" id="question' + s + '"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapse' + s +  '" aria-expanded="true"aria-controls="collapse' + s +  '"><h5 class="mb-0">Overall Results' + " " +  '<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapse' + s +  '" class="collapse hide" role="tabpanel" aria-labelledby="heading' + s +  '"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div></div>'
 
+//Overall Results StudentList Population
+for(i = 0; i < numberOfStudents; i++)
+    {
+        
+     var newStudentList = document.createElement('LI');
+        newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
+        newStudentList.innerHTML = numberOfQuestions[i] + "|" +  overallGrade[i];
+        newStudentList.setAttribute("class", "col-sm list-group-item ")
+        newStudentList.setAttribute("style", "list-style-type: none;")
+        var studentList = document.getElementById("studentList");
+        studentList.appendChild(newStudentList);
+    }
 
-    var students = '01234567,12345678,12345678,13245767,12453678'.split(',');
-    var grade = ' 0,     1   , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,'.split(',');
-    var counter = 1;
-
-    for (var s in students)
+for (var s in numberOfQuestions)
     {
     var newAccordion = document.createElement("div");
     newAccordion.setAttribute("class", "card");
 
-    newAccordion.innerHTML = '<div class="card"><div class="card-header" role="tab" id="question' + s + '"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapse' + s +  '" aria-expanded="true"aria-controls="collapse' + s +  '" onclick="populateStudentList()"><h5 class="mb-0">Question' + " " + counter  +  '<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapse' + s +  '" class="collapse hide" role="tabpanel" aria-labelledby="heading' + s +  '"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div>'
-
+    newAccordion.innerHTML = '<div class="card"><div class="card-header" role="tab" id="question' + s + '"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapse' + s +  '" aria-expanded="true"aria-controls="collapse' + s +  '><h5 class="mb-0">Question' + " " + counter  +  '<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapse' + s +  '" class="collapse hide" role="tabpanel" aria-labelledby="heading' + s +  '"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList' + s + '"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div>'
+    
     var emptyDiv = document.getElementById("emptyDiv");
     document.getElementById("accordionEx").insertBefore(newAccordion, emptyDiv);
-    counter++;
-
+    
+    //populating studentLists
+    for(i = 0; i < numberOfStudents; i++)
+    {
+        
+     var newStudentList = document.createElement('LI');
+        newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
+        newStudentList.innerHTML = numberOfQuestions[i] + "|" +  grade[i];
+        newStudentList.setAttribute("class", "col-sm list-group-item ")
+        newStudentList.setAttribute("style", "list-style-type: none;")
+        var studentList = document.getElementById("studentList" + s);
+        studentList.appendChild(newStudentList);
+    }
+    
+counter++;
 
 }
+
 }
 
-function populateStudentList(){
+/*
      var students = '01234567,12345678,12345678,13245767,12453678'.split(',');
-    var grade = ' 0,     1   , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,'.split(',');
+    var grade = ' 0,     1   , 2, 3, 4'.split(',');
     for (var s in students) {
 
         var newElement = document.createElement('LI');
@@ -47,7 +220,7 @@ function populateStudentList(){
         var studentList = document.getElementById("studentList");
         studentList.appendChild(newElement);
     }
-}
+*/
 /*
     for (var s in students) {
         var newElement = document.createElement('LI');
