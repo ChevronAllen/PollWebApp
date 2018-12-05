@@ -1,12 +1,11 @@
-var count = [];
-var questionCount = -1;
-var previous = 0;
-var active = 0;
+var createdRooms = {};
+var answeredRooms = {};
+var remainingRooms = {};
 
 
 function populateDashboard()
 {   
-    
+    document.getElementById("firstCreated").innerHTML= createdRooms[1].roomCode;
 }
 
 function getAnsweredModal(roomID)
@@ -130,12 +129,11 @@ function getDashboard()
                 var jsonObject = JSON.parse(xhr.responseText);
                 
 
-                if(jsonObject.error == ""){
-                    window.alert('Successfully got dashboard')
-                    var createdRooms = jsonObject.createdRooms;
-                    var answeredRooms = jsonObject.answeredRooms;
-                    var remainingRooms = jsonObject.remainingRooms;
-                }else{
+                if (jsonObject.error == "") {
+                    createdRooms = jsonObject.createdRooms;
+                    answeredRooms = jsonObject.answeredRooms;
+                    remainingRooms = jsonObject.remainingRooms;
+                } else {
                     window.alert("Error getting dashboard")
                 }
 
