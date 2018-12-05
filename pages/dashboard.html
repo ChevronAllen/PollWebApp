@@ -47,46 +47,11 @@
 
 </head>
 <body>
-    <script> var roomCreatedArray;
-    var roomAnsweredArray;
-    var upcomingArray;
-    //Payload
-    var admin = {};
+    <script>
+        getDashboard();
 
-    admin['id'] = (localStorage.userID ? localStorage.userID : "");
-    admin['sessionID'] = (localStorage.sessionID ? localStorage.sessionID : "");
-
-    var jsonPayload = JSON.stringify(admin);
-    //get register PHP page name
-    var url = "../API/AdminPage.php";
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("POST", url, true);    //true associates with asyncrous
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-    // xhr.onreadystatechange is called when xhr.send recieves a response
-    // readyState == 4 means done with XMLHttpRequest
-    // status == 200 is a successful request once finished
-    xhr.onreadystatechange = function()
-    {
-        if (this.readyState == 4)
-        {
-            if(this.status == 200)
-            {
-                var jsonObject = JSON.parse(xhr.responseText);                
-
-                //if error return;
-
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
-
-    xhr.send(jsonPayload);
-</script>
+        populateDashboard();
+    </script>
 
  <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
     Open modal
@@ -202,7 +167,7 @@
                                 </div>
                                 <!--adding value to tile-->
                                 <div class="col-xs-9 text-right">
-                                    <div id="firstCreated"class="medium">First Created Test Code/Test Name</div>
+                                    <div id="firstCreated"class="medium"></div>
                                     <br>
                                 </div>
                                 <!--<div class="col-xs-9 text-right">
