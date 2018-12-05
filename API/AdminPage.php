@@ -3,11 +3,6 @@
 	{
       function __construct()
 	  {
-		$this->roomID = "";<?php
-    class Room
-	{
-      function __construct()
-	  {
 		$this->roomID = "";
 		$this->roomCode = "";
       }
