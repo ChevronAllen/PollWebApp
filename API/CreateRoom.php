@@ -148,7 +148,7 @@
 	  }
   	else // User Logged in
   	{
-      for($i = 0; $i <= count($roomQuestions); $i++)
+      for($i = 0; $i < count($roomQuestions); $i++)
       {
         $call = 'CALL PollingZone.room_addQuestion(
           "' . $userID . '",
@@ -175,8 +175,6 @@
  				 "' . $roomQuestions[$i]->choice16 . '"
                );';
          $result = $connection->query($call);
-         $result->free();
-         $connection->next_result();
          if ($result == NULL)
        	{
        		returnWithError(6, "Failed to add question for user result was null");
@@ -187,6 +185,8 @@
            returnWithError(7, "Failed to add question for user result had no rows");
            exit();
          }
+         $result->free();
+         $connection->next_result();
       }
   }
     returnWithInfo($roomID, $roomCode, "");
