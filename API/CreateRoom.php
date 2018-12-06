@@ -4,7 +4,7 @@
       function __construct() {
   		$this->correctResponse = "";
   		$this->questionText = "";
-      $this->isLocked = 0;
+      $this->isLocked = "";
   		$this->choice1 = "";
       $this->choice2 = "";
       $this->choice3 = "";
