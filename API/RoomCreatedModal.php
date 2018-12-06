@@ -37,7 +37,7 @@
 	else
 	{
 		$userID = mysqli_real_escape_string($connection, $inData["userID"]);
-		$sessionKey = mysqli_real_escape_string($connection, $inData["sessionID"]);
+		$sessionID = mysqli_real_escape_string($connection, $inData["sessionID"]);
 		$roomID = mysqli_real_escape_string($connection, $inData["roomID"]);
 
 		$call = 'CALL PollingZone.room_getAnalytics_questions(
@@ -48,7 +48,7 @@
 
 		$result = $connection->query($call);
 
-		if($result->num_rows == NULL)
+		if($result == NULL)
 		{
 				returnWithError(2, "Invalid User Credentials.");
 				exit();
@@ -107,14 +107,14 @@
 			}
 		}
 
-		sendWithInfo($roomQuestions, $roomUsers);
+		sendWithInfo(json_encode($roomQuestions), json_encode($roomUsers));
 	}
 	// Close the connection
 	$connection->close();
 
   function returnWithError($errCode, $err )
   {
-    $retValue = createJSONString("",$err, $errCode);
+    $retValue = createJSONString('[]','[]',$err, $errCode);
     sendResultInfoAsJson( $retValue );
   }
 
@@ -128,8 +128,8 @@
   {
 		$ret = '
         {
-		  "roomQuestions" : "' . $roomQuestions_ . '",
-		  "roomUsers" : "' . $roomUsers_ . '",
+		  "roomQuestions" : ' . $roomQuestions_ . ',
+		  "roomUsers" : ' . $roomUsers_ . ',
           "error" : "' . $error_ . '",
 		  "errorCode" : "' . $errCode_ . '"
         }';

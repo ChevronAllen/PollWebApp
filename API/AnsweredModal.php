@@ -26,7 +26,7 @@
 	else
 	{
 		$userID = mysqli_real_escape_string($connection, $inData["userID"]);
-		$sessionKey = mysqli_real_escape_string($connection, $inData["sessionID"]);
+		$sessionID = mysqli_real_escape_string($connection, $inData["sessionID"]);
 		$roomID = mysqli_real_escape_string($connection, $inData["roomID"]);
 		$call = 'CALL PollingZone.user_getAnalytics(
 			   "' . $userID . '",
@@ -34,20 +34,20 @@
   			   "' . $roomID . '"
                 );';
 		$result = $connection->query($call);
-		if($result->num_rows == NULL)
+		if($result == NULL)
 		{
 				returnWithError(2, "Invalid User Credentials.");
         exit();
 		}
     else if($result->num_rows == 0)
     {
-      returnWithError(3, "Failed to access stats or no stats for this poll.");
+      returnWithError(3, "Failed to access stats or no stats for this poll. ");
       exit();
     }
 		else
 		{
 			$roomResult = array();
-			while($row = $result->fetch_assoc();)
+			while($row = $result->fetch_assoc())
 			{
 				$question = new QuestionResult();
 				$question->questionID = $row["questionID"];

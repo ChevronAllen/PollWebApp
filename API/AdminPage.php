@@ -94,32 +94,6 @@
 
 		  }
       $result->free();
-		  while($row = $result->fetch_assoc())
-		  {
-			if($num_rows < 4)
-			{
-				for($i = 0; $i < $num_rows; $i++)
-				{
-					$roomA = new Room();
-					$roomA->roomID = $row["roomID"];
-					$roomA->roomCode = $row["roomCode"];
-
-					$AnsweredRooms[] = $roomA;
-				}
-			}
-			else
-			{
-				for($i = 0; $i < $num_rows; $i++)
-				{
-					$roomA = new Room();
-					$roomA->roomID = $row["roomID"];
-					$roomA->roomCode = $row["roomCode"];
-
-					$AnsweredRooms[] = $roomA;
-				}
-			}
-			$result->free();
-		  }
 		}
     $connection->next_result();
 
@@ -151,7 +125,6 @@
 				$RemainingRooms[] = $roomO;
 		  }
 		}
-
 		returnWithInfo(json_encode($CreatedRooms), json_encode($AnsweredRooms), json_encode($RemainingRooms));
 	}
 
