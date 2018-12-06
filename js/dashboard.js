@@ -34,7 +34,7 @@ function getAnsweredModal(roomID)
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if(jsonObject.error == ""){
                     window.alert('Successfully got Answered Modal')
@@ -80,7 +80,7 @@ function getCreatedModal(roomID)
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if(jsonObject.error == ""){
                     window.alert('Successfully got Created Modal')
@@ -127,7 +127,7 @@ function getDashboard()
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if (jsonObject.error == "") {
                     createdRooms = jsonObject.createdRooms;
@@ -152,15 +152,71 @@ function getDashboard()
 
 
 function populateDashboard()
-{   
+{
+  if(createdRooms.length  > 0)
+  {
     document.getElementById("firstCreated").innerHTML= createdRooms[0].roomCode;
+  }
+  else
+  {
+    document.getElementById("CreatedDiv1").remove();
+  }
+  if(createdRooms.length  > 1)
+  {
     document.getElementById("secondCreated").innerHTML = createdRooms[1].roomCode;
+  }
+  else
+  {
+    document.getElementById("CreatedDiv2").remove();
+  }
+  if(createdRooms.length  > 2)
+  {
     document.getElementById("thirdCreated").innerHTML = createdRooms[2].roomCode;
+  }
+  else
+  {
+    document.getElementById("CreatedDiv3").remove();
+  }
+  if(createdRooms.length  > 3)
+  {
     document.getElementById("fourthCreated").innerHTML = createdRooms[3].roomCode;
+  }
+  else
+  {
+    document.getElementById("CreatedDiv4").remove();
+  }
+  if(answeredRooms.length  > 0)
+  {
     document.getElementById("firstAnswered").innerHTML = answeredRooms[0].roomCode;
+  }
+  else
+  {
+    document.getElementById("AnsweredDiv1").remove();
+  }
+  if(answeredRooms.length  > 1)
+  {
     document.getElementById("secondAnswered").innerHTML = answeredRooms[1].roomCode;
+  }
+  else
+  {
+    document.getElementById("AnsweredDiv2").remove();
+  }
+  if(answeredRooms.length  > 2)
+  {
     document.getElementById("thirdAnswered").innerHTML = answeredRooms[2].roomCode;
+  }
+  else
+  {
+    document.getElementById("AnsweredDiv3").remove();
+  }
+  if(answeredRooms.length  > 3)
+  {
     document.getElementById("fourthAnswered").innerHTML = answeredRooms[3].roomCode;
+  }
+  else
+  {
+    document.getElementById("AnsweredDiv4").remove();
+  }
 }
 
 function populateModal(roomID){
@@ -171,7 +227,7 @@ function populateModal(roomID){
     var numberOfQuestions={};
     for(var j = 0; j<roomUsers.numCorrect.length;j++)
     {
-        grade[j] = roomUsers[x].numCorrect; 
+        grade[j] = roomUsers[x].numCorrect;
     }
     var overallGrade = '100, 100, 95, 0, 35'.split(',');
     var counter = 1;
@@ -189,7 +245,7 @@ function populateModal(roomID){
 //Overall Results StudentList Population
 for(i = 0; i < numberOfStudents; i++)
     {
-        
+
      var newStudentList = document.createElement('LI');
         newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
         newStudentList.innerHTML = numberOfQuestions[i] + "|" +  overallGrade[i];
@@ -205,14 +261,14 @@ for (var s in numberOfQuestions)
     newAccordion.setAttribute("class", "card");
 
     newAccordion.innerHTML = '<div class="card"><div class="card-header" role="tab" id="question' + s + '"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapse' + s +  '" aria-expanded="true"aria-controls="collapse' + s +  '><h5 class="mb-0">Question' + " " + counter  +  '<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapse' + s +  '" class="collapse hide" role="tabpanel" aria-labelledby="heading' + s +  '"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList' + s + '"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div>'
-    
+
     var emptyDiv = document.getElementById("emptyDiv");
     document.getElementById("accordionEx").insertBefore(newAccordion, emptyDiv);
-    
+
     //populating studentLists
     for(i = 0; i < numberOfStudents; i++)
     {
-        
+
      var newStudentList = document.createElement('LI');
         newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
         newStudentList.innerHTML = numberOfQuestions[i] + "|" +  grade[i];
@@ -221,7 +277,7 @@ for (var s in numberOfQuestions)
         var studentList = document.getElementById("studentList" + s);
         studentList.appendChild(newStudentList);
     }
-    
+
 counter++;
 
 }
@@ -252,8 +308,8 @@ counter++;
         var studentList = document.getElementById("studentList");
         studentList.appendChild(newElement);
     }
-    
-    
+
+
 }
 function createAnswer(number, answerText)
 {
