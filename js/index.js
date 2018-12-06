@@ -30,7 +30,7 @@ function getRoom()
             {
                 var jsonObject = JSON.parse(xhr.responseText);
 
-                window.alert(jsonObject.questions.length);
+                //window.alert(jsonObject.questions.length);
 
                 if(jsonObject.error == "")
                 {
@@ -42,10 +42,10 @@ function getRoom()
 
                 }else if (jsonObject.errorCode == 1)
                 {
-                    window.alert("Please log in to view this poll.");
+                    //window.alert("Please log in to view this poll.");
                 }else if (jsonObject.errorCode == 2)
                 {
-                    window.alert("Poll is not live yet.");
+                    //window.alert("Poll is not live yet.");
                 }
 
             }

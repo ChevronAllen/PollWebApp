@@ -108,7 +108,7 @@ function doLogin() {
                 }
 
                 else{
-                    window.alert("Invalid username/password")
+                    document.getElementById("userName").text = "Invalid username/password";
                     return
                 }
 

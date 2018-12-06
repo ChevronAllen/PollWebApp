@@ -137,9 +137,9 @@ function submitQuestion()
                 var jsonObject = JSON.parse(xhr.responseText);
 
                 if(jsonObject.error == ""){
-                    window.alert('Poll Created! Room ID:' + jsonObject.roomCode)
+                    //window.alert('Poll Created! Room ID:' + jsonObject.roomCode)
                 }else{
-                    window.alert("Error Creating Poll")
+                    //window.alert("Error Creating Poll")
                 }
 
             }

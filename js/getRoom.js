@@ -36,7 +36,7 @@ function createQuestion(questionText, pollID, questionID)
     document.getElementById("content").insertBefore(newQuestion, blankDiv);
 
     toggleElement(questionCount);
-
+    toggleElement(0);
 
 }
 
@@ -60,7 +60,6 @@ function toggleElement(number){
 function submitAnswer(x, pollID, questionID)
 {
     var poll = {};
-    window.alert("got here")
     //window.alert(document.getElementById('question' + x + 'Radios').checked)
 
 
@@ -73,8 +72,6 @@ function submitAnswer(x, pollID, questionID)
     var jsonPayload = JSON.stringify(poll);
 
     //window.alert(jsonPayload);
-
-    window.alert("got here again")
 
     var url = "/API/AnswerQuestion.php";
 
@@ -95,9 +92,8 @@ function submitAnswer(x, pollID, questionID)
                 var jsonObject = JSON.parse(xhr.responseText);
 
                 if(jsonObject.error == ""){
-                    window.alert('Successfully Answered:' + x)
+                  toggleElement(x+1)
                 }else{
-                    window.alert("Error Answering Poll")
                 }
 
             }
