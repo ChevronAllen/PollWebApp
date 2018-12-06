@@ -34,7 +34,7 @@ function getAnsweredModal(roomID)
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if(jsonObject.error == ""){
                     window.alert('Successfully got Answered Modal')
@@ -80,7 +80,7 @@ function getCreatedModal(roomID)
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if(jsonObject.error == ""){
                     window.alert('Successfully got Created Modal')
@@ -127,13 +127,13 @@ function getDashboard()
             if(this.status == 200)
             {
                 var jsonObject = JSON.parse(xhr.responseText);
-                
+
 
                 if (jsonObject.error == "") {
                     createdRooms = jsonObject.createdRooms;
                     answeredRooms = jsonObject.answeredRooms;
                     remainingRooms = jsonObject.remainingRooms;
-                    
+
                 } else {
                     window.alert("Error getting dashboard")
                 }
@@ -536,7 +536,7 @@ function submitAnswer(x, pollID, questionID)
 
 
 function populateDashboard()
-{   
+{
     document.getElementById("firstCreated").innerHTML= createdRooms[0].roomCode;
     document.getElementById("secondCreated").innerHTML = createdRooms[1].roomCode;
     document.getElementById("thirdCreated").innerHTML = createdRooms[2].roomCode;
@@ -555,7 +555,7 @@ function populateModal(roomID){
     var numberOfQuestions={};
     for(var j = 0; j<roomUsers.length;j++)
     {
-        grade[j] = roomUsers[x].numCorrect; 
+        grade[j] = roomUsers[x].numCorrect;
     }
     var overallGrade = '100, 100, 95, 0, 35'.split(',');
     var counter = 1;
@@ -564,7 +564,7 @@ function populateModal(roomID){
     {
         numberOfQuestions[x] = roomUsers[x].userID;
     }
-    var numberOfStudents = numberofIds.length
+    var numberOfStudents = roomUsers.length
 
     //Reminder:
     //Need to make it so all accordion tabs are closed at the opening of the Modal "class = collapse hide"
@@ -573,7 +573,7 @@ function populateModal(roomID){
 //Overall Results StudentList Population
 for(i = 0; i < numberOfStudents; i++)
     {
-        
+
      var newStudentList = document.createElement('LI');
         newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
         newStudentList.innerHTML = numberOfQuestions[i] + "|" +  overallGrade[i];
@@ -589,14 +589,14 @@ for (var s in numberOfQuestions)
     newAccordion.setAttribute("class", "card");
 
     newAccordion.innerHTML = '<div class="card"><div class="card-header" role="tab" id="question' + s + '"><a data-toggle="collapse" data-parent="#accordionEx" href="#collapse' + s +  '" aria-expanded="true"aria-controls="collapse' + s +  '><h5 class="mb-0">Question' + " " + counter  +  '<i class="fa fa-angle-down rotate-icon"></i></h5></a></div><div id="collapse' + s +  '" class="collapse hide" role="tabpanel" aria-labelledby="heading' + s +  '"data-parent="#accordionEx"><div class="card-body"><div class="row"><div class="col-sm">Graphs</div><div class="col-sm d-flex justify-content-end"><div class="pre-scrollable"><ul style="height:200px; width: 165px;list-style-type: none" id="studentList' + s + '"><li><div class="row"><div class="col-sm">Student</div><div class="col-sm">| Grade</div></li></ul></div></div></div></div></div></div>'
-    
+
     var emptyDiv = document.getElementById("emptyDiv");
     document.getElementById("accordionEx").insertBefore(newAccordion, emptyDiv);
-    
+
     //populating studentLists
     for(i = 0; i < numberOfStudents; i++)
     {
-        
+
      var newStudentList = document.createElement('LI');
         newStudentList.id = numberOfQuestions[s]; newStudentList.className = "car";
         newStudentList.innerHTML = numberOfQuestions[i] + "|" +  grade[i];
@@ -605,7 +605,7 @@ for (var s in numberOfQuestions)
         var studentList = document.getElementById("studentList" + s);
         studentList.appendChild(newStudentList);
     }
-    
+
 counter++;
 
 }
@@ -636,8 +636,8 @@ counter++;
         var studentList = document.getElementById("studentList");
         studentList.appendChild(newElement);
     }
-    
-    
+
+
 }
 function createAnswer(number, answerText)
 {
