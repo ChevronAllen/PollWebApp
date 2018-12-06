@@ -166,11 +166,11 @@ function populateModal(roomID){
 
     getCreatedModal(roomID);
     getAnsweredModal(roomID);
-
-    var numberOfQuestions;
+    var grade={};
+    var numberOfQuestions={};
     for(var j = 0; j<roomUsers.numCorrect.length;j++)
     {
-        var grade[j] = roomUsers[x].numCorrect; 
+        grade[j] = roomUsers[x].numCorrect; 
     }
     var overallGrade = '100, 100, 95, 0, 35'.split(',');
     var counter = 1;
