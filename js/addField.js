@@ -96,6 +96,7 @@ function submitQuestion()
 
         tempPoll['questionText'] = document.getElementById('questionField' + i).value;
 
+        tempPoll['isLocked'] = "0";
         for(var j = 1; j <= 16; j++)
         {
             if((document.getElementById('question' + i + 'answer' + j)) != null)
