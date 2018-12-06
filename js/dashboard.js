@@ -6,17 +6,7 @@ var roomQuestions = {};
 var roomUsers = {};
 
 
-function populateDashboard()
-{   
-    document.getElementById("firstCreated").innerHTML= createdRooms[1].roomCode;
-    document.getElementById("secondCreated").innerHTML = createdRooms[2].roomCode;
-    document.getElementById("thirdCreated").innerHTML = createdRooms[3].roomCode;
-    document.getElementById("fourthCreated").innerHTML = createdRooms[4].roomCode;
-    document.getElementById("firstAnswered").innerHTML = answeredRooms[1].roomCode;
-    document.getElementById("secondAnswered").innerHTML = answeredRooms[2].roomCode;
-    document.getElementById("thirdAnswered").innerHTML = answeredRooms[3].roomCode;
-    document.getElementById("fourthAnswered").innerHTML = answeredRooms[4].roomCode;
-}
+
 
 function getAnsweredModal(roomID)
 {
@@ -143,7 +133,7 @@ function getDashboard()
                     createdRooms = jsonObject.createdRooms;
                     answeredRooms = jsonObject.answeredRooms;
                     remainingRooms = jsonObject.remainingRooms;
-                    
+                    populateDashboard();
                 } else {
                     window.alert("Error getting dashboard")
                 }
@@ -161,11 +151,22 @@ function getDashboard()
 }
 
 
+function populateDashboard()
+{   
+    document.getElementById("firstCreated").innerHTML= createdRooms[0].roomCode;
+    document.getElementById("secondCreated").innerHTML = createdRooms[1].roomCode;
+    document.getElementById("thirdCreated").innerHTML = createdRooms[2].roomCode;
+    document.getElementById("fourthCreated").innerHTML = createdRooms[3].roomCode;
+    document.getElementById("firstAnswered").innerHTML = answeredRooms[0].roomCode;
+    document.getElementById("secondAnswered").innerHTML = answeredRooms[1].roomCode;
+    document.getElementById("thirdAnswered").innerHTML = answeredRooms[2].roomCode;
+    document.getElementById("fourthAnswered").innerHTML = answeredRooms[3].roomCode;
+}
 
 function populateModal(roomID){
 
-    getCreatedModal(roomID);
-    getAnsweredModal(roomID);
+    getCreatedModal(createdRooms[roomID].roomCode);
+    getAnsweredModal(createdRooms[roomID].roomCode);
     var grade={};
     var numberOfQuestions={};
     for(var j = 0; j<roomUsers.numCorrect.length;j++)
